@@ -479,25 +479,29 @@ POSITION_VALUE = {
     "G":1.05,"F":1.00,"G-F":1.02,"F-G":1.02,"F-C":1.05,"C-F":1.05,"":1.00,
 }
 
-def _age_score(age):
+def _age_score(age, is_allstar=False):
     if age is None: return 75
-    if age <= 20: return 75
-    if age == 21: return 80
-    if age == 22: return 85
-    if age == 23: return 90
-    if age == 24: return 95
-    if age in (25, 26, 27): return 100
-    if age == 28: return 98
-    if age == 29: return 93
-    if age == 30: return 87
-    if age == 31: return 80
-    if age == 32: return 72
-    if age == 33: return 63
-    if age == 34: return 54
-    if age == 35: return 45
-    if age == 36: return 37
-    if age == 37: return 30
-    return max(20, 30 - (age - 37) * 3)
+    if age <= 20: raw = 75
+    elif age == 21: raw = 80
+    elif age == 22: raw = 85
+    elif age == 23: raw = 90
+    elif age == 24: raw = 95
+    elif age in (25, 26, 27): raw = 100
+    elif age == 28: raw = 98
+    elif age == 29: raw = 93
+    elif age == 30: raw = 87
+    elif age == 31: raw = 80
+    elif age == 32: raw = 72
+    elif age == 33: raw = 63
+    elif age == 34: raw = 54
+    elif age == 35: raw = 45
+    elif age == 36: raw = 37
+    elif age == 37: raw = 30
+    else: raw = max(20, 30 - (age - 37) * 3)
+    # Proven All-Stars have demonstrated longevity — don't punish age as harshly
+    if is_allstar:
+        return max(raw, 55)
+    return raw
 
 @app.get("/trade/value/{player_id}")
 def get_trade_value(player_id: int):
@@ -537,8 +541,9 @@ def get_trade_value(player_id: int):
         ast_score = min((ast / 9.0)     * 100, 100)
         fg_score  = min((fg_pct / 0.56) * 100, 100)
         gp_score  = min((gp / 70.0)     * 100, 100)
-        age_s     = _age_score(age)
-        allstar_s = 100 if name in ALL_STARS_2025 else 0
+        is_allstar = name in ALL_STARS_2025
+        age_s     = _age_score(age, is_allstar=is_allstar)
+        allstar_s = 100 if is_allstar else 0
         pos_mult  = POSITION_VALUE.get(position.upper().strip(), 1.0)
 
         # Weighted composite
@@ -548,7 +553,7 @@ def get_trade_value(player_id: int):
             allstar_s * 0.18 + 60        * 0.12
         )
         # All-Star floor: proven stars never score below 68
-        if name in ALL_STARS_2025:
+        if is_allstar:
             raw = max(raw, 68)
         final = min(raw * pos_mult, 100)
 
@@ -562,7 +567,7 @@ def get_trade_value(player_id: int):
         return {
             "score": round(final, 1),
             "tier":  tier,
-            "is_allstar": name in ALL_STARS_2025,
+            "is_allstar": is_allstar,
             "age": age,
             "breakdown": {
                 "scoring":    round(pts_score, 1),

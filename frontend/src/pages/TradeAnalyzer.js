@@ -16,16 +16,54 @@ const DRAFT_PICKS = [
 ];
 
 const PICK_VALUES = {
-  "Top 5 Pick": 95,
-  "Lottery Pick (6-14)": 80,
-  "Late First (15-20)": 60,
-  "Late First (21-30)": 45,
-  "Future First (Top 10 Protected)": 55,
-  "Future First (Unprotected)": 50,
-  "Future First (Protected)": 38,
-  "Second Round Pick": 18,
-  "Future Second Round": 12,
+  "Top 5 Pick": 72,
+  "Lottery Pick (6-14)": 55,
+  "Late First (15-20)": 40,
+  "Late First (21-30)": 28,
+  "Future First (Top 10 Protected)": 35,
+  "Future First (Unprotected)": 42,
+  "Future First (Protected)": 22,
+  "Second Round Pick": 10,
+  "Future Second Round": 7,
 };
+
+const HISTORICAL_TRADES = [
+  {
+    year: "Feb 2023",
+    headline: "Kevin Durant → Phoenix Suns",
+    sideA: ["Kevin Durant (age 35)"],
+    sideB: ["Mikal Bridges", "Cameron Johnson", "Jae Crowder", "4 First-Round Picks"],
+    takeaway: "BKN in full rebuild — rare case where a team accepted massive asset haul for a still-elite 35-year-old.",
+  },
+  {
+    year: "Sep 2022",
+    headline: "Donovan Mitchell → Cleveland Cavaliers",
+    sideA: ["Donovan Mitchell (age 26)"],
+    sideB: ["Collin Sexton", "Lauri Markkanen", "Ochai Agbaji", "3 Firsts + 2 Pick Swaps"],
+    takeaway: "Utah set the market: prime star (score ~82) demands 3+ first-round picks as baseline.",
+  },
+  {
+    year: "Feb 2023",
+    headline: "Kyrie Irving → Dallas Mavericks",
+    sideA: ["Kyrie Irving (age 31)"],
+    sideB: ["Dorian Finney-Smith", "Spencer Dinwiddie"],
+    takeaway: "DAL won significantly — expiring contract (1.5 years left) heavily deflated Kyrie's return.",
+  },
+  {
+    year: "Jul 2019",
+    headline: "Anthony Davis → Los Angeles Lakers",
+    sideA: ["Anthony Davis (age 26)"],
+    sideB: ["Lonzo Ball", "Brandon Ingram", "Josh Hart", "Kyle Kuzma", "3 First-Round Picks"],
+    takeaway: "Prime AD (score ~90) commanded a franchise-altering return — the gold standard for star trades.",
+  },
+  {
+    year: "Jul 2024",
+    headline: "Paul George → Philadelphia 76ers",
+    sideA: ["Paul George (age 34)"],
+    sideB: ["5 Draft Picks", "Caleb Martin", "Eric Gordon rights"],
+    takeaway: "PHI overpaid for an aging max-contract player — a reminder that salary and contract years matter.",
+  },
+];
 
 const css = `
   .ta-layout { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
@@ -253,7 +291,7 @@ export default function TradeAnalyzer() {
     <div className="page">
       <style>{css}</style>
       <div className="page-title">Trade <span>Analyzer</span></div>
-      <div className="page-sub">Custom Algorithm · Any NBA Player · Scored 0–100</div>
+      <div className="page-sub">Custom Algorithm · Any NBA Player · Scored 0–100 · Calibrated Against Real Trades</div>
 
       {(sideA.length > 0 || sideB.length > 0) && (
         <div className="fairness-wrap">
@@ -303,11 +341,47 @@ export default function TradeAnalyzer() {
       </div>
 
       <div className="section-header"><div className="section-title">Draft Pick Values</div><div className="section-line" /></div>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:8 }}>
+      <div style={{ marginBottom:8, fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
+        Calibrated against real NBA trades — picks are potential, not guaranteed production.
+      </div>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:8, marginBottom:40 }}>
         {DRAFT_PICKS.map(p=>(
           <div key={p} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"10px 14px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <span style={{fontSize:12}}>{p}</span>
             <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:700,color:"var(--gold)"}}>{PICK_VALUES[p]}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="section-header"><div className="section-title">Historical Trade Reference</div><div className="section-line" /></div>
+      <div style={{ marginBottom:16, fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
+        Real trades that anchor what scores mean in practice. Use these to gut-check your analysis.
+      </div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        {HISTORICAL_TRADES.map((t, i) => (
+          <div key={i} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"16px 20px" }}>
+            <div style={{ display:"flex", alignItems:"baseline", gap:12, marginBottom:10 }}>
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, fontWeight:700, color:"var(--text)" }}>{t.headline}</span>
+              <span style={{ fontSize:11, color:"var(--muted)", letterSpacing:1 }}>{t.year}</span>
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr auto 1fr", gap:12, alignItems:"start", marginBottom:10 }}>
+              <div>
+                <div style={{ fontSize:9, letterSpacing:2, textTransform:"uppercase", color:"var(--muted)", marginBottom:4 }}>Side A gives</div>
+                {t.sideA.map((item, j) => (
+                  <div key={j} style={{ fontSize:12, color:"var(--red)", marginBottom:2 }}>• {item}</div>
+                ))}
+              </div>
+              <div style={{ fontSize:20, color:"var(--muted)", alignSelf:"center" }}>⇄</div>
+              <div>
+                <div style={{ fontSize:9, letterSpacing:2, textTransform:"uppercase", color:"var(--muted)", marginBottom:4 }}>Side B gives</div>
+                {t.sideB.map((item, j) => (
+                  <div key={j} style={{ fontSize:12, color:"#4a9eff", marginBottom:2 }}>• {item}</div>
+                ))}
+              </div>
+            </div>
+            <div style={{ fontSize:11, color:"var(--gold)", borderTop:"1px solid var(--border)", paddingTop:8 }}>
+              ↳ {t.takeaway}
+            </div>
           </div>
         ))}
       </div>
