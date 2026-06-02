@@ -54,6 +54,13 @@ const css = `
   .last5-sub { font-size:11px; color:var(--muted); margin-top:4px; }
   .export-btn { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; background:transparent; border:1px solid var(--border); color:var(--muted); padding:4px 10px; border-radius:2px; cursor:pointer; margin-left:auto; }
   .export-btn:hover { border-color:var(--text); color:var(--text); }
+  .cmp-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .cmp-table th { background:var(--surface2); padding:8px 14px; text-align:center; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); font-weight:500; }
+  .cmp-table th:first-child { text-align:left; }
+  .cmp-table td { padding:9px 14px; border-bottom:1px solid var(--border); text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:600; }
+  .cmp-table td:first-child { text-align:left; font-family:'Barlow',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:400; }
+  .cmp-table tr:last-child td { border-bottom:none; }
+  .cmp-table tr:hover td { background:var(--surface2); }
 `;
 
 const ChartTooltip = ({ active, payload, label }) => {
@@ -81,6 +88,7 @@ export default function PlayerProfile() {
   const [imgError, setImgError]     = useState(false);
   const [advanced, setAdvanced]     = useState(null);
   const [advLoading, setAdvLoading] = useState(true);
+  const [comparison, setComparison] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -90,12 +98,22 @@ export default function PlayerProfile() {
   }, [id, seasonType]);
 
   useEffect(() => {
+    setComparison(null);
+    Promise.all([
+      axios.get(`${API}/players/${id}`, { params: { season_type: "Regular Season" } }),
+      axios.get(`${API}/players/${id}`, { params: { season_type: "Playoffs" } }),
+    ]).then(([rs, po]) => {
+      setComparison({ rs: rs.data.averages, po: po.data.averages });
+    }).catch(() => {});
+  }, [id]);
+
+  useEffect(() => {
     setAdvLoading(true);
     setAdvanced(null);
-    axios.get(`${API}/players/${id}/advanced`)
+    axios.get(`${API}/players/${id}/advanced`, { params: { season_type: seasonType } })
       .then(r => { setAdvanced(r.data); setAdvLoading(false); })
       .catch(() => setAdvLoading(false));
-  }, [id]);
+  }, [id, seasonType]);
 
   const exportCSV = () => {
     if (!data) return;
@@ -134,6 +152,24 @@ export default function PlayerProfile() {
     { stat:"BLK", value: Math.min((averages.avg_blk/3)*100, 100) },
     { stat:"FG%", value: Math.min((averages.avg_fg_pct/0.65)*100, 100) },
   ];
+
+  // Comparison helpers — defined here to avoid IIFE in JSX
+  const cmpFmt = (v, pct) => v == null ? "—" : pct ? (v * 100).toFixed(1) + "%" : String(v);
+  const cmpDelta = (r, p, pct) => (r == null || p == null) ? null : pct ? (p - r) * 100 : p - r;
+  const cmpDeltaColor = (d) => d == null ? "var(--muted)" : d > 0 ? "#4ade80" : d < 0 ? "var(--red)" : "var(--muted)";
+  const cmpFmtDelta = (d, pct) => d == null ? "—" : (d > 0 ? "+" : "") + (pct ? d.toFixed(1) + "%" : d.toFixed(1));
+  const CMP_STATS = [
+    { label:"Points",   rsKey:"avg_pts",        poKey:"avg_pts",        pct:false },
+    { label:"Rebounds", rsKey:"avg_reb",        poKey:"avg_reb",        pct:false },
+    { label:"Assists",  rsKey:"avg_ast",        poKey:"avg_ast",        pct:false },
+    { label:"Steals",   rsKey:"avg_stl",        poKey:"avg_stl",        pct:false },
+    { label:"Blocks",   rsKey:"avg_blk",        poKey:"avg_blk",        pct:false },
+    { label:"FG%",      rsKey:"avg_fg_pct",     poKey:"avg_fg_pct",     pct:true  },
+    { label:"3P%",      rsKey:"avg_fg3_pct",    poKey:"avg_fg3_pct",    pct:true  },
+    { label:"FT%",      rsKey:"avg_ft_pct",     poKey:"avg_ft_pct",     pct:true  },
+    { label:"+/-",      rsKey:"avg_plus_minus", poKey:"avg_plus_minus", pct:false },
+  ];
+  const hasPoData = comparison && comparison.po && (comparison.po.games_played ?? 0) > 0;
 
   return (
     <div className="page">
@@ -217,6 +253,10 @@ export default function PlayerProfile() {
         <div style={{color:"var(--muted)",fontSize:11,letterSpacing:2,textTransform:"uppercase",padding:"18px 0 32px",display:"flex",alignItems:"center",gap:8}}>
           <span style={{display:"inline-block",width:8,height:8,borderRadius:"50%",background:"var(--red)",animation:"pulse 1.2s infinite"}}/>
           Fetching advanced stats...
+        </div>
+      ) : advanced && advanced.has_data === false ? (
+        <div style={{color:"var(--muted)",fontSize:11,letterSpacing:2,textTransform:"uppercase",padding:"18px 0 32px"}}>
+          No playoff stats available for this player
         </div>
       ) : advanced ? (
         <>
@@ -322,6 +362,50 @@ export default function PlayerProfile() {
         <>
           <div className="section-header"><div className="section-title">Shot Chart</div><div className="section-line" /></div>
           <ShotChart playerId={player.player_id} playerName={player.full_name} seasonType={seasonType} />
+        </>
+      )}
+
+      {/* Regular Season vs Playoffs Comparison */}
+      {comparison && (
+        <>
+          <div className="section-header">
+            <div className="section-title">Regular Season vs Playoffs</div>
+            <div className="section-line" />
+            <span style={{fontSize:10,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",flexShrink:0,fontFamily:"'Barlow Condensed',sans-serif"}}>
+              {comparison.rs?.games_played ?? 0} RS GP &middot; {hasPoData ? comparison.po.games_played : "0"} PO GP
+            </span>
+          </div>
+          <div className="chart-card" style={{marginBottom:36,padding:0,overflow:"hidden"}}>
+            <table className="cmp-table">
+              <thead>
+                <tr>
+                  <th>Stat</th>
+                  <th>Regular Season</th>
+                  <th>Playoffs</th>
+                  <th>Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                {CMP_STATS.map(({label, rsKey, poKey, pct}) => {
+                  const rsVal = comparison.rs?.[rsKey];
+                  const poVal = comparison.po?.[poKey];
+                  const d = cmpDelta(rsVal, poVal, pct);
+                  return (
+                    <tr key={label}>
+                      <td>{label}</td>
+                      <td style={{color:"var(--text)"}}>{cmpFmt(rsVal, pct)}</td>
+                      <td style={{color: hasPoData ? "var(--gold)" : "var(--muted)"}}>
+                        {hasPoData ? cmpFmt(poVal, pct) : "—"}
+                      </td>
+                      <td style={{color: hasPoData ? cmpDeltaColor(d) : "var(--muted)"}}>
+                        {hasPoData ? cmpFmtDelta(d, pct) : "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
 

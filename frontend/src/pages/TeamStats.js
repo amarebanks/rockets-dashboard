@@ -45,16 +45,30 @@ const getZoneColor = (pct) => {
   return "#CE1141";
 };
 
+const rankColor = (rank) => {
+  if (!rank) return "var(--muted)";
+  if (rank <= 5)  return "var(--gold)";
+  if (rank <= 10) return "#4ade80";
+  if (rank >= 26) return "var(--red)";
+  return "var(--muted)";
+};
+
 export default function TeamStats() {
   const [data, setData]             = useState(null);
+  const [rankings, setRankings]     = useState({});
   const [loading, setLoading]       = useState(true);
   const [seasonType, setSeasonType] = useState("Regular Season");
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${API}/team/stats`, { params: { season_type: seasonType } })
-      .then(r => { setData(r.data); setLoading(false); })
-      .catch(() => setLoading(false));
+    Promise.all([
+      axios.get(`${API}/team/stats`,    { params: { season_type: seasonType } }),
+      axios.get(`${API}/team/rankings`, { params: { season_type: seasonType } }),
+    ]).then(([stats, rnk]) => {
+      setData(stats.data);
+      setRankings(rnk.data.rankings || {});
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, [seasonType]);
 
   const exportCSV = () => {
@@ -98,7 +112,7 @@ export default function TeamStats() {
             <div className="ts-card">
               <div className="ts-label">Avg PTS For</div>
               <div className="ts-value red">{data.game_stats.avg_pts}</div>
-              <div className="ts-sub">Per game</div>
+              {rankings.pts && <div style={{marginTop:4,fontFamily:"'Barlow Condensed',sans-serif",fontSize:16,fontWeight:700,color:rankColor(rankings.pts)}}>#{rankings.pts} <span style={{fontSize:9,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",fontFamily:"'Barlow',sans-serif",fontWeight:400}}>in NBA</span></div>}
             </div>
             <div className="ts-card">
               <div className="ts-label">Avg PTS Against</div>
@@ -124,21 +138,30 @@ export default function TeamStats() {
           </div>
 
           {/* Shooting splits */}
-          <div className="section-header"><div className="section-title">Shooting Splits</div><div className="section-line" /></div>
+          <div className="section-header"><div className="section-title">Shooting Splits</div><div className="section-line" />
+            <span style={{fontSize:10,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",flexShrink:0}}>League Rank / 30</span>
+          </div>
           <div className="ts-grid" style={{ marginBottom: 36 }}>
             {[
-              { label: "FG%",  value: data.shooting.team_fg_pct  ? (data.shooting.team_fg_pct * 100).toFixed(1) + "%" : "—", cls: "red" },
-              { label: "3P%",  value: data.shooting.team_fg3_pct ? (data.shooting.team_fg3_pct * 100).toFixed(1) + "%" : "—", cls: "" },
-              { label: "FT%",  value: data.shooting.team_ft_pct  ? (data.shooting.team_ft_pct * 100).toFixed(1) + "%" : "—", cls: "gold" },
-              { label: "APG",  value: data.shooting.avg_ast,  cls: "" },
-              { label: "RPG",  value: data.shooting.avg_reb,  cls: "" },
-              { label: "SPG",  value: data.shooting.avg_stl,  cls: "green" },
-              { label: "BPG",  value: data.shooting.avg_blk,  cls: "" },
-              { label: "+/-",  value: data.shooting.avg_plus_minus > 0 ? "+" + data.shooting.avg_plus_minus : data.shooting.avg_plus_minus, cls: data.shooting.avg_plus_minus > 0 ? "green" : "red" },
-            ].map(({ label, value, cls }) => (
+              { label: "FG%",  value: data.shooting.team_fg_pct  ? (data.shooting.team_fg_pct * 100).toFixed(1) + "%" : "—", cls: "red",   rk: rankings.fg_pct },
+              { label: "3P%",  value: data.shooting.team_fg3_pct ? (data.shooting.team_fg3_pct * 100).toFixed(1) + "%" : "—", cls: "",      rk: rankings.fg3_pct },
+              { label: "FT%",  value: data.shooting.team_ft_pct  ? (data.shooting.team_ft_pct * 100).toFixed(1) + "%" : "—", cls: "gold",  rk: rankings.ft_pct },
+              { label: "APG",  value: data.shooting.avg_ast,  cls: "",      rk: rankings.ast },
+              { label: "RPG",  value: data.shooting.avg_reb,  cls: "",      rk: rankings.reb },
+              { label: "SPG",  value: data.shooting.avg_stl,  cls: "green", rk: rankings.stl },
+              { label: "BPG",  value: data.shooting.avg_blk,  cls: "",      rk: rankings.blk },
+              { label: "+/-",  value: data.shooting.avg_plus_minus > 0 ? "+" + data.shooting.avg_plus_minus : data.shooting.avg_plus_minus,
+                cls: data.shooting.avg_plus_minus > 0 ? "green" : "red", rk: rankings.plus_minus },
+            ].map(({ label, value, cls, rk }) => (
               <div className="ts-card" key={label}>
                 <div className="ts-label">{label}</div>
                 <div className={`ts-value ${cls}`}>{value ?? "—"}</div>
+                {rk && (
+                  <div style={{marginTop:6,display:"flex",alignItems:"center",gap:6}}>
+                    <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:700,color:rankColor(rk)}}>#{rk}</span>
+                    <span style={{fontSize:9,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase"}}>in NBA</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

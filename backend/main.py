@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import psycopg2.extras
-from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits, leaguedashplayerstats
+from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits, leaguedashplayerstats, leaguedashteamstats
 from nba_api.stats.static import players as nba_players_static
 from nba_api.live.nba.endpoints import scoreboard
 
@@ -347,17 +347,18 @@ def get_team_stats(season_type: str = Query("Regular Season")):
             """, (season_type, season_type))
             game_stats = cur.fetchone()
 
-            # Player shooting splits
+            # True team per-game stats:
+            # Percentages use SUM(makes)/SUM(attempts) — the only correct formula.
+            # Counting stats (AST/REB/STL/BLK) use SUM / distinct game count.
             cur.execute("""
                 SELECT
-                    ROUND(AVG(fg_pct)::numeric,3)  AS team_fg_pct,
-                    ROUND(AVG(fg3_pct)::numeric,3) AS team_fg3_pct,
-                    ROUND(AVG(ft_pct)::numeric,3)  AS team_ft_pct,
-                    ROUND(AVG(stl)::numeric,2)     AS avg_stl,
-                    ROUND(AVG(blk)::numeric,2)     AS avg_blk,
-                    ROUND(AVG(ast)::numeric,2)     AS avg_ast,
-                    ROUND(AVG(reb)::numeric,2)     AS avg_reb,
-                    ROUND(AVG(plus_minus)::numeric,2) AS avg_plus_minus
+                    ROUND(SUM(fgm)::numeric  / NULLIF(SUM(fga),  0), 3) AS team_fg_pct,
+                    ROUND(SUM(fg3m)::numeric / NULLIF(SUM(fg3a), 0), 3) AS team_fg3_pct,
+                    ROUND(SUM(ftm)::numeric  / NULLIF(SUM(fta),  0), 3) AS team_ft_pct,
+                    ROUND(SUM(stl)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_stl,
+                    ROUND(SUM(blk)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_blk,
+                    ROUND(SUM(ast)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_ast,
+                    ROUND(SUM(reb)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_reb
                 FROM player_game_stats
                 WHERE season_type = %s OR season_type IS NULL
             """, (season_type,))
@@ -383,18 +384,66 @@ def get_team_stats(season_type: str = Query("Regular Season")):
                     SUM(CASE WHEN outcome='L' THEN 1 ELSE 0 END) AS losses
                 FROM games
                 WHERE season_type = %s OR (season_type IS NULL AND %s = 'Regular Season')
-                GROUP BY month, month_num ORDER BY month_num
+                GROUP BY month, month_num
+                ORDER BY CASE WHEN EXTRACT(MONTH FROM game_date) >= 10
+                              THEN EXTRACT(MONTH FROM game_date) - 10
+                              ELSE EXTRACT(MONTH FROM game_date) + 2 END
             """, (season_type, season_type))
             monthly = cur.fetchall()
 
+        gs = dict(game_stats)
+        sh = dict(shooting)
+        # Point differential from game-level data (more accurate than averaging player +/-)
+        try:
+            sh["avg_plus_minus"] = round(float(gs["avg_pts"]) - float(gs["avg_opp_pts"]), 1)
+        except (TypeError, ValueError):
+            sh["avg_plus_minus"] = None
+
         return {
-            "game_stats": dict(game_stats),
-            "shooting": dict(shooting),
-            "zones": [dict(z) for z in zones],
+            "game_stats": gs,
+            "shooting":   sh,
+            "zones":   [dict(z) for z in zones],
             "monthly": [dict(m) for m in monthly],
         }
     finally:
         conn.close()
+
+@app.get("/team/rankings")
+def get_team_rankings(season_type: str = Query("Regular Season")):
+    """Fetch Houston Rockets league rankings for key stats via nba_api."""
+    import time as _t
+    _t.sleep(0.5)
+    ROCKETS_ID_NBA = 1610612745
+    try:
+        df = leaguedashteamstats.LeagueDashTeamStats(
+            season=SEASON,
+            season_type_all_star=season_type,
+            measure_type_detailed_defense="Base",
+            per_mode_detailed="PerGame",
+        ).get_data_frames()[0]
+        rockets = df[df["TEAM_ID"] == ROCKETS_ID_NBA]
+        if rockets.empty:
+            return {"rankings": {}}
+        rankings = {}
+        for col, key in [
+            ("PTS_RANK",        "pts"),
+            ("REB_RANK",        "reb"),
+            ("AST_RANK",        "ast"),
+            ("STL_RANK",        "stl"),
+            ("BLK_RANK",        "blk"),
+            ("PLUS_MINUS_RANK", "plus_minus"),
+            ("FG_PCT_RANK",     "fg_pct"),
+            ("FG3_PCT_RANK",    "fg3_pct"),
+            ("FT_PCT_RANK",     "ft_pct"),
+        ]:
+            if col in rockets.columns:
+                try:
+                    rankings[key] = int(float(rockets[col].iloc[0]))
+                except (TypeError, ValueError):
+                    pass
+        return {"rankings": rankings}
+    except Exception as e:
+        return {"rankings": {}, "error": str(e)}
 
 # ── Shot Chart ────────────────────────────────────────────────────────────────
 
@@ -719,7 +768,7 @@ def get_trade_value(player_id: int):
 # ── Player Advanced Stats ─────────────────────────────────────────────────────
 
 @app.get("/players/{player_id}/advanced")
-def get_player_advanced(player_id: int):
+def get_player_advanced(player_id: int, season_type: str = Query("Regular Season")):
     """Fetch advanced stats for a player using nba_api (TS%, eFG%, ORtg, DRtg, USG%, PIE, etc.)."""
     import time as _t
     _t.sleep(0.5)
@@ -789,7 +838,7 @@ def get_player_advanced(player_id: int):
         try:
             league_adv = leaguedashplayerstats.LeagueDashPlayerStats(
                 season=SEASON,
-                season_type_all_star="Regular Season",
+                season_type_all_star=season_type,
                 measure_type_detailed_defense="Advanced",
                 per_mode_detailed="PerGame",
             ).get_data_frames()[0]
@@ -825,8 +874,13 @@ def get_player_advanced(player_id: int):
         ts_final  = adv.get("ts_pct",  ts_pct)
         efg_final = adv.get("efg_pct", efg_pct)
 
+        # has_data: False means the player had no stats for this season_type (e.g. missed playoffs)
+        has_data = bool(adv) or gp > 0
+
         return {
             "player_id":    player_id,
+            "has_data":     has_data,
+            "season_type":  season_type,
             "name":         name,
             "team":         team,
             "position":     position,
