@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import psycopg2.extras
-from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits
+from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits, leaguedashplayerstats
 from nba_api.stats.static import players as nba_players_static
 from nba_api.live.nba.endpoints import scoreboard
 
@@ -73,6 +73,66 @@ def get_players(season_type: str = Query("Regular Season")):
                 ORDER BY avg_pts DESC NULLS LAST
             """, (season_type,))
             return {"players": [dict(p) for p in cur.fetchall()]}
+    finally:
+        conn.close()
+
+@app.get("/players/overalls")
+def get_player_overalls():
+    """Compute approximate OVR (40–99) for every Rockets player using DB stats + recognition tier."""
+    conn = get_db()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT p.player_id, p.full_name, p.position,
+                       ROUND(AVG(s.pts)::numeric, 1)        AS avg_pts,
+                       ROUND(AVG(s.reb)::numeric, 1)        AS avg_reb,
+                       ROUND(AVG(s.ast)::numeric, 1)        AS avg_ast,
+                       ROUND(AVG(s.stl)::numeric, 1)        AS avg_stl,
+                       ROUND(AVG(s.blk)::numeric, 1)        AS avg_blk,
+                       ROUND(AVG(s.fg_pct)::numeric, 3)     AS avg_fg_pct,
+                       ROUND(AVG(s.plus_minus)::numeric, 1) AS avg_pm,
+                       COUNT(s.game_id)                     AS games_played
+                FROM players p
+                LEFT JOIN player_game_stats s
+                    ON p.player_id = s.player_id
+                    AND (s.season_type = 'Regular Season' OR s.season_type IS NULL)
+                GROUP BY p.player_id, p.full_name, p.position
+            """)
+            rows = cur.fetchall()
+
+        result = {}
+        for row in rows:
+            name     = row["full_name"]
+            position = str(row["position"] or "")
+            pts  = float(row["avg_pts"]    or 0)
+            reb  = float(row["avg_reb"]    or 0)
+            ast  = float(row["avg_ast"]    or 0)
+            stl  = float(row["avg_stl"]    or 0)
+            blk  = float(row["avg_blk"]    or 0)
+            fg   = float(row["avg_fg_pct"] or 0.44)
+            pm   = float(row["avg_pm"]     or 0)
+            gp   = int(row["games_played"] or 0)
+
+            pts_s = min(pts  / 25.0 * 100, 100)
+            reb_s = min(reb  / 10.0 * 100, 100)
+            ast_s = min(ast  / 8.0  * 100, 100)
+            def_s = (min(stl / 2.0  * 100, 100) + min(blk / 2.0 * 100, 100)) / 2
+            fg_s  = min(max((fg - 0.38) / 0.22 * 100, 0), 100)
+            pm_s  = min(max((pm + 5)   / 10    * 100, 0), 100)
+            gp_s  = min(gp  / 65.0 * 100, 100)
+            recog = 100 if name in FRANCHISE_CORNERSTONES else (75 if name in ALL_STARS_2025 else 0)
+            pos_m = POSITION_VALUE.get(position.upper().strip(), 1.0)
+
+            raw = (
+                pts_s * 0.22 + reb_s * 0.08 + ast_s * 0.08 +
+                def_s * 0.08 + fg_s  * 0.10 + pm_s  * 0.08 +
+                gp_s  * 0.06 + recog * 0.15 + 60    * 0.15
+            )
+            final   = raw * pos_m
+            overall = min(99, max(55, round(final * 0.44 + 56)))
+            result[str(row["player_id"])] = overall
+
+        return {"overalls": result}
     finally:
         conn.close()
 
@@ -576,14 +636,25 @@ def get_trade_value(player_id: int):
         pts_score  = min(pts / 28.0 * 100, 100)
         reb_score  = min(reb / 12.0 * 100, 100)
         ast_score  = min(ast / 9.0  * 100, 100)
-        def_score  = (min(stl / 2.5 * 100, 100) + min(blk / 3.0 * 100, 100)) / 2
         pm_score   = min(max((pm + 5) / 10 * 100, 0), 100)
         ts_score   = min(max((ts_pct  - 0.45) / 0.20 * 100, 0), 100)
         efg_score  = min(max((efg_pct - 0.40) / 0.22 * 100, 0), 100)
         ortg_score = min(max((off_rtg - 100)  / 20   * 100, 0), 100)
-        drtg_score = min(max((115 - def_rtg)  / 20   * 100, 0), 100)
         usg_score  = min(max((usg_pct - 0.15) / 0.20 * 100, 0), 100)
         gp_score   = min(gp / 70.0 * 100, 100)
+
+        # DRtg scale: league avg ≈ 113, elite ≈ 107, poor ≈ 119.
+        # 6-point half-range → each point below avg is worth 8.3 pts on 0-100 scale,
+        # so Gobert/Wemby (DRtg ~106-107) saturate near 100 and avg defenders score ~50.
+        drtg_component = min(max((113 - def_rtg) / 6 * 50 + 50, 0), 100)
+
+        # Combined defense: (STL+BLK avg) 20% + DRtg 80%
+        # Heavy DRtg weight so paint defenders like Gobert/Wemby score accurately.
+        # STL/BLK still matter at the margin for players at the same DRtg tier.
+        def_score = (
+            (min(stl / 2.0 * 100, 100) + min(blk / 2.0 * 100, 100)) / 2 * 0.20 +
+            drtg_component * 0.80
+        )
 
         is_cornerstone = name in FRANCHISE_CORNERSTONES
         is_allstar     = is_cornerstone or (name in ALL_STARS_2025)
@@ -592,14 +663,12 @@ def get_trade_value(player_id: int):
         recognition_s  = 100 if is_cornerstone else (75 if name in ALL_STARS_2025 else 0)
 
         # ── Weighted composite (weights sum to 1.0) ───────────────────────────
-        # Stat pillars 64%: scoring 11, reb 4, ast 4, defense 3, +/- 5,
-        #                   TS% 7, eFG% 3, ORtg 4, DRtg 4, USG 3, GP 6 = 54%
-        #                   + age 10% = 64%
-        # Identity 36%:     recognition 30%, base 6%
+        # def_score now includes DRtg — weight raised from 0.03 to 0.07,
+        # the freed 0.04 from the removed standalone drtg term.
         raw = (
             pts_score  * 0.11 + reb_score  * 0.04 + ast_score  * 0.04 +
-            def_score  * 0.03 + pm_score   * 0.05 + ts_score   * 0.07 +
-            efg_score  * 0.03 + ortg_score * 0.04 + drtg_score * 0.04 +
+            def_score  * 0.07 + pm_score   * 0.05 + ts_score   * 0.07 +
+            efg_score  * 0.03 + ortg_score * 0.04 +
             usg_score  * 0.03 + gp_score   * 0.06 + age_s      * 0.10 +
             recognition_s * 0.30 + 60      * 0.06
         )
@@ -624,8 +693,11 @@ def get_trade_value(player_id: int):
         elif final >= 25: tier = "Bench Player"
         else:             tier = "Fringe Roster"
 
+        overall = min(99, max(40, round(final * 0.59 + 40)))
+
         return {
             "score":          round(final, 1),
+            "overall":        overall,
             "tier":           tier,
             "is_allstar":     is_allstar,
             "is_cornerstone": is_cornerstone,
@@ -640,6 +712,144 @@ def get_trade_value(player_id: int):
                 "age_value":  round(age_s,      1),
                 "pedigree":   round(recognition_s, 1),
             }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ── Player Advanced Stats ─────────────────────────────────────────────────────
+
+@app.get("/players/{player_id}/advanced")
+def get_player_advanced(player_id: int):
+    """Fetch advanced stats for a player using nba_api (TS%, eFG%, ORtg, DRtg, USG%, PIE, etc.)."""
+    import time as _t
+    _t.sleep(0.5)
+
+    def norm_pct(val):
+        if val is None: return None
+        v = float(val)
+        return round(v * 100 if v <= 1.0 else v, 1)
+
+    import math as _math
+
+    def _safe_float(val):
+        """Return float or None, filtering out NaN/None."""
+        if val is None: return None
+        try:
+            f = float(val)
+            return None if _math.isnan(f) or _math.isinf(f) else f
+        except (TypeError, ValueError):
+            return None
+
+    try:
+        log = playergamelog.PlayerGameLog(player_id=player_id, season=SEASON)
+        df  = log.get_data_frames()[0]
+        _t.sleep(0.4)
+        info    = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
+        info_df = info.get_data_frames()[0]
+
+        name     = info_df["DISPLAY_FIRST_LAST"].iloc[0]
+        team     = info_df["TEAM_NAME"].iloc[0]
+        position = str(info_df["POSITION"].iloc[0] or "")
+        born     = info_df["BIRTHDATE"].iloc[0]
+
+        age = None
+        if born:
+            from datetime import date
+            try:
+                bdate = date.fromisoformat(str(born)[:10])
+                today = date.today()
+                age   = today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
+            except Exception:
+                pass
+
+        if not df.empty:
+            gp   = int(len(df))
+            pts  = round(float(df["PTS"].mean()), 1)
+            fgm  = float(df["FGM"].mean())
+            fga  = float(df["FGA"].mean())
+            fg3m = float(df["FG3M"].mean())
+            fg3a = float(df["FG3A"].mean()) if "FG3A" in df.columns else 0.0
+            fta  = float(df["FTA"].mean())
+            tov  = round(float(df["TOV"].mean()), 1) if "TOV" in df.columns else None
+            pm   = round(float(df["PLUS_MINUS"].mean()), 1)
+
+            ts_pct   = pts / (2 * (fga + 0.44 * fta)) if (fga + fta) > 0 else None
+            efg_pct  = (fgm + 0.5 * fg3m) / fga if fga > 0 else None
+            fg3_rate = fg3a / fga if fga > 0 else None
+            ft_rate  = fta  / fga if fga > 0 else None
+        else:
+            gp = 0; pts = 0; tov = None; pm = 0
+            ts_pct = efg_pct = fg3_rate = ft_rate = None
+
+        # LeagueDashPlayerStats with correct parameter names for nba_api 1.11+
+        # (measure_type_detailed_defense / per_mode_detailed, not measure_type_simple)
+        _t.sleep(0.6)
+        adv = {}
+        rankings = {}
+        try:
+            league_adv = leaguedashplayerstats.LeagueDashPlayerStats(
+                season=SEASON,
+                season_type_all_star="Regular Season",
+                measure_type_detailed_defense="Advanced",
+                per_mode_detailed="PerGame",
+            ).get_data_frames()[0]
+            row = league_adv[league_adv["PLAYER_ID"] == player_id]
+            if not row.empty:
+                for col, key in [
+                    ("OFF_RATING",      "off_rtg"),  ("DEF_RATING",  "def_rtg"),
+                    ("NET_RATING",      "net_rtg"),  ("USG_PCT",     "usg_pct"),
+                    ("TS_PCT",          "ts_pct"),   ("EFG_PCT",     "efg_pct"),
+                    ("PACE",            "pace"),     ("PIE",         "pie"),
+                    ("AST_PCT",         "ast_pct"),  ("AST_TO",      "ast_to"),
+                    ("OREB_PCT",        "oreb_pct"), ("DREB_PCT",    "dreb_pct"),
+                    ("REB_PCT",         "reb_pct"),
+                ]:
+                    if col in row.columns:
+                        v = _safe_float(row[col].iloc[0])
+                        if v is not None:
+                            adv[key] = v
+                # Rank columns are included in the Advanced response
+                for col, key in [
+                    ("OFF_RATING_RANK", "off_rtg"), ("DEF_RATING_RANK", "def_rtg"),
+                    ("NET_RATING_RANK", "net_rtg"), ("USG_PCT_RANK",    "usg_pct"),
+                    ("PIE_RANK",        "pie"),
+                ]:
+                    if col in row.columns:
+                        v = _safe_float(row[col].iloc[0])
+                        if v is not None:
+                            rankings[col.replace("_RANK","").lower().replace("off_rating","off_rtg")
+                                        .replace("def_rating","def_rtg").replace("net_rating","net_rtg")] = int(v)
+        except Exception:
+            pass
+
+        ts_final  = adv.get("ts_pct",  ts_pct)
+        efg_final = adv.get("efg_pct", efg_pct)
+
+        return {
+            "player_id":    player_id,
+            "name":         name,
+            "team":         team,
+            "position":     position,
+            "age":          age,
+            "games_played": gp,
+            "plus_minus":   pm,
+            "tov":          tov,
+            "ts_pct":    norm_pct(ts_final),
+            "efg_pct":   norm_pct(efg_final),
+            "usg_pct":   norm_pct(adv.get("usg_pct")),
+            "pie":       norm_pct(adv.get("pie")),
+            "ast_pct":   norm_pct(adv.get("ast_pct")),
+            "ast_to":    round(adv["ast_to"], 2) if "ast_to" in adv else None,
+            "oreb_pct":  norm_pct(adv.get("oreb_pct")),
+            "dreb_pct":  norm_pct(adv.get("dreb_pct")),
+            "reb_pct":   norm_pct(adv.get("reb_pct")),
+            "fg3_rate":  norm_pct(fg3_rate),
+            "ft_rate":   norm_pct(ft_rate),
+            "off_rtg":   round(adv["off_rtg"], 1) if "off_rtg" in adv else None,
+            "def_rtg":   round(adv["def_rtg"], 1) if "def_rtg" in adv else None,
+            "net_rtg":   round(adv["net_rtg"], 1) if "net_rtg" in adv else None,
+            "pace":      round(adv["pace"],    1) if "pace"    in adv else None,
+            "rankings":  rankings,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

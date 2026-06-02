@@ -4,6 +4,7 @@ import axios from "axios";
 import Dashboard from "./pages/Dashboard";
 import GameLog from "./pages/GameLog";
 import PlayerProfile from "./pages/PlayerProfile";
+import Players from "./pages/Players";
 import Compare from "./pages/Compare";
 import LiveScores from "./pages/LiveScores";
 import TeamStats from "./pages/TeamStats";
@@ -89,6 +90,7 @@ function Navbar() {
       <NavLink to="/" className="nav-brand">HOU <span>Rockets</span></NavLink>
       <div className="nav-links">
         <NavLink to="/" end className="nav-link">Dashboard</NavLink>
+        <NavLink to="/players" className="nav-link">Players</NavLink>
         <NavLink to="/games" className="nav-link">Game Log</NavLink>
         <NavLink to="/team" className="nav-link">Team Stats</NavLink>
         <NavLink to="/compare" className="nav-link">Compare</NavLink>
@@ -125,6 +127,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/players" element={<Players />} />
         <Route path="/games" element={<GameLog />} />
         <Route path="/player/:id" element={<PlayerProfile />} />
         <Route path="/team" element={<TeamStats />} />

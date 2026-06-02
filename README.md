@@ -1,132 +1,96 @@
-# 🚀 Houston Rockets Stats Dashboard
+# Houston Rockets Dashboard
 
-A full-stack data pipeline and analytics dashboard for the Houston Rockets 2024–25 NBA season. Built with Python, FastAPI, PostgreSQL, and React.
+A full-stack analytics dashboard for the Houston Rockets 2024–25 season. Built with FastAPI, PostgreSQL, and React.
 
-![Dashboard Preview](https://img.shields.io/badge/Status-Live-brightgreen) ![Python](https://img.shields.io/badge/Python-3.13-blue) ![React](https://img.shields.io/badge/React-18-61DAFB) ![FastAPI](https://img.shields.io/badge/FastAPI-0.136-009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791)
+## Features
 
----
+- **Dashboard** — Season overview: wins/losses, scoring trend, stat leaders, recent games
+- **Players** — Full roster browser with player cards, position filter, sort, and 2K-style OVR rating
+- **Player Profile** — Season averages with league rankings, advanced stats (Off/Def Rtg, TS%, eFG%, USG%, PIE), shot chart, game-by-game trend, skill radar
+- **Game Log** — Full season game log with box scores, filters, and outcome breakdown
+- **Team Stats** — Shooting splits, zone breakdown, monthly win/loss chart
+- **Compare** — Side-by-side comparison of any two NBA players
+- **Live Scores** — Real-time NBA scoreboard
+- **Trade Analyzer** — Custom algorithm scoring players 0–100 (Trade Value) and 40–99 (2K-style OVR) with draft pick values, tier system, and historical trade reference
 
-## 📸 Features
-
-- **Season Summary** — wins, losses, win percentage, points for/against, home vs away record
-- **Points Per Game Chart** — interactive line chart tracking scoring trends across the last 20 games
-- **Stat Leaders** — top 5 Rockets players in points, rebounds, assists, steals, and blocks
-- **Roster Table** — full roster with season averages (GP, PTS, REB, AST, FG%)
-- **Recent Games** — last 10 game results with score and opponent
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Data Source | `nba_api` Python library |
+| Backend | Python 3.13, FastAPI, psycopg2 |
+| Data | nba_api (NBA Stats API) |
 | Database | PostgreSQL |
-| Backend | FastAPI + psycopg2 |
-| Frontend | React + Recharts + Axios |
-| Styling | Custom CSS with Google Fonts |
+| Frontend | React 19, Recharts, Axios |
 
----
-
-## 🏗️ Architecture
+## Project Structure
 
 ```
 rockets-dashboard/
 ├── backend/
-│   ├── scraper.py      # Pulls data from NBA API → PostgreSQL
-│   ├── main.py         # FastAPI REST API (6 endpoints)
-│   └── .env            # Database credentials (not committed)
-└── frontend/
-    └── src/
-        └── App.js      # React dashboard (single page)
+│   ├── main.py          # FastAPI app — all API endpoints
+│   ├── scraper.py       # Data pipeline — populates PostgreSQL from NBA API
+│   ├── .env             # Local secrets — not committed (see .env.example)
+│   └── .env.example     # Environment variable template
+├── frontend/
+│   └── src/
+│       ├── App.js
+│       ├── pages/
+│       └── components/
+└── README.md
 ```
 
-### Data Flow
-
-```
-NBA API → scraper.py → PostgreSQL → FastAPI → React Dashboard
-```
-
-### Database Schema
-
-**players** — roster info (player_id, full_name, position, jersey_num)
-
-**games** — game-by-game results (game_id, game_date, matchup, outcome, pts, opp_pts)
-
-**player_game_stats** — individual stats per game (pts, reb, ast, stl, blk, fg_pct, plus_minus)
-
----
-
-## 🔌 API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | Health check |
-| GET | `/players` | Full roster with season averages |
-| GET | `/players/{id}/stats` | Per-game stats for one player |
-| GET | `/games` | All 82 games this season |
-| GET | `/games/{id}` | Single game box score |
-| GET | `/stats/leaders` | Top 5 in pts, reb, ast, stl, blk |
-| GET | `/season/summary` | Overall record and scoring averages |
-
-Interactive API docs available at `http://localhost:8000/docs`
-
----
-
-## 🚀 Running Locally
+## Setup
 
 ### Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Node.js 18+
-- PostgreSQL 18+
+- PostgreSQL 14+
 
-### 1. Clone the repo
+### 1. Database
 
-```bash
-git clone https://github.com/amarebanks/rockets-dashboard.git
-cd rockets-dashboard
-```
-
-### 2. Set up the database
-
-```bash
-psql -U postgres
+```sql
 CREATE DATABASE rockets_db;
-\q
 ```
 
-### 3. Configure environment variables
+### 2. Backend
 
-Create a `.env` file in the `backend` folder:
+```bash
+cd backend
+python -m venv venv
+# Windows: venv\Scripts\activate   Mac/Linux: source venv/bin/activate
+pip install fastapi uvicorn psycopg2-binary python-dotenv nba_api pandas
+```
+
+Copy `.env.example` to `.env` and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
 
 ```
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=rockets_db
 DB_USER=postgres
-DB_PASSWORD=your_password
+DB_PASSWORD=your_password_here
 ```
 
-### 4. Install Python dependencies & run the scraper
+Populate the database (takes ~10 minutes):
 
 ```bash
-cd backend
-pip install nba_api pandas psycopg2-binary python-dotenv fastapi uvicorn
 python scraper.py
 ```
 
-### 5. Start the API
+Start the API:
 
 ```bash
-python -m uvicorn main:app --reload
+uvicorn main:app --reload
 ```
 
-API runs at `http://localhost:8000`
+API runs at `http://127.0.0.1:8000`. Docs at `/docs`.
 
-### 6. Start the frontend
-
-In a new terminal:
+### 3. Frontend
 
 ```bash
 cd frontend
@@ -134,24 +98,46 @@ npm install
 npm start
 ```
 
-Dashboard runs at `http://localhost:3000`
+Frontend runs at `http://localhost:3000`.
 
----
+## API Endpoints
 
-## 📊 Data
+| Method | Path | Description |
+|---|---|---|
+| GET | `/players` | Rockets roster with season averages |
+| GET | `/players/overalls` | 2K-style OVR for each Rockets player (DB-only, fast) |
+| GET | `/players/{id}` | Player detail + full game log |
+| GET | `/players/{id}/advanced` | Off/Def Rtg, TS%, eFG%, USG%, PIE, league rankings |
+| GET | `/games` | Team game log |
+| GET | `/games/{id}` | Box score |
+| GET | `/season/summary` | Win/loss record and scoring averages |
+| GET | `/stats/leaders` | Top 5 per stat category |
+| GET | `/team/stats` | Shooting splits, zone breakdown, monthly record |
+| GET | `/shots/{player_id}` | Shot chart data |
+| GET | `/nba/search` | Search any NBA player by name |
+| GET | `/nba/player/{id}/stats` | Live stats for any NBA player |
+| GET | `/trade/value/{id}` | Trade Value (0–100) + OVR (40–99) for any NBA player |
+| GET | `/live/scores` | Today's NBA scoreboard |
 
-All stats are sourced from the official NBA Stats API via the `nba_api` Python library. The scraper pulls:
+## Trade Value Algorithm
 
-- Current Rockets roster (18 players)
-- Full 82-game regular season log
-- Per-game stats for every player on the roster
+Players receive a **Trade Value (0–100)** and a **2K-style Overall (40–99)** computed from:
 
-Re-run `scraper.py` at any time to refresh the data.
+PPG · RPG · APG · STL · BLK · Plus/Minus · TS% · eFG% · Off Rating · Def Rating · USG% · Games Played · Age · Position · Recognition Tier
 
----
+| Overall | Trade Value | Tier |
+|---|---|---|
+| 97–99 | 96–100 | Elite Cornerstone |
+| 90–96 | 85–95 | Franchise Star |
+| 81–89 | 70–84 | All-Star Caliber |
+| 72–80 | 55–69 | Starter |
+| 64–71 | 40–54 | Rotation Player |
+| 55–63 | 25–39 | Bench Player |
+| 40–54 | 0–24 | Fringe Roster |
 
-## 👤 Author
+## Notes
 
-**Amare Banks**
-
-- GitHub: [@amarebanks](https://github.com/amarebanks)
+- No API keys required — all NBA data is fetched via the public `nba_api` library.
+- The NBA Stats API rate-limits requests; the backend adds delays between calls automatically.
+- Shot chart data is only available for Regular Season in the current database schema.
+- Advanced stats load live from the NBA API on each player profile visit (~2–3 seconds).

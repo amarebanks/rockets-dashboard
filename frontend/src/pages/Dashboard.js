@@ -181,7 +181,7 @@ export default function Dashboard() {
                     {leaders[key].map((p, i) => (
                       <div className="leader-row" key={p.player_id}>
                         <div className={`leader-rank ${i===0?"top":""}`}>{i+1}</div>
-                        <div className="leader-name" onClick={() => navigate(`/player/${p.player_id}`)}>{p.full_name.split(" ").pop()}</div>
+                        <div className="leader-name" onClick={() => navigate(`/player/${p.player_id}`)}>{p.full_name}</div>
                         <div className="leader-avg">{p.avg}</div>
                       </div>
                     ))}

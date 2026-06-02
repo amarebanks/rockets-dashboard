@@ -16,15 +16,15 @@ const DRAFT_PICKS = [
 ];
 
 const PICK_VALUES = {
-  "Top 5 Pick": 72,
-  "Lottery Pick (6-14)": 55,
-  "Late First (15-20)": 40,
-  "Late First (21-30)": 28,
-  "Future First (Top 10 Protected)": 35,
-  "Future First (Unprotected)": 42,
-  "Future First (Protected)": 22,
-  "Second Round Pick": 10,
-  "Future Second Round": 7,
+  "Top 5 Pick": 60,
+  "Lottery Pick (6-14)": 46,
+  "Late First (15-20)": 32,
+  "Late First (21-30)": 22,
+  "Future First (Top 10 Protected)": 27,
+  "Future First (Unprotected)": 36,
+  "Future First (Protected)": 16,
+  "Second Round Pick": 8,
+  "Future Second Round": 5,
 };
 
 const HISTORICAL_TRADES = [
@@ -129,6 +129,15 @@ const getScoreColor = (score) => {
   return "var(--muted)";
 };
 
+const getOvrColor = (ovr) => {
+  if (ovr >= 95) return "#f97316";
+  if (ovr >= 88) return "#fbbf24";
+  if (ovr >= 80) return "#4ade80";
+  if (ovr >= 72) return "#60a5fa";
+  if (ovr >= 62) return "var(--gold)";
+  return "var(--muted)";
+};
+
 function PlayerSearch({ onAdd, loading }) {
   const [query, setQuery]   = useState("");
   const [results, setResults] = useState([]);
@@ -199,6 +208,7 @@ function PlayerCard({ item, onRemove }) {
   const { playerData, tradeValue } = item;
   if (!playerData || !tradeValue) return null;
   const bd = tradeValue.breakdown;
+  const ovr = tradeValue.overall;
 
   return (
     <div className="player-card">
@@ -217,10 +227,17 @@ function PlayerCard({ item, onRemove }) {
             <span style={{ color:"var(--muted)" }}>{playerData.averages?.avg_fg_pct ? (playerData.averages.avg_fg_pct*100).toFixed(1)+"% FG" : ""}</span>
           </div>
         </div>
-        <div style={{ textAlign:"right", marginLeft:12 }}>
-          <div className="player-score" style={{ color:getScoreColor(tradeValue.score) }}>{tradeValue.score}</div>
-          <div className="player-tier" style={{ color:getScoreColor(tradeValue.score) }}>{tradeValue.tier}</div>
-          <button className="remove-btn" style={{ marginTop:6, marginLeft:"auto" }} onClick={onRemove}>✕</button>
+        <div style={{ textAlign:"right", marginLeft:16, display:"flex", flexDirection:"column", alignItems:"flex-end" }}>
+          {/* 2K-style OVR */}
+          <div style={{ lineHeight:1, marginBottom:2 }}>
+            <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:52, fontWeight:900, color:getOvrColor(ovr) }}>{ovr}</span>
+          </div>
+          <div style={{ fontSize:9, letterSpacing:2, textTransform:"uppercase", color:"var(--muted)", marginBottom:6 }}>OVR</div>
+          {/* Trade value underneath */}
+          <div style={{ fontSize:11, color:getScoreColor(tradeValue.score), letterSpacing:1, fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700 }}>
+            TV {tradeValue.score} · {tradeValue.tier}
+          </div>
+          <button className="remove-btn" style={{ marginTop:8 }} onClick={onRemove}>✕</button>
         </div>
       </div>
       <div className="score-bar-wrap">
@@ -294,7 +311,7 @@ export default function TradeAnalyzer() {
     <div className="page">
       <style>{css}</style>
       <div className="page-title">Trade <span>Analyzer</span></div>
-      <div className="page-sub">Custom Algorithm · Any NBA Player · Scored 0–100 · Calibrated Against Real Trades</div>
+      <div className="page-sub">Custom Algorithm · Any NBA Player · OVR 40–99 · Trade Value 0–100</div>
 
       {(sideA.length > 0 || sideB.length > 0) && (
         <div className="fairness-wrap">
@@ -333,19 +350,30 @@ export default function TradeAnalyzer() {
         </div>
       </div>
 
-      <div className="section-header"><div className="section-title">Trade Value Scale</div><div className="section-line" /></div>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(155px,1fr))", gap:8, marginBottom:36 }}>
-        {[["96-100","Elite Cornerstone","#f97316"],["85-95","Franchise Star","#fbbf24"],["70-84","All-Star Caliber","var(--red)"],["55-69","Starter","#4ade80"],["40-54","Rotation Player","#60a5fa"],["25-39","Bench Player","var(--muted)"],["0-24","Fringe Roster","#444"]].map(([range,label,color])=>(
-          <div key={range} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"12px 14px", display:"flex", alignItems:"center", gap:10 }}>
-            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, color, minWidth:48 }}>{range}</div>
-            <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, textTransform:"uppercase" }}>{label}</div>
+      <div className="section-header"><div className="section-title">Player Rating Scale</div><div className="section-line" /></div>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))", gap:8, marginBottom:36 }}>
+        {[
+          ["96-100","97-99","Elite Cornerstone","#f97316"],
+          ["85-95","90-96","Franchise Star","#fbbf24"],
+          ["70-84","81-89","All-Star Caliber","#4ade80"],
+          ["55-69","72-80","Starter","#60a5fa"],
+          ["40-54","64-71","Rotation Player","var(--gold)"],
+          ["25-39","55-63","Bench Player","var(--muted)"],
+          ["0-24","40-54","Fringe Roster","#444"],
+        ].map(([tv,ovr,label,color])=>(
+          <div key={tv} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"12px 14px" }}>
+            <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:4 }}>
+              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900, color }}>OVR {ovr}</span>
+            </div>
+            <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1.5, textTransform:"uppercase", marginBottom:2 }}>{label}</div>
+            <div style={{ fontSize:10, color:"#333", letterSpacing:1 }}>TV {tv}</div>
           </div>
         ))}
       </div>
 
       <div className="section-header"><div className="section-title">Draft Pick Values</div><div className="section-line" /></div>
       <div style={{ marginBottom:8, fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
-        Calibrated against real NBA trades — picks are potential, not guaranteed production.
+        Picks represent upside potential, not guaranteed production — uncertainty is priced in.
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:8, marginBottom:40 }}>
         {DRAFT_PICKS.map(p=>(

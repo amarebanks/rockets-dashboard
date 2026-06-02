@@ -79,6 +79,8 @@ export default function PlayerProfile() {
   const [loading, setLoading]       = useState(true);
   const [seasonType, setSeasonType] = useState("Regular Season");
   const [imgError, setImgError]     = useState(false);
+  const [advanced, setAdvanced]     = useState(null);
+  const [advLoading, setAdvLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -86,6 +88,14 @@ export default function PlayerProfile() {
       .then(r => { setData(r.data); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id, seasonType]);
+
+  useEffect(() => {
+    setAdvLoading(true);
+    setAdvanced(null);
+    axios.get(`${API}/players/${id}/advanced`)
+      .then(r => { setAdvanced(r.data); setAdvLoading(false); })
+      .catch(() => setAdvLoading(false));
+  }, [id]);
 
   const exportCSV = () => {
     if (!data) return;
@@ -165,23 +175,107 @@ export default function PlayerProfile() {
       <div className="section-header"><div className="section-title">Season Averages</div><div className="section-line" /></div>
       <div className="avgs-grid">
         {[
-          {label:"PTS", value:averages.avg_pts, cls:"red", sub:`High: ${averages.max_pts}`},
-          {label:"REB", value:averages.avg_reb, cls:"", sub:`High: ${averages.max_reb}`},
-          {label:"AST", value:averages.avg_ast, cls:"gold", sub:`High: ${averages.max_ast}`},
-          {label:"STL", value:averages.avg_stl, cls:""},
-          {label:"BLK", value:averages.avg_blk, cls:""},
-          {label:"FG%", value:averages.avg_fg_pct?(averages.avg_fg_pct*100).toFixed(1)+"%":"—", cls:"green"},
-          {label:"3P%", value:averages.avg_fg3_pct?(averages.avg_fg3_pct*100).toFixed(1)+"%":"—", cls:""},
-          {label:"FT%", value:averages.avg_ft_pct?(averages.avg_ft_pct*100).toFixed(1)+"%":"—", cls:""},
-          {label:"+/-", value:averages.avg_plus_minus!=null?(averages.avg_plus_minus>0?"+":"")+averages.avg_plus_minus:"—", cls:averages.avg_plus_minus>0?"green":averages.avg_plus_minus<0?"red":""},
-        ].map(({label,value,cls,sub}) => (
-          <div className="avg-card" key={label}>
-            <div className="avg-label">{label}</div>
-            <div className={`avg-value ${cls}`}>{value??"|—"}</div>
-            {sub && <div className="avg-career">{sub}</div>}
-          </div>
-        ))}
+          {label:"PTS", value:averages.avg_pts, cls:"red", sub:`High: ${averages.max_pts}`, rk:"pts"},
+          {label:"REB", value:averages.avg_reb, cls:"", sub:`High: ${averages.max_reb}`, rk:"reb"},
+          {label:"AST", value:averages.avg_ast, cls:"gold", sub:`High: ${averages.max_ast}`, rk:"ast"},
+          {label:"STL", value:averages.avg_stl, cls:"", rk:"stl"},
+          {label:"BLK", value:averages.avg_blk, cls:"", rk:"blk"},
+          {label:"FG%", value:averages.avg_fg_pct?(averages.avg_fg_pct*100).toFixed(1)+"%":"—", cls:"green", rk:"fg_pct"},
+          {label:"3P%", value:averages.avg_fg3_pct?(averages.avg_fg3_pct*100).toFixed(1)+"%":"—", cls:"", rk:"fg3_pct"},
+          {label:"FT%", value:averages.avg_ft_pct?(averages.avg_ft_pct*100).toFixed(1)+"%":"—", cls:"", rk:"ft_pct"},
+          {label:"+/-", value:averages.avg_plus_minus!=null?(averages.avg_plus_minus>0?"+":"")+averages.avg_plus_minus:"—", cls:averages.avg_plus_minus>0?"green":averages.avg_plus_minus<0?"red":"", rk:"plus_minus"},
+        ].map(({label,value,cls,sub,rk}) => {
+          const rank = advanced?.rankings?.[rk];
+          const rankColor = rank <= 10 ? "var(--gold)" : rank <= 25 ? "#4ade80" : "var(--muted)";
+          return (
+            <div className="avg-card" key={label}>
+              <div className="avg-label">{label}</div>
+              <div className={`avg-value ${cls}`}>{value??"|—"}</div>
+              {sub && <div className="avg-career">{sub}</div>}
+              {rank && (
+                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",marginTop:3,fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,color:rankColor}}>
+                  #{rank} league
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
+
+      {/* Advanced Stats */}
+      <div className="section-header">
+        <div className="section-title">Advanced Stats</div>
+        <div className="section-line" />
+        {advanced && (
+          <span style={{fontSize:10,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",flexShrink:0}}>
+            {advanced.games_played} GP · {advanced.team}
+          </span>
+        )}
+      </div>
+
+      {advLoading ? (
+        <div style={{color:"var(--muted)",fontSize:11,letterSpacing:2,textTransform:"uppercase",padding:"18px 0 32px",display:"flex",alignItems:"center",gap:8}}>
+          <span style={{display:"inline-block",width:8,height:8,borderRadius:"50%",background:"var(--red)",animation:"pulse 1.2s infinite"}}/>
+          Fetching advanced stats...
+        </div>
+      ) : advanced ? (
+        <>
+          <div className="avgs-grid" style={{marginBottom:36}}>
+            {(() => {
+              const netRtg = advanced.net_rtg ?? (
+                advanced.off_rtg != null && advanced.def_rtg != null
+                  ? Math.round((advanced.off_rtg - advanced.def_rtg) * 10) / 10
+                  : null
+              );
+              const rtgColor = (val, goodFn) => val != null ? (goodFn(val) ? "var(--green)" : "var(--red)") : "var(--text)";
+              const netDisplay = netRtg != null ? (netRtg > 0 ? "+" : "") + netRtg : "—";
+              const ratings = [
+                { label:"Off Rtg", value:advanced.off_rtg, sub:"Offensive Rating", color: rtgColor(advanced.off_rtg, v => v > 110) },
+                { label:"Def Rtg", value:advanced.def_rtg, sub:"Defensive Rating", color: rtgColor(advanced.def_rtg, v => v < 110) },
+                { label:"Net Rtg", value:netDisplay,       sub:"Net Rating",       color: rtgColor(netRtg, v => v > 0) },
+              ];
+              const pcts = [
+                {label:"TS%",     value:advanced.ts_pct,   sub:"True Shooting", cls:"green"},
+                {label:"eFG%",    value:advanced.efg_pct,  sub:"Eff. FG%",      cls:""},
+                {label:"USG%",    value:advanced.usg_pct,  sub:"Usage Rate",    cls:"gold"},
+                {label:"PIE",     value:advanced.pie,      sub:"Player Impact", cls:""},
+                {label:"AST%",    value:advanced.ast_pct,  sub:"Assist %",      cls:""},
+                {label:"REB%",    value:advanced.reb_pct,  sub:"Rebound %",     cls:""},
+                {label:"OREB%",   value:advanced.oreb_pct, sub:"Off Reb %",     cls:""},
+                {label:"DREB%",   value:advanced.dreb_pct, sub:"Def Reb %",     cls:""},
+                {label:"3PA Rate",value:advanced.fg3_rate, sub:"3-Pt Rate",     cls:""},
+                {label:"FTA Rate",value:advanced.ft_rate,  sub:"FT Rate",       cls:""},
+                {label:"TOV",     value:advanced.tov,      sub:"Turnovers",     cls:"red", noSign:true},
+                {label:"AST/TO",  value:advanced.ast_to,   sub:"Ast/Turnover",  cls:"green", noSign:true},
+              ];
+              return (
+                <>
+                  {ratings.map(({label, value, sub, color}) => (
+                    <div className="avg-card" key={label}>
+                      <div className="avg-label">{label}</div>
+                      <div className="avg-value" style={{color, fontSize:28}}>{value ?? "—"}</div>
+                      <div className="avg-career">{sub}</div>
+                    </div>
+                  ))}
+                  {pcts.filter(s => s.value != null).map(({label, value, sub, cls, noSign}) => (
+                    <div className="avg-card" key={label}>
+                      <div className="avg-label">{label}</div>
+                      <div className={`avg-value ${cls}`} style={{fontSize:24}}>
+                        {noSign ? value : value + "%"}
+                      </div>
+                      <div className="avg-career">{sub}</div>
+                    </div>
+                  ))}
+                </>
+              );
+            })()}
+          </div>
+        </>
+      ) : (
+        <div style={{color:"var(--muted)",fontSize:11,letterSpacing:2,textTransform:"uppercase",padding:"18px 0 32px"}}>
+          Advanced stats unavailable for this player
+        </div>
+      )}
 
       {/* Last 5 */}
       {last5?.length > 0 && (
@@ -223,9 +317,13 @@ export default function PlayerProfile() {
         </div>
       </div>
 
-      {/* Shot Chart */}
-      <div className="section-header"><div className="section-title">Shot Chart</div><div className="section-line" /></div>
-      <ShotChart playerId={player.player_id} playerName={player.full_name} seasonType={seasonType} />
+      {/* Shot Chart — only available for Regular Season */}
+      {seasonType !== "Playoffs" && (
+        <>
+          <div className="section-header"><div className="section-title">Shot Chart</div><div className="section-line" /></div>
+          <ShotChart playerId={player.player_id} playerName={player.full_name} seasonType={seasonType} />
+        </>
+      )}
 
       {/* Radar + Career Highs */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:36}}>
