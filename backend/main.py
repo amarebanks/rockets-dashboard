@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import psycopg2.extras
-from nba_api.stats.endpoints import playergamelog, commonplayerinfo
+from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits
 from nba_api.stats.static import players as nba_players_static
 from nba_api.live.nba.endpoints import scoreboard
 
@@ -461,7 +461,7 @@ def get_live_scores():
 # ── Trade Value Algorithm ─────────────────────────────────────────────────────
 
 ALL_STARS_2025 = {
-    "Alperen Sengun", "Jalen Green",
+    "Alperen Sengun", "Jalen Green", "Luka Doncic",
     "Nikola Jokic", "Shai Gilgeous-Alexander", "LeBron James",
     "Anthony Davis", "Stephen Curry", "Anthony Edwards",
     "Victor Wembanyama", "Kevin Durant", "Devin Booker",
@@ -472,6 +472,13 @@ ALL_STARS_2025 = {
     "Jaren Jackson Jr.", "Trae Young", "Paolo Banchero",
     "Jalen Brunson", "James Harden", "Kawhi Leonard",
     "Jimmy Butler", "Zach LaVine", "Tyler Herro", "Ja Morant",
+}
+
+# Players who are genuinely untradable — would require 4-5 first-rounders + multiple quality players
+FRANCHISE_CORNERSTONES = {
+    "Nikola Jokic", "Shai Gilgeous-Alexander", "Luka Doncic",
+    "Victor Wembanyama", "Giannis Antetokounmpo",
+    "Jayson Tatum", "Anthony Edwards",
 }
 
 POSITION_VALUE = {
@@ -529,35 +536,88 @@ def get_trade_value(player_id: int):
             except:
                 pass
 
-        pts    = float(df["PTS"].mean())    if not df.empty else 0
-        reb    = float(df["REB"].mean())    if not df.empty else 0
-        ast    = float(df["AST"].mean())    if not df.empty else 0
-        fg_pct = float(df["FG_PCT"].mean()) if not df.empty else 0.44
-        gp     = int(len(df))
+        if not df.empty:
+            pts  = float(df["PTS"].mean())
+            reb  = float(df["REB"].mean())
+            ast  = float(df["AST"].mean())
+            stl  = float(df["STL"].mean())
+            blk  = float(df["BLK"].mean())
+            pm   = float(df["PLUS_MINUS"].mean())
+            fgm  = float(df["FGM"].mean())
+            fga  = float(df["FGA"].mean())
+            fg3m = float(df["FG3M"].mean())
+            fta  = float(df["FTA"].mean())
+            gp   = int(len(df))
+            efg_pct = (fgm + 0.5 * fg3m) / fga if fga > 0 else 0.46
+            ts_pct  = pts / (2 * (fga + 0.44 * fta)) if (fga + fta) > 0 else 0.55
+        else:
+            pts = reb = ast = stl = blk = pm = fga = fta = 0
+            efg_pct = 0.46; ts_pct = 0.55; gp = 0
 
-        # Realistic benchmarks — elite players hit 90-100 on each factor
-        pts_score = min((pts / 28.0)    * 100, 100)
-        reb_score = min((reb / 12.0)    * 100, 100)
-        ast_score = min((ast / 9.0)     * 100, 100)
-        fg_score  = min((fg_pct / 0.56) * 100, 100)
-        gp_score  = min((gp / 70.0)     * 100, 100)
-        is_allstar = name in ALL_STARS_2025
-        age_s     = _age_score(age, is_allstar=is_allstar)
-        allstar_s = 100 if is_allstar else 0
-        pos_mult  = POSITION_VALUE.get(position.upper().strip(), 1.0)
+        # Advanced dashboard: ORtg, DRtg, USG% — fall back to league averages on error
+        off_rtg = 108.0; def_rtg = 112.0; usg_pct = 0.20
+        try:
+            import time as _t2; _t2.sleep(0.4)
+            adv_df = playerdashboardbygeneralsplits.PlayerDashboardByGeneralSplits(
+                player_id=player_id, season=SEASON,
+                measure_type_player_dashboard="Advanced",
+                per_mode_simple="PerGame",
+            ).get_data_frames()[0]
+            if not adv_df.empty:
+                if "OFF_RATING" in adv_df.columns: off_rtg = float(adv_df["OFF_RATING"].iloc[0])
+                if "DEF_RATING" in adv_df.columns: def_rtg = float(adv_df["DEF_RATING"].iloc[0])
+                if "USG_PCT"    in adv_df.columns:
+                    u = float(adv_df["USG_PCT"].iloc[0])
+                    usg_pct = u / 100 if u > 1 else u
+        except Exception:
+            pass
 
-        # Weighted composite
+        # ── Component scores 0–100 ────────────────────────────────────────────
+        pts_score  = min(pts / 28.0 * 100, 100)
+        reb_score  = min(reb / 12.0 * 100, 100)
+        ast_score  = min(ast / 9.0  * 100, 100)
+        def_score  = (min(stl / 2.5 * 100, 100) + min(blk / 3.0 * 100, 100)) / 2
+        pm_score   = min(max((pm + 5) / 10 * 100, 0), 100)
+        ts_score   = min(max((ts_pct  - 0.45) / 0.20 * 100, 0), 100)
+        efg_score  = min(max((efg_pct - 0.40) / 0.22 * 100, 0), 100)
+        ortg_score = min(max((off_rtg - 100)  / 20   * 100, 0), 100)
+        drtg_score = min(max((115 - def_rtg)  / 20   * 100, 0), 100)
+        usg_score  = min(max((usg_pct - 0.15) / 0.20 * 100, 0), 100)
+        gp_score   = min(gp / 70.0 * 100, 100)
+
+        is_cornerstone = name in FRANCHISE_CORNERSTONES
+        is_allstar     = is_cornerstone or (name in ALL_STARS_2025)
+        age_s          = _age_score(age, is_allstar=is_allstar)
+        pos_mult       = POSITION_VALUE.get(position.upper().strip(), 1.0)
+        recognition_s  = 100 if is_cornerstone else (75 if name in ALL_STARS_2025 else 0)
+
+        # ── Weighted composite (weights sum to 1.0) ───────────────────────────
+        # Stat pillars 64%: scoring 11, reb 4, ast 4, defense 3, +/- 5,
+        #                   TS% 7, eFG% 3, ORtg 4, DRtg 4, USG 3, GP 6 = 54%
+        #                   + age 10% = 64%
+        # Identity 36%:     recognition 30%, base 6%
         raw = (
-            pts_score * 0.22 + reb_score * 0.10 + ast_score * 0.10 +
-            fg_score  * 0.08 + gp_score  * 0.08 + age_s     * 0.12 +
-            allstar_s * 0.18 + 60        * 0.12
+            pts_score  * 0.11 + reb_score  * 0.04 + ast_score  * 0.04 +
+            def_score  * 0.03 + pm_score   * 0.05 + ts_score   * 0.07 +
+            efg_score  * 0.03 + ortg_score * 0.04 + drtg_score * 0.04 +
+            usg_score  * 0.03 + gp_score   * 0.06 + age_s      * 0.10 +
+            recognition_s * 0.30 + 60      * 0.06
         )
-        # All-Star floor: proven stars never score below 68
-        if is_allstar:
-            raw = max(raw, 68)
-        final = min(raw * pos_mult, 100)
 
-        if final >= 85:   tier = "Franchise Star"
+        # Non-cornerstone All-Stars floored pre-mult so position bonus still applies
+        if not is_cornerstone and is_allstar:
+            raw = max(raw, 68)
+
+        final = raw * pos_mult
+
+        # Cornerstones guaranteed ≥ 97 post-mult — always "Untradable"
+        if is_cornerstone:
+            final = max(final, 97)
+
+        final = min(final, 100)
+
+        if final >= 96:   tier = "Elite Cornerstone"
+        elif final >= 85: tier = "Franchise Star"
         elif final >= 70: tier = "All-Star Caliber"
         elif final >= 55: tier = "Starter"
         elif final >= 40: tier = "Rotation Player"
@@ -565,19 +625,20 @@ def get_trade_value(player_id: int):
         else:             tier = "Fringe Roster"
 
         return {
-            "score": round(final, 1),
-            "tier":  tier,
-            "is_allstar": is_allstar,
-            "age": age,
+            "score":          round(final, 1),
+            "tier":           tier,
+            "is_allstar":     is_allstar,
+            "is_cornerstone": is_cornerstone,
+            "age":            age,
             "breakdown": {
-                "scoring":    round(pts_score, 1),
-                "rebounding": round(reb_score, 1),
-                "playmaking": round(ast_score, 1),
-                "efficiency": round(fg_score,  1),
-                "durability": round(gp_score,  1),
-                "age_value":  round(age_s,     1),
-                "allstar":    round(allstar_s, 1),
-                "position":   round(pos_mult * 100 - 100, 1),
+                "scoring":    round(pts_score,  1),
+                "defense":    round(def_score,  1),
+                "playmaking": round(ast_score,  1),
+                "efficiency": round(ts_score,   1),
+                "impact":     round(pm_score,   1),
+                "durability": round(gp_score,   1),
+                "age_value":  round(age_s,      1),
+                "pedigree":   round(recognition_s, 1),
             }
         }
     except Exception as e:

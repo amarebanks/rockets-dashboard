@@ -108,6 +108,7 @@ const css = `
   .fairness-bar-b { height:100%; background:#4a9eff; transition:width 0.4s; }
   .fairness-labels { display:flex; justify-content:space-between; font-size:12px; }
   .allstar-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:#000; padding:2px 6px; border-radius:2px; margin-left:6px; vertical-align:middle; }
+  .cornerstone-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; padding:2px 6px; border-radius:2px; margin-left:6px; vertical-align:middle; font-weight:700; }
   .section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
   .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
@@ -120,10 +121,11 @@ const css = `
 `;
 
 const getScoreColor = (score) => {
-  if (score >= 80) return "#fbbf24";
-  if (score >= 65) return "var(--red)";
-  if (score >= 50) return "#4ade80";
-  if (score >= 35) return "#60a5fa";
+  if (score >= 96) return "#f97316";
+  if (score >= 85) return "#fbbf24";
+  if (score >= 70) return "var(--red)";
+  if (score >= 55) return "#4ade80";
+  if (score >= 40) return "#60a5fa";
   return "var(--muted)";
 };
 
@@ -204,7 +206,8 @@ function PlayerCard({ item, onRemove }) {
         <div style={{ flex:1 }}>
           <div className="player-card-name">
             {playerData.full_name}
-            {tradeValue.is_allstar && <span className="allstar-badge">★ All-Star</span>}
+            {tradeValue.is_cornerstone && <span className="cornerstone-badge">★ Elite Cornerstone</span>}
+            {!tradeValue.is_cornerstone && tradeValue.is_allstar && <span className="allstar-badge">★ All-Star</span>}
           </div>
           <div className="player-card-team">{playerData.team} · {playerData.position}</div>
           <div style={{ display:"flex", gap:10, marginTop:6, fontSize:12 }}>
@@ -226,13 +229,13 @@ function PlayerCard({ item, onRemove }) {
       <div className="breakdown-grid">
         {[
           ["Scoring",    bd.scoring],
-          ["Rebounds",   bd.rebounding],
+          ["Defense",    bd.defense],
           ["Playmaking", bd.playmaking],
-          ["Efficiency", bd.efficiency],
+          ["TS%",        bd.efficiency],
+          ["+/−",        bd.impact],
           ["Durability", bd.durability],
           ["Age",        bd.age_value],
-          ["All-Star",   bd.allstar],
-          ["Pos Bonus",  bd.position > 0 ? `+${bd.position}%` : "—"],
+          ["Pedigree",   bd.pedigree],
         ].map(([label, val]) => (
           <div className="breakdown-item" key={label}>
             <div className="breakdown-val" style={{ color: typeof val==="number" && val>=70?"#4ade80":typeof val==="number" && val>=40?"var(--gold)":"var(--muted)" }}>
@@ -332,7 +335,7 @@ export default function TradeAnalyzer() {
 
       <div className="section-header"><div className="section-title">Trade Value Scale</div><div className="section-line" /></div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(155px,1fr))", gap:8, marginBottom:36 }}>
-        {[["85-100","Franchise Star","#fbbf24"],["70-84","All-Star Caliber","var(--red)"],["55-69","Starter","#4ade80"],["40-54","Rotation Player","#60a5fa"],["25-39","Bench Player","var(--muted)"],["0-24","Fringe Roster","#444"]].map(([range,label,color])=>(
+        {[["96-100","Elite Cornerstone","#f97316"],["85-95","Franchise Star","#fbbf24"],["70-84","All-Star Caliber","var(--red)"],["55-69","Starter","#4ade80"],["40-54","Rotation Player","#60a5fa"],["25-39","Bench Player","var(--muted)"],["0-24","Fringe Roster","#444"]].map(([range,label,color])=>(
           <div key={range} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"12px 14px", display:"flex", alignItems:"center", gap:10 }}>
             <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, color, minWidth:48 }}>{range}</div>
             <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, textTransform:"uppercase" }}>{label}</div>
