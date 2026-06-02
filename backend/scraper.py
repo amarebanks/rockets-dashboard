@@ -24,11 +24,12 @@ from nba_api.stats.endpoints import (
     teamgamelog,
     commonteamroster,
     playergamelog,
+    boxscoretraditionalv2,
 )
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-load_dotenv()  # reads from a .env file in the same folder
+load_dotenv()
 
 DB_CONFIG = {
     "host":     os.getenv("DB_HOST", "localhost"),
@@ -38,19 +39,17 @@ DB_CONFIG = {
     "password": os.getenv("DB_PASSWORD", ""),
 }
 
-ROCKETS_ID = 1610612745   # Houston Rockets permanent NBA team ID
+ROCKETS_ID = 1610612745
 SEASON     = "2024-25"
-DELAY      = 1.0           # seconds between API calls (avoid rate-limiting)
+DELAY      = 1.0
 
 # ── Database helpers ──────────────────────────────────────────────────────────
 
 def get_connection():
-    """Return a live psycopg2 connection."""
     return psycopg2.connect(**DB_CONFIG)
 
 
 def create_tables(conn):
-    """Create all tables if they don't already exist."""
     with conn.cursor() as cur:
         cur.execute("""
             CREATE TABLE IF NOT EXISTS players (
@@ -65,10 +64,10 @@ def create_tables(conn):
                 game_id     TEXT PRIMARY KEY,
                 game_date   DATE NOT NULL,
                 matchup     TEXT,
-                outcome     CHAR(1),          -- 'W' or 'L'
+                outcome     CHAR(1),
                 pts         INTEGER,
                 opp_pts     INTEGER,
-                home_away   CHAR(1)           -- 'H' or 'A'
+                home_away   CHAR(1)
             );
 
             CREATE TABLE IF NOT EXISTS player_game_stats (
@@ -95,13 +94,11 @@ def create_tables(conn):
 # ── Scraping helpers ──────────────────────────────────────────────────────────
 
 def fetch_roster() -> pd.DataFrame:
-    """Return the current Rockets roster as a DataFrame."""
     print("📋 Fetching roster...")
     roster = commonteamroster.CommonTeamRoster(
         team_id=ROCKETS_ID, season=SEASON
     )
     df = roster.get_data_frames()[0]
-    # Rename to match our schema
     df = df.rename(columns={
         "PLAYER_ID":    "player_id",
         "PLAYER":       "full_name",
@@ -113,33 +110,49 @@ def fetch_roster() -> pd.DataFrame:
 
 
 def fetch_game_log() -> pd.DataFrame:
-    """Return Rockets game-by-game results for the season."""
     print("🏀 Fetching team game log...")
     log = teamgamelog.TeamGameLog(team_id=ROCKETS_ID, season=SEASON)
     df  = log.get_data_frames()[0]
 
     df["game_date"] = pd.to_datetime(df["GAME_DATE"], format="mixed").dt.date
     df["home_away"] = df["MATCHUP"].apply(lambda m: "H" if "vs." in m else "A")
-
-    # safely calculate opp_pts if column exists
-    if "PLUS_MINUS" in df.columns:
-        df["opp_pts"] = df["PTS"] - df["PLUS_MINUS"]
-    else:
-        df["opp_pts"] = None
+    df["opp_pts"]   = None  # filled in by fetch_opp_scores()
 
     df = df.rename(columns={
-        "Game_ID":  "game_id",
-        "MATCHUP":  "matchup",
-        "WL":       "outcome",
-        "PTS":      "pts",
+        "Game_ID": "game_id",
+        "MATCHUP": "matchup",
+        "WL":      "outcome",
+        "PTS":     "pts",
     })
     return df[["game_id", "game_date", "matchup", "outcome", "pts", "opp_pts", "home_away"]]
 
 
+def fetch_opp_scores(conn, games_df: pd.DataFrame):
+    """Pull opponent scores for each game from the box score endpoint."""
+    print("🔢 Fetching opponent scores (this takes a few minutes)...")
+    total = len(games_df)
+    for i, (_, row) in enumerate(games_df.iterrows()):
+        time.sleep(DELAY)
+        try:
+            box = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id=row["game_id"])
+            team_stats = box.get_data_frames()[1]  # index 1 = team summary
+            opp_row = team_stats[team_stats["TEAM_ABBREVIATION"] != "HOU"]
+            if not opp_row.empty:
+                opp_pts = int(opp_row["PTS"].iloc[0])
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "UPDATE games SET opp_pts = %s WHERE game_id = %s",
+                        (opp_pts, row["game_id"])
+                    )
+                conn.commit()
+                print(f"  [{i+1}/{total}] {row['matchup']} → opp: {opp_pts}")
+        except Exception as e:
+            print(f"  ⚠️  Could not fetch box score for {row['game_id']}: {e}")
+
+
 def fetch_player_stats(player_id: int, player_name: str) -> pd.DataFrame:
-    """Return per-game stats for one player this season."""
     print(f"  📊 Fetching stats for {player_name}...")
-    time.sleep(DELAY)  # be polite to the NBA API
+    time.sleep(DELAY)
     try:
         log = playergamelog.PlayerGameLog(
             player_id=player_id, season=SEASON
@@ -149,17 +162,17 @@ def fetch_player_stats(player_id: int, player_name: str) -> pd.DataFrame:
             return pd.DataFrame()
 
         df = df.rename(columns={
-            "Game_ID":   "game_id",
-            "PTS":       "pts",
-            "REB":       "reb",
-            "AST":       "ast",
-            "STL":       "stl",
-            "BLK":       "blk",
-            "FG_PCT":    "fg_pct",
-            "FG3_PCT":   "fg3_pct",
-            "FT_PCT":    "ft_pct",
-            "PLUS_MINUS":"plus_minus",
-            "MIN":       "min",
+            "Game_ID":    "game_id",
+            "PTS":        "pts",
+            "REB":        "reb",
+            "AST":        "ast",
+            "STL":        "stl",
+            "BLK":        "blk",
+            "FG_PCT":     "fg_pct",
+            "FG3_PCT":    "fg3_pct",
+            "FT_PCT":     "ft_pct",
+            "PLUS_MINUS": "plus_minus",
+            "MIN":        "min",
         })
         df["player_id"] = player_id
         cols = ["player_id", "game_id", "min", "pts", "reb", "ast",
@@ -240,15 +253,17 @@ def main():
     games_df = fetch_game_log()
     upsert_games(conn, games_df)
 
-    # 3. Player stats (loop over every player on the roster)
+    # 3. Fill in opponent scores from box scores
+    fetch_opp_scores(conn, games_df)
+
+    # 4. Player stats
     print("\n📈 Fetching individual player stats...")
     for _, row in roster_df.iterrows():
         stats_df = fetch_player_stats(row["player_id"], row["full_name"])
         upsert_player_game_stats(conn, stats_df)
 
     conn.close()
-    print("\n🏁 Done! Your database is populated and ready.")
-    print("Next step: build the FastAPI backend to serve this data.")
+    print("\n🏁 Done! Your database is fully populated.")
 
 
 if __name__ == "__main__":
