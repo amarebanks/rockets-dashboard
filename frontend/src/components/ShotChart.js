@@ -116,7 +116,7 @@ function Court({ shots, showMade, showMissed }) {
   );
 }
 
-export default function ShotChart({ playerId, playerName, seasonType = "Regular Season" }) {
+export default function ShotChart({ playerId, playerName, seasonType = "Regular Season", live = false }) {
   const [data, setData]         = useState(null);
   const [loading, setLoading]   = useState(true);
   const [showMade, setShowMade]       = useState(true);
@@ -125,10 +125,12 @@ export default function ShotChart({ playerId, playerName, seasonType = "Regular 
   useEffect(() => {
     if (!playerId) return;
     setLoading(true);
-    axios.get(`${API}/shots/${playerId}`, { params: { season_type: seasonType } })
+    // Compare page pulls any NBA player live; profile uses the local Rockets table.
+    const url = live ? `${API}/nba/player/${playerId}/shots` : `${API}/shots/${playerId}`;
+    axios.get(url, { params: { season_type: seasonType } })
       .then(r => { setData(r.data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [playerId, seasonType]);
+  }, [playerId, seasonType, live]);
 
   const fgPct = data && data.total > 0
     ? ((data.made / data.total) * 100).toFixed(1)
@@ -145,6 +147,11 @@ export default function ShotChart({ playerId, playerName, seasonType = "Regular 
     <>
       <style>{css}</style>
       <div className="shotchart-wrap">
+        {live && playerName && (
+          <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700, letterSpacing:1, textTransform:"uppercase", marginBottom:12 }}>
+            {playerName}
+          </div>
+        )}
         {loading ? (
           <div className="loading-sc">Loading shot chart...</div>
         ) : !data || data.total === 0 ? (

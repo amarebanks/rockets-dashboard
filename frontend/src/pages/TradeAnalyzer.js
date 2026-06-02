@@ -138,6 +138,40 @@ const getOvrColor = (ovr) => {
   return "var(--muted)";
 };
 
+// ── Trade fairness model ────────────────────────────────────────────────────
+// Two real-world dynamics that a plain sum of values misses:
+//  1. Star scarcity premium — elite players cost far more than their sticker
+//     value to acquire. You don't get a top-5 player without a big overpay.
+//  2. Diminishing returns — roster spots are finite, so a pile of role players
+//     and picks is worth less than the same raw total in one star.
+const DECAY = 0.85; // each asset past the centerpiece is taxed by this factor
+
+const assetValue = (item) =>
+  item.type === "pick" ? item.value : (item.tradeValue?.score || 0);
+
+// How much MORE than sticker value it costs to acquire this player.
+const premiumMult = (item) => {
+  if (item.type === "pick") return 1.0;
+  const s = item.tradeValue?.score || 0;
+  if (item.tradeValue?.is_cornerstone || s >= 96) return 1.60; // Elite Cornerstone
+  if (s >= 90) return 1.45;                                    // Top Franchise Star
+  if (s >= 85) return 1.30;                                    // Franchise Star
+  if (s >= 78) return 1.18;                                    // High-end All-Star
+  if (s >= 70) return 1.10;                                    // All-Star
+  return 1.0;
+};
+
+// Effective package value: premium-adjust each asset, then apply diminishing
+// returns to everything past the best piece (sorted high→low).
+const computeEffective = (side) => {
+  const raw = side.reduce((s, i) => s + assetValue(i), 0);
+  const adjusted = side
+    .map(i => assetValue(i) * premiumMult(i))
+    .sort((a, b) => b - a);
+  const effective = adjusted.reduce((sum, v, idx) => sum + v * Math.pow(DECAY, idx), 0);
+  return { raw, effective };
+};
+
 function PlayerSearch({ onAdd, loading }) {
   const [query, setQuery]   = useState("");
   const [results, setResults] = useState([]);
@@ -289,23 +323,33 @@ export default function TradeAnalyzer() {
     setLoading(false);
   };
 
-  const totalA = sideA.reduce((s, i) => s + (i.type==="pick" ? i.value : (i.tradeValue?.score||0)), 0);
-  const totalB = sideB.reduce((s, i) => s + (i.type==="pick" ? i.value : (i.tradeValue?.score||0)), 0);
-  const totalSum = totalA + totalB;
-  const barA = totalSum > 0 ? (totalA/totalSum)*100 : 50;
-  const barB = totalSum > 0 ? (totalB/totalSum)*100 : 50;
+  const { raw: totalA, effective: effA } = computeEffective(sideA);
+  const { raw: totalB, effective: effB } = computeEffective(sideB);
+  const effSum = effA + effB;
+  const barA = effSum > 0 ? (effA/effSum)*100 : 50;
+  const barB = effSum > 0 ? (effB/effSum)*100 : 50;
 
   const getVerdict = () => {
     if (sideA.length===0 && sideB.length===0) return null;
-    if (totalSum===0) return null;
-    const diff = Math.abs(totalA-totalB);
-    const pct  = (diff/((totalSum)/2))*100;
+    if (effSum===0) return null;
+    const diff = Math.abs(effA-effB);
+    const pct  = (diff/Math.max(effA, effB))*100;
+    const winner = effA > effB ? "Team A" : "Team B";
     if (pct < 8)  return { text:"✓ Fair Trade", color:"var(--green)", pct };
-    if (pct < 20) return { text:`Slight Advantage — ${totalA>totalB?"Team A":"Team B"}`, color:"var(--gold)", pct };
-    return { text:`Lopsided — ${totalA>totalB?"Team A":"Team B"} wins big`, color:"var(--red)", pct };
+    if (pct < 18) return { text:`Slight Advantage — ${winner}`, color:"var(--gold)", pct };
+    return { text:`Lopsided — ${winner} wins`, color:"var(--red)", pct };
   };
 
   const verdict = getVerdict();
+
+  // If a real star is involved and the trade is lopsided, explain what the
+  // package realistically needs — the model's whole point.
+  const bigStar = [...sideA, ...sideB]
+    .filter(i => i.type === "player" && premiumMult(i) >= 1.30)
+    .sort((a, b) => (b.tradeValue?.score||0) - (a.tradeValue?.score||0))[0];
+  const starNote = (verdict && verdict.pct >= 18 && bigStar)
+    ? `Prying loose a ${bigStar.tradeValue.tier} like ${bigStar.playerData?.full_name} usually takes a young star plus multiple first-round picks — not role players and late picks.`
+    : null;
 
   return (
     <div className="page">
@@ -316,9 +360,9 @@ export default function TradeAnalyzer() {
       {(sideA.length > 0 || sideB.length > 0) && (
         <div className="fairness-wrap">
           <div className="fairness-labels">
-            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team A — {totalA.toFixed(1)}</span>
+            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team A — {effA.toFixed(1)}</span>
             {verdict && <span style={{ color:verdict.color, fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700 }}>{verdict.text}</span>}
-            <span style={{ color:"#4a9eff", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team B — {totalB.toFixed(1)}</span>
+            <span style={{ color:"#4a9eff", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team B — {effB.toFixed(1)}</span>
           </div>
           <div className="fairness-bar-wrap">
             <div className="fairness-bar-a" style={{ width:`${barA}%` }} />
@@ -326,7 +370,13 @@ export default function TradeAnalyzer() {
           </div>
           {verdict && (
             <div style={{ textAlign:"center", fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
-              Difference: {Math.abs(totalA-totalB).toFixed(1)} points ({verdict.pct.toFixed(1)}%)
+              Adjusted value — incl. star premium &amp; roster-depth discount · Δ {Math.abs(effA-effB).toFixed(1)} ({verdict.pct.toFixed(1)}%)
+              <span style={{ marginLeft:8, color:"#444" }}>sticker: {totalA.toFixed(0)} vs {totalB.toFixed(0)}</span>
+            </div>
+          )}
+          {starNote && (
+            <div style={{ textAlign:"center", fontSize:11, color:"var(--gold)", letterSpacing:0.5, marginTop:8, borderTop:"1px solid var(--border)", paddingTop:8 }}>
+              ⚠ {starNote}
             </div>
           )}
         </div>
@@ -338,7 +388,7 @@ export default function TradeAnalyzer() {
           <PlayerSearch onAdd={(item) => fetchAndAdd(item, setSideA, setLoadingA)} loading={loadingA} />
           {sideA.length===0 && <div className="empty-side">Add players or picks above</div>}
           {sideA.map((item,i) => <PlayerCard key={i} item={item} onRemove={() => setSideA(prev => prev.filter((_,j)=>j!==i))} />)}
-          {sideA.length>0 && <div className="total-row"><span className="total-label">Total Value</span><span className="total-value" style={{color:"var(--red)"}}>{totalA.toFixed(1)}</span></div>}
+          {sideA.length>0 && <div className="total-row"><span className="total-label">Sticker Value</span><span className="total-value" style={{color:"var(--red)"}}>{totalA.toFixed(1)}</span></div>}
         </div>
 
         <div className="ta-side B">
@@ -346,7 +396,7 @@ export default function TradeAnalyzer() {
           <PlayerSearch onAdd={(item) => fetchAndAdd(item, setSideB, setLoadingB)} loading={loadingB} />
           {sideB.length===0 && <div className="empty-side">Add players or picks above</div>}
           {sideB.map((item,i) => <PlayerCard key={i} item={item} onRemove={() => setSideB(prev => prev.filter((_,j)=>j!==i))} />)}
-          {sideB.length>0 && <div className="total-row"><span className="total-label">Total Value</span><span className="total-value" style={{color:"#4a9eff"}}>{totalB.toFixed(1)}</span></div>}
+          {sideB.length>0 && <div className="total-row"><span className="total-label">Sticker Value</span><span className="total-value" style={{color:"#4a9eff"}}>{totalB.toFixed(1)}</span></div>}
         </div>
       </div>
 

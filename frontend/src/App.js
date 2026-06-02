@@ -9,6 +9,10 @@ import Compare from "./pages/Compare";
 import LiveScores from "./pages/LiveScores";
 import TeamStats from "./pages/TeamStats";
 import TradeAnalyzer from "./pages/TradeAnalyzer";
+import Predictor from "./pages/Predictor";
+import TradeIdeas from "./pages/TradeIdeas";
+import BettingEdge from "./pages/BettingEdge";
+import DraftCapital from "./pages/DraftCapital";
 
 const API = "http://127.0.0.1:8000";
 
@@ -96,6 +100,10 @@ function Navbar() {
         <NavLink to="/compare" className="nav-link">Compare</NavLink>
         <NavLink to="/live" className="nav-link"><span className="live-dot"/>Live</NavLink>
         <NavLink to="/trade" className="nav-link">Trade</NavLink>
+        <NavLink to="/build" className="nav-link">Build</NavLink>
+        <NavLink to="/draft" className="nav-link">Draft</NavLink>
+        <NavLink to="/predict" className="nav-link">Predict</NavLink>
+        <NavLink to="/edge" className="nav-link">Edge</NavLink>
       </div>
       <div className="nav-search-wrap">
         <input
@@ -134,6 +142,10 @@ export default function App() {
         <Route path="/compare" element={<Compare />} />
         <Route path="/live" element={<LiveScores />} />
         <Route path="/trade" element={<TradeAnalyzer />} />
+        <Route path="/predict" element={<Predictor />} />
+        <Route path="/build" element={<TradeIdeas />} />
+        <Route path="/edge" element={<BettingEdge />} />
+        <Route path="/draft" element={<DraftCapital />} />
       </Routes>
     </Router>
   );

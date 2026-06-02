@@ -14,6 +14,8 @@ import psycopg2.extras
 from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashboardbygeneralsplits, leaguedashplayerstats, leaguedashteamstats
 from nba_api.stats.static import players as nba_players_static
 from nba_api.live.nba.endpoints import scoreboard
+import elo
+from recognition import is_cornerstone, is_allstar
 
 load_dotenv()
 
@@ -28,6 +30,7 @@ app.add_middleware(
 )
 
 SEASON = "2024-25"
+ROCKETS_ABV = "HOU"
 
 def get_db():
     return psycopg2.connect(
@@ -60,9 +63,9 @@ def get_players(season_type: str = Query("Regular Season")):
                     ROUND(AVG(s.ast)::numeric, 1)     AS avg_ast,
                     ROUND(AVG(s.stl)::numeric, 1)     AS avg_stl,
                     ROUND(AVG(s.blk)::numeric, 1)     AS avg_blk,
-                    ROUND(AVG(s.fg_pct)::numeric, 3)  AS avg_fg_pct,
-                    ROUND(AVG(s.fg3_pct)::numeric, 3) AS avg_fg3_pct,
-                    ROUND(AVG(s.ft_pct)::numeric, 3)  AS avg_ft_pct,
+                    ROUND(SUM(s.fgm)::numeric  / NULLIF(SUM(s.fga),  0), 3) AS avg_fg_pct,
+                    ROUND(SUM(s.fg3m)::numeric / NULLIF(SUM(s.fg3a), 0), 3) AS avg_fg3_pct,
+                    ROUND(SUM(s.ftm)::numeric  / NULLIF(SUM(s.fta),  0), 3) AS avg_ft_pct,
                     ROUND(AVG(s.plus_minus)::numeric, 1) AS avg_plus_minus,
                     COUNT(s.game_id) AS games_played
                 FROM players p
@@ -89,7 +92,7 @@ def get_player_overalls():
                        ROUND(AVG(s.ast)::numeric, 1)        AS avg_ast,
                        ROUND(AVG(s.stl)::numeric, 1)        AS avg_stl,
                        ROUND(AVG(s.blk)::numeric, 1)        AS avg_blk,
-                       ROUND(AVG(s.fg_pct)::numeric, 3)     AS avg_fg_pct,
+                       ROUND(SUM(s.fgm)::numeric / NULLIF(SUM(s.fga), 0), 3) AS avg_fg_pct,
                        ROUND(AVG(s.plus_minus)::numeric, 1) AS avg_pm,
                        COUNT(s.game_id)                     AS games_played
                 FROM players p
@@ -120,7 +123,7 @@ def get_player_overalls():
             fg_s  = min(max((fg - 0.38) / 0.22 * 100, 0), 100)
             pm_s  = min(max((pm + 5)   / 10    * 100, 0), 100)
             gp_s  = min(gp  / 65.0 * 100, 100)
-            recog = 100 if name in FRANCHISE_CORNERSTONES else (75 if name in ALL_STARS_2025 else 0)
+            recog = 100 if is_cornerstone(name) else (75 if is_allstar(name) else 0)
             pos_m = POSITION_VALUE.get(position.upper().strip(), 1.0)
 
             raw = (
@@ -160,9 +163,9 @@ def get_player(player_id: int, season_type: str = Query("Regular Season")):
                     ROUND(AVG(ast)::numeric, 1)      AS avg_ast,
                     ROUND(AVG(stl)::numeric, 1)      AS avg_stl,
                     ROUND(AVG(blk)::numeric, 1)      AS avg_blk,
-                    ROUND(AVG(fg_pct)::numeric, 3)   AS avg_fg_pct,
-                    ROUND(AVG(fg3_pct)::numeric, 3)  AS avg_fg3_pct,
-                    ROUND(AVG(ft_pct)::numeric, 3)   AS avg_ft_pct,
+                    ROUND(SUM(fgm)::numeric  / NULLIF(SUM(fga),  0), 3) AS avg_fg_pct,
+                    ROUND(SUM(fg3m)::numeric / NULLIF(SUM(fg3a), 0), 3) AS avg_fg3_pct,
+                    ROUND(SUM(ftm)::numeric  / NULLIF(SUM(fta),  0), 3) AS avg_ft_pct,
                     ROUND(AVG(plus_minus)::numeric, 1) AS avg_plus_minus,
                     MAX(pts) AS max_pts, MAX(reb) AS max_reb, MAX(ast) AS max_ast,
                     COUNT(*) AS games_played
@@ -208,7 +211,7 @@ def get_player_stats(player_id: int, season_type: str = Query("Regular Season"))
                 SELECT ROUND(AVG(pts)::numeric,1) AS avg_pts,
                        ROUND(AVG(reb)::numeric,1) AS avg_reb,
                        ROUND(AVG(ast)::numeric,1) AS avg_ast,
-                       ROUND(AVG(fg_pct)::numeric,3) AS avg_fg_pct,
+                       ROUND(SUM(fgm)::numeric / NULLIF(SUM(fga), 0), 3) AS avg_fg_pct,
                        COUNT(*) AS games_played
                 FROM player_game_stats
                 WHERE player_id = %s AND (season_type = %s OR season_type IS NULL)
@@ -281,6 +284,53 @@ def get_game(game_id: str):
         return {"game": dict(game), "box_score": [dict(r) for r in box_score]}
     finally:
         conn.close()
+
+# ── Game Predictor (Elo) ────────────────────────────────────────────────────────
+
+@app.get("/predict/teams")
+def get_predict_teams():
+    """List every team with its current Elo rating and record, sorted strongest
+    first — used to populate the opponent picker and a power-ranking view."""
+    ratings = elo.get_ratings(SEASON)
+    teams = sorted(ratings.values(), key=lambda t: t["elo"], reverse=True)
+    for rank, t in enumerate(teams, start=1):
+        t["rank"] = rank
+    return {"teams": teams, "rockets": ratings.get(ROCKETS_ABV)}
+
+@app.get("/predict")
+def predict_game(opponent: str = Query(..., description="Opponent team abbreviation, e.g. LAL"),
+                 location: str = Query("home", description="Rockets venue: 'home' or 'away'")):
+    """Predict a hypothetical Rockets vs. opponent game using league-wide Elo."""
+    ratings = elo.get_ratings(SEASON)
+    rockets = ratings.get(ROCKETS_ABV)
+    opp = ratings.get(opponent.upper())
+    if not rockets:
+        raise HTTPException(status_code=503, detail="Ratings unavailable")
+    if not opp:
+        raise HTTPException(status_code=404, detail=f"Unknown opponent '{opponent}'")
+    if opp["abbr"] == ROCKETS_ABV:
+        raise HTTPException(status_code=400, detail="Opponent cannot be the Rockets")
+
+    rockets_home = location.lower() in ("home", "h")
+    home, away = (rockets, opp) if rockets_home else (opp, rockets)
+    result = elo.predict(home, away, ratings)
+
+    # Re-key the result from the Rockets' point of view for the frontend.
+    return {
+        "season": SEASON,
+        "location": "home" if rockets_home else "away",
+        "rockets": {
+            "abbr": rockets["abbr"], "name": rockets["name"], "elo": rockets["elo"],
+            "win_prob":   result["home_win_prob"] if rockets_home else result["away_win_prob"],
+            "proj_score": result["home_proj_score"] if rockets_home else result["away_proj_score"],
+        },
+        "opponent": {
+            "abbr": opp["abbr"], "name": opp["name"], "elo": opp["elo"],
+            "win_prob":   result["away_win_prob"] if rockets_home else result["home_win_prob"],
+            "proj_score": result["away_proj_score"] if rockets_home else result["home_proj_score"],
+        },
+        "favorite": "HOU" if result["favorite"] == ROCKETS_ABV else opp["abbr"],
+    }
 
 # ── Season summary ────────────────────────────────────────────────────────────
 
@@ -408,6 +458,74 @@ def get_team_stats(season_type: str = Query("Regular Season")):
     finally:
         conn.close()
 
+@app.get("/team/shot-comparison")
+def get_team_shot_comparison():
+    """Compare shot selection & efficiency by shot type — Regular Season vs Playoffs.
+    Per-game frequency is included so the 82-game RS and short playoff run are
+    actually comparable (raw attempt counts are not)."""
+    ZONE_MAP = {
+        "Restricted Area":        "At Rim",
+        "In The Paint (Non-RA)":  "Paint",
+        "Mid-Range":              "Mid-Range",
+        "Left Corner 3":          "Corner 3",
+        "Right Corner 3":         "Corner 3",
+        "Above the Break 3":      "Above-Break 3",
+    }
+    ORDER = ["At Rim", "Paint", "Mid-Range", "Corner 3", "Above-Break 3"]
+    conn = get_db()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT season_type, COUNT(*) AS n FROM games
+                WHERE season_type IN ('Regular Season', 'Playoffs')
+                GROUP BY season_type
+            """)
+            games = {r["season_type"]: r["n"] for r in cur.fetchall()}
+
+            cur.execute("""
+                SELECT season_type, shot_zone,
+                       COUNT(*) AS att,
+                       SUM(CASE WHEN made THEN 1 ELSE 0 END) AS makes
+                FROM shots
+                WHERE season_type IN ('Regular Season', 'Playoffs')
+                GROUP BY season_type, shot_zone
+            """)
+            rows = cur.fetchall()
+
+        agg = {}            # (season_type, category) -> [att, makes]
+        totals = {}         # season_type -> total tracked attempts (for shot-mix %)
+        for r in rows:
+            cat = ZONE_MAP.get(r["shot_zone"])
+            if not cat:
+                continue
+            a = agg.setdefault((r["season_type"], cat), [0, 0])
+            a[0] += r["att"]
+            a[1] += r["makes"]
+            totals[r["season_type"]] = totals.get(r["season_type"], 0) + r["att"]
+
+        def pack(season, cat):
+            att, makes = agg.get((season, cat), [0, 0])
+            g = games.get(season, 0) or 1
+            tot = totals.get(season, 0) or 1
+            return {
+                "att": att, "makes": makes, "misses": att - makes,
+                "pct": round(makes / att * 100, 1) if att else 0,
+                "per_game": round(att / g, 1),
+                "freq": round(att / tot * 100, 1),  # share of all shots — reveals selection
+            }
+
+        categories = [
+            {"label": cat, "rs": pack("Regular Season", cat), "po": pack("Playoffs", cat)}
+            for cat in ORDER
+        ]
+        return {
+            "categories": categories,
+            "rs_games": games.get("Regular Season", 0),
+            "po_games": games.get("Playoffs", 0),
+        }
+    finally:
+        conn.close()
+
 @app.get("/team/rankings")
 def get_team_rankings(season_type: str = Query("Regular Season")):
     """Fetch Houston Rockets league rankings for key stats via nba_api."""
@@ -519,11 +637,18 @@ def get_nba_player_stats(player_id: int):
             raise HTTPException(status_code=404, detail="No stats found")
         info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
         info_df = info.get_data_frames()[0]
+        name = info_df["DISPLAY_FIRST_LAST"].iloc[0]
+        corner = is_cornerstone(name)
+        star   = is_allstar(name)
         player_info = {
-            "full_name": info_df["DISPLAY_FIRST_LAST"].iloc[0],
+            "player_id": player_id,
+            "full_name": name,
             "team":      info_df["TEAM_NAME"].iloc[0],
             "position":  info_df["POSITION"].iloc[0],
             "jersey":    info_df["JERSEY"].iloc[0],
+            "is_allstar":     star,
+            "is_cornerstone": corner,
+            "accolade":  "Franchise Cornerstone" if corner else ("All-Star" if star else None),
         }
         averages = {
             "avg_pts":     round(float(df["PTS"].mean()), 1),
@@ -531,15 +656,64 @@ def get_nba_player_stats(player_id: int):
             "avg_ast":     round(float(df["AST"].mean()), 1),
             "avg_stl":     round(float(df["STL"].mean()), 1),
             "avg_blk":     round(float(df["BLK"].mean()), 1),
-            "avg_fg_pct":  round(float(df["FG_PCT"].mean()), 3),
-            "avg_fg3_pct": round(float(df["FG3_PCT"].mean()), 3),
-            "avg_ft_pct":  round(float(df["FT_PCT"].mean()), 3),
+            "avg_min":     round(float(df["MIN"].mean()), 1),
+            "avg_fg_pct":  round(float(df["FGM"].sum()  / df["FGA"].sum()),  3) if df["FGA"].sum()  else None,
+            "avg_fg3_pct": round(float(df["FG3M"].sum() / df["FG3A"].sum()), 3) if df["FG3A"].sum() else None,
+            "avg_ft_pct":  round(float(df["FTM"].sum()  / df["FTA"].sum()),  3) if df["FTA"].sum()  else None,
             "games_played": int(len(df)),
         }
+
+        # Per-36-minute stats, computed from season totals (not averaged per game).
+        total_min = float(df["MIN"].sum())
+        def _per36(col):
+            return round(float(df[col].sum()) / total_min * 36, 1) if total_min > 0 else None
+        per36 = {
+            "pts": _per36("PTS"), "reb": _per36("REB"), "ast": _per36("AST"),
+            "stl": _per36("STL"), "blk": _per36("BLK"), "tov": _per36("TOV"),
+        }
+
         recent = df.head(10)[["GAME_DATE","PTS","REB","AST"]].to_dict("records")
-        return {"player": player_info, "averages": averages, "recent": recent}
+        return {"player": player_info, "averages": averages, "per36": per36, "recent": recent}
     except HTTPException:
         raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/nba/player/{player_id}/shots")
+def get_nba_player_shots(player_id: int, season_type: str = Query("Regular Season")):
+    """Live shot chart for ANY NBA player — pulls from nba_api rather than the
+    local Rockets-only shots table, so the Compare page works league-wide.
+    Returns the same shape as /shots/{id}."""
+    try:
+        from nba_api.stats.endpoints import shotchartdetail
+        time.sleep(0.6)
+        df = shotchartdetail.ShotChartDetail(
+            team_id=0, player_id=player_id,
+            season_nullable=SEASON, season_type_all_star=season_type,
+            context_measure_simple="FGA",
+        ).get_data_frames()[0]
+        if df.empty:
+            return {"shots": [], "zones": [], "total": 0, "made": 0}
+
+        shots = [{
+            "made":      bool(r["SHOT_MADE_FLAG"]),
+            "x":         int(r["LOC_X"]),
+            "y":         int(r["LOC_Y"]),
+            "shot_zone": r["SHOT_ZONE_BASIC"],
+            "shot_type": r["SHOT_TYPE"],
+            "distance":  int(r["SHOT_DISTANCE"]),
+        } for _, r in df.iterrows()]
+
+        zones = []
+        for zone, g in df.groupby("SHOT_ZONE_BASIC"):
+            att   = len(g)
+            makes = int(g["SHOT_MADE_FLAG"].sum())
+            zones.append({"shot_zone": zone, "attempts": att, "makes": makes,
+                          "pct": round(makes / att * 100, 1) if att else 0})
+        zones.sort(key=lambda z: z["attempts"], reverse=True)
+
+        return {"shots": shots, "zones": zones,
+                "total": len(shots), "made": sum(1 for s in shots if s["made"])}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -567,28 +741,51 @@ def get_live_scores():
     except Exception as e:
         return {"games": [], "game_count": 0, "error": str(e)}
 
+# ── Draft Capital ─────────────────────────────────────────────────────────────
+
+@app.get("/draft/assets")
+def get_draft_assets():
+    """Rockets' curated draft-pick inventory with model-based valuations."""
+    import draft
+    return draft.get_draft_assets()
+
+# ── Betting Edge Finder ───────────────────────────────────────────────────────
+
+@app.get("/betting/edges")
+def get_betting_edges():
+    """Live value bets — model win prob vs de-vigged sportsbook moneylines."""
+    import betting
+    try:
+        return betting.live_edges(SEASON)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Betting engine failed: {e}")
+
+@app.get("/betting/evaluate")
+def evaluate_bet(
+    home: str = Query(..., description="Home team abbreviation"),
+    away: str = Query(..., description="Away team abbreviation"),
+    home_odds: int = Query(..., description="Home moneyline (American), e.g. -150"),
+    away_odds: int = Query(..., description="Away moneyline (American), e.g. +130"),
+):
+    """Manual mode — supply moneylines, get the model's edge. No API key needed."""
+    import betting
+    res = betting.evaluate_matchup(SEASON, home, away, home_odds, away_odds)
+    if res is None:
+        raise HTTPException(status_code=404, detail="Unknown team abbreviation")
+    return res
+
+# ── Trade Idea Engine ─────────────────────────────────────────────────────────
+
+@app.get("/trade/ideas")
+def get_trade_ideas():
+    """Suggest realistic trades that address the Rockets' weaknesses (fit-based)."""
+    import trade_ideas
+    try:
+        return trade_ideas.get_trade_ideas(SEASON)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Trade idea engine failed: {e}")
+
 # ── Trade Value Algorithm ─────────────────────────────────────────────────────
-
-ALL_STARS_2025 = {
-    "Alperen Sengun", "Jalen Green", "Luka Doncic",
-    "Nikola Jokic", "Shai Gilgeous-Alexander", "LeBron James",
-    "Anthony Davis", "Stephen Curry", "Anthony Edwards",
-    "Victor Wembanyama", "Kevin Durant", "Devin Booker",
-    "De'Aaron Fox", "Draymond Green",
-    "Giannis Antetokounmpo", "Jayson Tatum", "Jaylen Brown",
-    "Karl-Anthony Towns", "Donovan Mitchell", "Damian Lillard",
-    "Cade Cunningham", "Tyrese Haliburton", "Bam Adebayo",
-    "Jaren Jackson Jr.", "Trae Young", "Paolo Banchero",
-    "Jalen Brunson", "James Harden", "Kawhi Leonard",
-    "Jimmy Butler", "Zach LaVine", "Tyler Herro", "Ja Morant",
-}
-
-# Players who are genuinely untradable — would require 4-5 first-rounders + multiple quality players
-FRANCHISE_CORNERSTONES = {
-    "Nikola Jokic", "Shai Gilgeous-Alexander", "Luka Doncic",
-    "Victor Wembanyama", "Giannis Antetokounmpo",
-    "Jayson Tatum", "Anthony Edwards",
-}
 
 POSITION_VALUE = {
     "PG":1.10,"SG":1.00,"SF":1.00,"PF":1.05,"C":1.10,
@@ -705,11 +902,11 @@ def get_trade_value(player_id: int):
             drtg_component * 0.80
         )
 
-        is_cornerstone = name in FRANCHISE_CORNERSTONES
-        is_allstar     = is_cornerstone or (name in ALL_STARS_2025)
-        age_s          = _age_score(age, is_allstar=is_allstar)
+        is_corner      = is_cornerstone(name)
+        is_star        = is_allstar(name)
+        age_s          = _age_score(age, is_allstar=is_star)
         pos_mult       = POSITION_VALUE.get(position.upper().strip(), 1.0)
-        recognition_s  = 100 if is_cornerstone else (75 if name in ALL_STARS_2025 else 0)
+        recognition_s  = 100 if is_corner else (75 if is_star else 0)
 
         # ── Weighted composite (weights sum to 1.0) ───────────────────────────
         # def_score now includes DRtg — weight raised from 0.03 to 0.07,
@@ -723,13 +920,13 @@ def get_trade_value(player_id: int):
         )
 
         # Non-cornerstone All-Stars floored pre-mult so position bonus still applies
-        if not is_cornerstone and is_allstar:
+        if not is_corner and is_star:
             raw = max(raw, 68)
 
         final = raw * pos_mult
 
         # Cornerstones guaranteed ≥ 97 post-mult — always "Untradable"
-        if is_cornerstone:
+        if is_corner:
             final = max(final, 97)
 
         final = min(final, 100)
@@ -748,8 +945,8 @@ def get_trade_value(player_id: int):
             "score":          round(final, 1),
             "overall":        overall,
             "tier":           tier,
-            "is_allstar":     is_allstar,
-            "is_cornerstone": is_cornerstone,
+            "is_allstar":     is_star,
+            "is_cornerstone": is_corner,
             "age":            age,
             "breakdown": {
                 "scoring":    round(pts_score,  1),
