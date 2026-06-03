@@ -195,11 +195,23 @@ def _load_snapshots():
 # friendly — they're never "bad contracts" no matter how a rookie's early
 # production grades out. (Rookie EXTENSIONS, RK-EXT, ARE negotiated, so not here.)
 _ROOKIE_TYPES = {"RK-1ST", "RK-2ND", "RK-3RD", "RK-4TH", "RK"}
+# Rookie-scale + rookie extensions = young building blocks a team controls cheaply
+# and builds around (e.g. a rookie-max extension goes to your best young star).
+# Never cap-dump candidates, even when the 0–100 proxy under-rates them.
+_YOUNG_CORE_TYPES = _ROOKIE_TYPES | {"RK-EXT", "DRK-EXT", "DRK-1ST", "ROOKIE-MAXIMUM-EXTENSION"}
+
+
+def _ctype(name):
+    o = _SCRAPED_OUTLOOK.get(recognition.norm_name(name))
+    return (o.get("type") or "").upper() if o else ""
 
 
 def is_rookie_scale(name):
-    o = _SCRAPED_OUTLOOK.get(recognition.norm_name(name))
-    return bool(o and (o.get("type") or "").upper() in _ROOKIE_TYPES)
+    return _ctype(name) in _ROOKIE_TYPES
+
+
+def is_young_core(name):
+    return _ctype(name) in _YOUNG_CORE_TYPES
 
 
 _load_snapshots()
@@ -322,6 +334,8 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
     0–100 trade value), dumpable, and the forward outlook (years_left/option/
     expires/total_remaining_m/future). value_delta is bounded so it tunes, not
     dominates, the stat-driven value."""
+    if value is None:
+        value = 0
     salary = get_salary(name, season, value)
     expected = _expected_salary(value)
     ratio = salary / expected if expected else 1.0
@@ -336,16 +350,20 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
                         ("years_left", "option", "expires", "total_remaining_m", "future")})
         return out
 
+    # "Bad contract" is reserved for genuinely egregious deals (ratio > 2.5, e.g.
+    # Dorian Finney-Smith); a moderately rich deal for a real rotation player reads
+    # "Overpaid" (e.g. Naz Reid), not bad. Bands are wide because the 0–100 proxy
+    # value under-rates role players, which would otherwise inflate ratios.
     if ratio <= 0.55:
         label, delta = "Bargain", min(7.0, (0.55 - ratio) * 22)
     elif ratio <= 0.85:
         label, delta = "Value", (0.85 - ratio) * 8
-    elif ratio <= 1.20:
+    elif ratio <= 1.25:
         label, delta = "Fair", 0.0
-    elif ratio <= 1.55:
-        label, delta = "Overpaid", -((ratio - 1.20) * 14)
+    elif ratio <= 2.5:
+        label, delta = "Overpaid", -min(7.0, (ratio - 1.25) * 6)
     else:
-        label, delta = "Bad contract", -min(10.0, (ratio - 1.20) * 14)
+        label, delta = "Bad contract", -min(11.0, (ratio - 1.25) * 6)
 
     out = {
         "salary": salary,
@@ -353,7 +371,7 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
         "ratio": round(ratio, 2),
         "label": label,
         "value_delta": round(delta, 1),
-        "dumpable": ratio > 1.40,
+        "dumpable": ratio > 1.60,
     }
     outlook = contract_outlook(name, season)
     if outlook:
@@ -518,23 +536,39 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
         if graded:
             best_name = max(graded, key=lambda x: x[1])[0]
 
-    # Who a team actually sheds is a function of IMPORTANCE (on-court value) and
-    # SALARY, in this order of expendability:
-    #   0  Overpaid / Bad contract — genuinely poor money (shed first, worst first)
-    #   1  Fringe — low-importance depth players (rotation filler), biggest salary first
-    #   2  Rotation piece — fair-value contributors, only as a last resort
-    # Stars, the team's best player, and slotted rookie deals are never shed.
+    # Who a team sheds is a function of IMPORTANCE (on-court value) and SALARY.
+    # Two distinct groups:
+    #   • TRADES — meaningful salary (>= CUT_MAX) the team would trade, tiered:
+    #       0 Overpaid / Bad contract (worst first) → 1 Fringe (low value) → 2 Rotation piece
+    #   • POTENTIAL CUTS — small, low-importance deals (< CUT_MAX) a team could just
+    #       waive for minor relief (not real trade chips, not big concerns).
+    # Protected (never shed): the team's best player, stars by recognition
+    # (star_floor>=76) OR by production (value>=STAR_VALUE, e.g. a multi-time
+    # All-Star like Trae Young), and slotted rookie deals.
     FRINGE_VALUE = 46
-    cands = []
+    STAR_VALUE = 72
+    STAR_SALARY = 40_000_000   # near-max money only goes to stars — never a cap dump
+    CUT_MAX = 8_000_000
+    cands, cuts = [], []
     for name in names:
         val = value_lookup(name) if value_lookup else None
         sal = get_salary(name, season, val)
         if sal <= _MIN_SALARY * 1.5:
-            continue  # minimum deals don't create meaningful relief
+            continue
         if (name == best_name or recognition.is_cornerstone(name)
-                or recognition.star_floor(name, season) >= 76 or is_rookie_scale(name)):
-            continue  # protected — franchise talent / rookie scale isn't dumped
+                or recognition.star_floor(name, season) >= 76
+                or (val is not None and val >= STAR_VALUE) or sal >= STAR_SALARY
+                or is_young_core(name)):
+            continue  # protected — franchise / star-caliber / max-salary / young core
         grade = contract_grade(name, val, season) if val is not None else {"label": "—", "ratio": None}
+        if sal < CUT_MAX:
+            # Small deals are "potential cuts" — but only genuine non-stars. A cheap
+            # deal alone doesn't make someone cuttable (e.g. a young stud on his rookie
+            # scale); and skip unknown-value players so we never suggest waiving a star.
+            if val is not None and val < STAR_VALUE:
+                cuts.append({"name": name, "salary_m": _fmt_m(sal), "label": "Fringe",
+                             "action": "Waive", "saves_m": _fmt_m(sal - _MIN_SALARY)})
+            continue
         label = grade.get("label")
         if label in ("Overpaid", "Bad contract"):
             tier, shed_label = 0, label
@@ -546,6 +580,7 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
                       "label": shed_label, "option": grade.get("option"),
                       "rank": (tier, -(grade.get("ratio") or 0) if tier == 0 else 0, -sal)})
     cands.sort(key=lambda x: x["rank"])
+    cuts.sort(key=lambda c: c["saves_m"], reverse=True)
 
     moves, saved, max_tier = [], 0, -1
     for c in cands:
@@ -563,15 +598,16 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
     reachable = saved >= overage
     movable = ", ".join(m["name"] for m in moves)
     if not moves:
-        note = (f"No bad or expendable contracts to shed — this payroll is efficient "
-                f"(stars + rookie-scale deals). Getting under the {target_name} would take a star trade.")
+        note = (f"No bad or movable contracts big enough to trade — this payroll is efficient "
+                f"(stars + rookie-scale deals). Getting under the {target_name} would take a star trade."
+                + (" Minor relief is possible by waiving the fringe deals below." if cuts else ""))
     elif not reachable:
-        note = (f"Even moving {movable} (~${_fmt_m(saved)}M) leaves them over the {target_name}; "
+        note = (f"Even trading {movable} (~${_fmt_m(saved)}M) leaves them over the {target_name}; "
                 f"the rest is core salary, so a star trade would be required.")
     elif max_tier == 0:
-        note = f"Shedding the overpaid deal(s) — {movable} — clears ${_fmt_m(saved)}M, enough to dip under the {target_name}."
+        note = f"Trading the overpaid deal(s) — {movable} — clears ${_fmt_m(saved)}M, enough to dip under the {target_name}."
     elif max_tier == 1:
-        note = (f"No clearly bad contract; moving fringe/depth salary ({movable}) frees "
+        note = (f"No clearly bad contract; trading fringe/depth salary ({movable}) frees "
                 f"${_fmt_m(saved)}M to get under the {target_name}.")
     else:
         note = (f"No bad contracts here — getting under the {target_name} means trading a rotation "
@@ -585,6 +621,7 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
         "overage_m": _fmt_m(overage),
         "best_player": best_name,
         "moves": moves,
+        "potential_cuts": cuts[:5],
         "projected_saving_m": _fmt_m(saved),
         "gets_under": reachable,
         "note": note,

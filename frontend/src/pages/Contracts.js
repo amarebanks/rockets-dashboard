@@ -36,7 +36,12 @@ const css = `
   .ct-move .act { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
   .ct-move .sv { text-align:right; font-family:'Barlow Condensed',sans-serif; font-weight:800; color:var(--green); }
   .ct-clabel { font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:800; padding:2px 6px; border-radius:3px; }
-  .ct-note { font-size:11px; color:var(--muted); line-height:1.6; margin-top:10px; }
+  .ct-cuts-head { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:12px; }
+  .ct-cuts-head span { text-transform:none; letter-spacing:0; }
+  .ct-cuts { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+  .ct-cut { font-size:12px; background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:4px 9px; color:var(--muted); }
+  .ct-cut b { color:var(--text); font-family:'Barlow Condensed',sans-serif; }
+  .ct-note { font-size:11px; color:var(--muted); line-height:1.6; margin-top:12px; }
   .ct-note b { color:var(--text); }
   .ct-roster { margin-top:14px; display:grid; grid-template-columns:1fr auto 88px; gap:5px 14px; font-size:12px; align-items:baseline; }
   .ct-roster .rn { color:var(--text); }
@@ -139,7 +144,7 @@ export default function Contracts() {
                         <h4>Getting under the {d.relief_plan.target_line}</h4>
                         <div className="ov">
                           ${d.relief_plan.committed_m}M committed — <b>${d.relief_plan.overage_m}M over</b> the {d.relief_plan.target_line}.
-                          Most likely moves:
+                          {d.relief_plan.moves.length > 0 ? " Most likely trades:" : ""}
                         </div>
                         {d.relief_plan.moves.map((m, i) => {
                           const cl = CLABEL[m.label] || CLABEL["Fair"];
@@ -155,6 +160,16 @@ export default function Contracts() {
                             </div>
                           );
                         })}
+                        {d.relief_plan.potential_cuts && d.relief_plan.potential_cuts.length > 0 && (
+                          <>
+                            <div className="ct-cuts-head">Potential cuts <span>— small deals, waivable for minor relief</span></div>
+                            <div className="ct-cuts">
+                              {d.relief_plan.potential_cuts.map((c, i) => (
+                                <span className="ct-cut" key={i}>{c.name} <b>${c.salary_m}M</b></span>
+                              ))}
+                            </div>
+                          </>
+                        )}
                         <div className="ct-note">{d.relief_plan.note}</div>
                       </>
                     ) : (
