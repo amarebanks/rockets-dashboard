@@ -7,8 +7,6 @@ import PlayerProfile from "./pages/PlayerProfile";
 import Players from "./pages/Players";
 import Compare from "./pages/Compare";
 import LiveScores from "./pages/LiveScores";
-import TeamStats from "./pages/TeamStats";
-import TradeAnalyzer from "./pages/TradeAnalyzer";
 import Predictor from "./pages/Predictor";
 import TradeIdeas from "./pages/TradeIdeas";
 import BettingEdge from "./pages/BettingEdge";
@@ -17,6 +15,9 @@ import Clutch from "./pages/Clutch";
 import Lineups from "./pages/Lineups";
 import Contracts from "./pages/Contracts";
 import TradeMachine from "./pages/TradeMachine";
+import Team from "./pages/Team";
+import TradeHub from "./pages/TradeHub";
+import Forecast from "./pages/Forecast";
 import { SEASONS, getSeason, setSeason, applySeasonParam } from "./season";
 
 // Inject the selected season into every API request before any component mounts.
@@ -115,20 +116,16 @@ function Navbar() {
       <NavLink to="/" className="nav-brand">HOU <span>Rockets</span></NavLink>
       <div className="nav-links">
         <NavLink to="/" end className="nav-link">Dashboard</NavLink>
-        <NavLink to="/players" className="nav-link">Players</NavLink>
-        <NavLink to="/games" className="nav-link">Game Log</NavLink>
-        <NavLink to="/team" className="nav-link">Team Stats</NavLink>
-        <NavLink to="/lineups" className="nav-link">Lineups</NavLink>
-        <NavLink to="/clutch" className="nav-link">Clutch</NavLink>
-        <NavLink to="/compare" className="nav-link">Compare</NavLink>
         <NavLink to="/live" className="nav-link"><span className="live-dot"/>Live</NavLink>
+        <NavLink to="/players" className="nav-link">Players</NavLink>
+        <NavLink to="/compare" className="nav-link">Compare</NavLink>
+        <NavLink to="/games" className="nav-link">Game Log</NavLink>
+        <NavLink to="/team" className="nav-link">Team</NavLink>
         <NavLink to="/trade" className="nav-link">Trade</NavLink>
-        <NavLink to="/machine" className="nav-link">Machine</NavLink>
         <NavLink to="/build" className="nav-link">Build</NavLink>
-        <NavLink to="/draft" className="nav-link">Draft</NavLink>
         <NavLink to="/caps" className="nav-link">Caps</NavLink>
-        <NavLink to="/predict" className="nav-link">Predict</NavLink>
-        <NavLink to="/edge" className="nav-link">Edge</NavLink>
+        <NavLink to="/draft" className="nav-link">Draft</NavLink>
+        <NavLink to="/forecast" className="nav-link">Forecast</NavLink>
       </div>
       <div className="nav-season-wrap">
         <span className="nav-season-label">Season</span>
@@ -169,18 +166,21 @@ export default function App() {
         <Route path="/players" element={<Players />} />
         <Route path="/games" element={<GameLog />} />
         <Route path="/player/:id" element={<PlayerProfile />} />
-        <Route path="/team" element={<TeamStats />} />
-        <Route path="/lineups" element={<Lineups />} />
-        <Route path="/clutch" element={<Clutch />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/live" element={<LiveScores />} />
-        <Route path="/trade" element={<TradeAnalyzer />} />
-        <Route path="/predict" element={<Predictor />} />
-        <Route path="/machine" element={<TradeMachine />} />
+        {/* Grouped hubs */}
+        <Route path="/team" element={<Team />} />
+        <Route path="/trade" element={<TradeHub />} />
+        <Route path="/forecast" element={<Forecast />} />
         <Route path="/build" element={<TradeIdeas />} />
-        <Route path="/edge" element={<BettingEdge />} />
         <Route path="/draft" element={<DraftCapital />} />
         <Route path="/caps" element={<Contracts />} />
+        {/* Direct routes kept so deep links / bookmarks still resolve */}
+        <Route path="/lineups" element={<Lineups />} />
+        <Route path="/clutch" element={<Clutch />} />
+        <Route path="/machine" element={<TradeMachine />} />
+        <Route path="/predict" element={<Predictor />} />
+        <Route path="/edge" element={<BettingEdge />} />
       </Routes>
     </Router>
   );
