@@ -203,7 +203,7 @@ export default function TradeIdeas() {
                           {g.salary_m != null && g.salary_m > 0 && <span className="give-salary">${g.salary_m}M</span>}
                           {g.filler && <span className="give-filler">salary filler</span>}
                         </span>
-                        <span className="give-val">{g.value}</span>
+                        {g.type !== "pick" && <span className="give-val">{g.value}</span>}
                       </div>
                     ))}
                     {idea.salary && (

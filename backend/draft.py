@@ -13,6 +13,7 @@ Houston-only ROCKETS_PICKS remains as a fallback for the legacy /draft/assets vi
 
 import json
 import os
+import re
 
 _DIR = os.path.dirname(__file__)
 CURRENT_DRAFT_YEAR_FANSPO = 2026   # snapshot season start year
@@ -139,10 +140,13 @@ def _fanspo_value(p, current_year):
 
 def _pick_label(p):
     rnd = "1st" if p.get("round") == 1 else "2nd"
-    label = f"{p['year']} {rnd}"
     if p.get("direction") == "swap":
-        label += " swap"
-    elif p.get("from"):
+        # Name the swap counterparty so it's clear which pick the right is against
+        # (e.g. a BKN swap is NOT a duplicate of an outright PHX pick).
+        cp = re.sub(r"\s*swap rights$", "", p.get("from") or "", flags=re.I).strip()
+        return f"{p['year']} {rnd} swap" + (f" ({cp})" if cp else "")
+    label = f"{p['year']} {rnd}"
+    if p.get("from"):
         label += f" (via {p['from']})"
     return label
 

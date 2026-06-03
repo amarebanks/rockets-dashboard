@@ -148,10 +148,7 @@ function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks,
             {picks.map((p, i) => (
               <div className="tm-chip" key={"k" + i}>
                 <div><div className="nm">🏀 {p.name}</div><div className="meta">Draft pick</div></div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span className="tv">{p.value}</span>
-                  <button className="tm-x" onClick={() => setPicks(picks.filter((_, j) => j !== i))}>✕</button>
-                </div>
+                <button className="tm-x" onClick={() => setPicks(picks.filter((_, j) => j !== i))}>✕</button>
               </div>
             ))}
           </>
@@ -180,7 +177,7 @@ function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks,
           <div className="tm-roster" style={{ maxHeight: 170 }}>
             {availPicks.map((p, i) => (
               <div key={p.name + i} className="tm-rrow" onClick={() => setPicks([...picks, p])}>
-                <span>🏀 {p.name}</span><span className="rv">{p.value}</span>
+                <span>🏀 {p.name}</span>
               </div>
             ))}
             {availPicks.length === 0 && <div style={{ padding: 10, color: "var(--muted)", fontSize: 12 }}>No picks available.</div>}
