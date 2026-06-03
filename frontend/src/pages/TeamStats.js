@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 
@@ -265,7 +266,7 @@ export default function TeamStats() {
     <div className="page">
       <style>{css}</style>
       <div className="page-title">Team <span>Stats</span></div>
-      <div className="page-sub">Houston Rockets · 2024–25</div>
+      <div className="page-sub">Houston Rockets · {seasonLabel()}</div>
 
       <div className="toggle-wrap">
         {["Regular Season", "Playoffs"].map(t => (

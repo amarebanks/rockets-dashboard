@@ -13,6 +13,12 @@ import Predictor from "./pages/Predictor";
 import TradeIdeas from "./pages/TradeIdeas";
 import BettingEdge from "./pages/BettingEdge";
 import DraftCapital from "./pages/DraftCapital";
+import Clutch from "./pages/Clutch";
+import Lineups from "./pages/Lineups";
+import { SEASONS, getSeason, setSeason, applySeasonParam } from "./season";
+
+// Inject the selected season into every API request before any component mounts.
+applySeasonParam();
 
 const API = "http://127.0.0.1:8000";
 
@@ -56,6 +62,14 @@ const navStyles = `
     width: 180px; outline: none; }
   .nav-search:focus { border-color: var(--red); }
   .nav-search::placeholder { color: var(--muted); }
+  .nav-season-wrap { display:flex; align-items:center; gap:7px; margin-left:auto; flex-shrink:0; padding-right:14px; }
+  .nav-season-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:2px;
+    text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+  .nav-season { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px;
+    padding: 6px 8px; color: var(--text); font-family:'Barlow Condensed',sans-serif; font-weight:700;
+    font-size: 13px; letter-spacing:1px; outline: none; cursor: pointer; }
+  .nav-season:focus { border-color: var(--gold); }
+  .nav-season-wrap + .nav-search-wrap { margin-left: 0; }
   .search-dropdown { position: absolute; top: calc(100% + 4px); right: 0; width: 240px;
     background: var(--surface); border: 1px solid var(--border); border-radius: 2px;
     z-index: 200; overflow: hidden; }
@@ -89,6 +103,11 @@ function Navbar() {
     navigate(`/player/${p.player_id}`);
   };
 
+  const changeSeason = (e) => {
+    setSeason(e.target.value);
+    window.location.reload();   // re-fetch every page's data for the new season
+  };
+
   return (
     <nav className="navbar">
       <NavLink to="/" className="nav-brand">HOU <span>Rockets</span></NavLink>
@@ -97,6 +116,8 @@ function Navbar() {
         <NavLink to="/players" className="nav-link">Players</NavLink>
         <NavLink to="/games" className="nav-link">Game Log</NavLink>
         <NavLink to="/team" className="nav-link">Team Stats</NavLink>
+        <NavLink to="/lineups" className="nav-link">Lineups</NavLink>
+        <NavLink to="/clutch" className="nav-link">Clutch</NavLink>
         <NavLink to="/compare" className="nav-link">Compare</NavLink>
         <NavLink to="/live" className="nav-link"><span className="live-dot"/>Live</NavLink>
         <NavLink to="/trade" className="nav-link">Trade</NavLink>
@@ -104,6 +125,12 @@ function Navbar() {
         <NavLink to="/draft" className="nav-link">Draft</NavLink>
         <NavLink to="/predict" className="nav-link">Predict</NavLink>
         <NavLink to="/edge" className="nav-link">Edge</NavLink>
+      </div>
+      <div className="nav-season-wrap">
+        <span className="nav-season-label">Season</span>
+        <select className="nav-season" value={getSeason()} onChange={changeSeason}>
+          {SEASONS.map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
       </div>
       <div className="nav-search-wrap">
         <input
@@ -139,6 +166,8 @@ export default function App() {
         <Route path="/games" element={<GameLog />} />
         <Route path="/player/:id" element={<PlayerProfile />} />
         <Route path="/team" element={<TeamStats />} />
+        <Route path="/lineups" element={<Lineups />} />
+        <Route path="/clutch" element={<Clutch />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/live" element={<LiveScores />} />
         <Route path="/trade" element={<TradeAnalyzer />} />

@@ -23,7 +23,7 @@ DB_CONFIG = {
 }
 
 ROCKETS_ID = 1610612745
-SEASON     = "2024-25"
+SEASON     = os.getenv("ROCKETS_SEASON", "2024-25")  # override: ROCKETS_SEASON=2025-26
 DELAY      = 2.0
 
 def get_connection():
@@ -32,6 +32,7 @@ def get_connection():
 def parse_shot_df(df, player_id, season_type):
     df["player_id"]   = player_id
     df["season_type"] = season_type
+    df["season"]      = SEASON
     df["made"]        = df["SHOT_MADE_FLAG"].astype(bool)
     df["x"]           = df["LOC_X"]
     df["y"]           = df["LOC_Y"]
@@ -40,7 +41,7 @@ def parse_shot_df(df, player_id, season_type):
     df["distance"]    = df["SHOT_DISTANCE"]
     df["action_type"] = df["ACTION_TYPE"]
     df["game_id"]     = df["GAME_ID"]
-    return df[["player_id", "game_id", "season_type", "made", "x", "y",
+    return df[["player_id", "game_id", "season_type", "season", "made", "x", "y",
                "shot_zone", "shot_type", "distance", "action_type"]]
 
 def fetch_shots_from_api(player_id, season_type):
@@ -79,20 +80,22 @@ def upsert_shots(conn, df):
     player_id   = int(df["player_id"].iloc[0])
     season_type = df["season_type"].iloc[0]
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM shots WHERE player_id = %s AND season_type = %s", (player_id, season_type))
-    rows = [(int(r.player_id), r.game_id, r.season_type, bool(r.made), int(r.x), int(r.y),
+        cur.execute("DELETE FROM shots WHERE player_id = %s AND season_type = %s AND season = %s",
+                    (player_id, season_type, SEASON))
+    rows = [(int(r.player_id), r.game_id, r.season_type, r.season, bool(r.made), int(r.x), int(r.y),
              r.shot_zone, r.shot_type, int(r.distance), r.action_type)
             for r in df.itertuples(index=False)]
     with conn.cursor() as cur:
         execute_values(cur, """
-            INSERT INTO shots (player_id, game_id, season_type, made, x, y, shot_zone, shot_type, distance, action_type)
+            INSERT INTO shots (player_id, game_id, season_type, season, made, x, y, shot_zone, shot_type, distance, action_type)
             VALUES %s
         """, rows)
     conn.commit()
 
 def already_loaded(conn, player_id, season_type):
     with conn.cursor() as cur:
-        cur.execute("SELECT COUNT(*) FROM shots WHERE player_id = %s AND season_type = %s", (player_id, season_type))
+        cur.execute("SELECT COUNT(*) FROM shots WHERE player_id = %s AND season_type = %s AND season = %s",
+                    (player_id, season_type, SEASON))
         return cur.fetchone()[0] > 0
 
 def main():
@@ -100,7 +103,14 @@ def main():
     print("=" * 40)
     conn = get_connection()
     with conn.cursor() as cur:
-        cur.execute("SELECT player_id, full_name FROM players ORDER BY full_name")
+        # Only players who actually appeared for Houston in this season (avoids empty
+        # pulls for ex-Rockets still in the players union table).
+        cur.execute("""
+            SELECT DISTINCT p.player_id, p.full_name
+            FROM players p JOIN player_game_stats s ON p.player_id = s.player_id
+            WHERE s.season = %s
+            ORDER BY p.full_name
+        """, (SEASON,))
         players = cur.fetchall()
 
     print(f"Found {len(players)} players.\n")

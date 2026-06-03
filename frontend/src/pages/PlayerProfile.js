@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis } from "recharts";
 import ShotChart from "../components/ShotChart";
+import { accTier, accoladeCSS } from "../accoladeStyle";
 
 const API = "http://127.0.0.1:8000";
 
@@ -18,6 +19,8 @@ const css = `
   .profile-meta { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
   .profile-tag { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border:1px solid var(--border); padding:4px 10px; border-radius:2px; }
   .profile-tag.red { border-color:var(--red); color:var(--red); }
+  .profile-accolades { display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
+  ${accoladeCSS}
   .toggle-wrap { display:flex; gap:8px; margin-bottom:24px; }
   .toggle-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase;
     padding:7px 18px; border-radius:2px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; }
@@ -138,7 +141,7 @@ export default function PlayerProfile() {
   if (loading) return <div className="page"><style>{css}</style><div className="loading">Loading player...</div></div>;
   if (!data)   return <div className="page"><style>{css}</style><div className="loading">Player not found</div></div>;
 
-  const { player, averages, game_log, last5 } = data;
+  const { player, averages, game_log, last5, accolades } = data;
 
   const chartData = [...game_log].reverse().slice(-20).map((g, i) => ({
     game: i+1, pts: g.pts, reb: g.reb, ast: g.ast, matchup: g.matchup,
@@ -197,6 +200,11 @@ export default function PlayerProfile() {
             {averages.games_played && <span className="profile-tag">{averages.games_played} GP</span>}
             {player.how_acquired && <span className="profile-tag">{player.how_acquired}</span>}
           </div>
+          {accolades && accolades.length > 0 && (
+            <div className="profile-accolades">
+              {accolades.map((a, i) => <span key={i} className={"acc-badge " + accTier(a)}>{a}</span>)}
+            </div>
+          )}
         </div>
       </div>
 

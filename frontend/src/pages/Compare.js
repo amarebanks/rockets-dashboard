@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import axios from "axios";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
 import ShotChart from "../components/ShotChart";
+import { seasonLabel } from "../season";
+import { accTier } from "../accoladeStyle";
 
 const API = "http://127.0.0.1:8000";
 
@@ -37,6 +39,14 @@ const css = `
     border-radius:2px; margin-top:8px; font-weight:700; }
   .vs-badge.allstar { background:var(--gold); color:#000; }
   .vs-badge.cornerstone { background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; }
+  .vs-accolades { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:9px; max-width:230px; }
+  .acc-badge { font-size:9px; letter-spacing:0.5px; text-transform:uppercase; padding:3px 8px; border-radius:2px; font-weight:700; white-space:nowrap; }
+  .acc-badge.tier-award  { background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; }
+  .acc-badge.tier-first  { background:var(--gold); color:#000; }
+  .acc-badge.tier-second { background:#c0c5ce; color:#000; }
+  .acc-badge.tier-third  { background:#b08d57; color:#000; }
+  .acc-badge.tier-allstar{ background:rgba(74,158,255,0.18); color:#4a9eff; border:1px solid rgba(74,158,255,0.4); }
+  .acc-badge.tier-hm     { background:var(--surface2); color:var(--muted); border:1px solid var(--border); }
   .vs-mini { display:flex; gap:14px; margin-top:12px; }
   .vs-mini-item { text-align:center; }
   .vs-mini-val { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; }
@@ -106,6 +116,14 @@ const ADV_STATS = [
 ];
 
 function Badge({ player }) {
+  const list = player && player.accolades && player.accolades.length ? player.accolades : null;
+  if (list) {
+    return (
+      <div className="vs-accolades">
+        {list.map((a, i) => <span key={i} className={"acc-badge " + accTier(a)}>{a}</span>)}
+      </div>
+    );
+  }
   if (player.is_cornerstone) return <span className="vs-badge cornerstone">★ {player.accolade}</span>;
   if (player.is_allstar)     return <span className="vs-badge allstar">★ {player.accolade}</span>;
   return null;
@@ -240,7 +258,7 @@ export default function Compare() {
     <div className="page">
       <style>{css}</style>
       <div className="page-title">Player <span>Comparison</span></div>
-      <div className="page-sub">Search any NBA player from any team · 2024–25 Season</div>
+      <div className="page-sub">Search any NBA player from any team · {seasonLabel()} Season</div>
 
       <div className="compare-grid">
         <PlayerSearchCard color="var(--red)" label="Player 1" onSelect={p => fetchPlayer(p, setP1, setLoading1)} selected={p1} loading={loading1} />

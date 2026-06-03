@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 
@@ -83,7 +84,7 @@ export default function GameLog() {
     });
   };
 
-  useEffect(() => { loadGames(); }, []);
+  useEffect(() => { loadGames(); }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const setF = (key, val) => {
     const next = { ...filter, [key]: filter[key] === val ? null : val };
@@ -126,7 +127,7 @@ export default function GameLog() {
     <div className="page">
       <style>{css}</style>
       <div className="page-title">Game <span>Log</span></div>
-      <div className="page-sub">2024–25 · Click any game for box score</div>
+      <div className="page-sub">{seasonLabel()} · Click any game for box score</div>
 
       {/* Season toggle */}
       <div style={{ display:"flex", gap:8, marginBottom:20 }}>

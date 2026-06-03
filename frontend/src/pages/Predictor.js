@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 
@@ -73,7 +74,7 @@ export default function Predictor() {
       <style>{css}</style>
       <div className="pred-head">
         <div className="pred-title">Game <span style={{ color: "var(--red)" }}>Predictor</span></div>
-        <div className="pred-sub">Elo model · 2024–25 results</div>
+        <div className="pred-sub">Elo model · {seasonLabel()} results</div>
       </div>
 
       {loading ? <div className="loading">Building Elo ratings…</div> : (

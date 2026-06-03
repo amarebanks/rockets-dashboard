@@ -62,11 +62,6 @@ export default function LiveScores() {
   const rocketsGames = games.filter(isRocketsGame);
   const otherGames = games.filter(g => !isRocketsGame(g));
 
-  const isWinning = (g, team) => {
-    if (team === g.home_team) return g.home_score > g.away_score;
-    return g.away_score > g.home_score;
-  };
-
   const GameCard = ({ game, isRockets }) => {
     const homecode = game.home_team === ROCKETS ? "rockets-team" : "";
     const awaycode = game.away_team === ROCKETS ? "rockets-team" : "";

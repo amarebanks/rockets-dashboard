@@ -15,6 +15,7 @@ from nba_api.stats.endpoints import playergamelog, commonplayerinfo, playerdashb
 from nba_api.stats.static import players as nba_players_static
 from nba_api.live.nba.endpoints import scoreboard
 import elo
+import accolades as accolades_mod
 from recognition import is_cornerstone, is_allstar
 
 load_dotenv()
@@ -29,8 +30,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SEASON = "2024-25"
+# Available seasons, newest first. DEFAULT_SEASON is what the API serves when no
+# ?season= is supplied. The frontend season selector passes one of SEASONS.
+SEASONS = ["2025-26", "2024-25"]
+DEFAULT_SEASON = SEASONS[0]
+SEASON = DEFAULT_SEASON          # back-compat alias for any unconverted reference
 ROCKETS_ABV = "HOU"
+
+
+def valid_season(season: str) -> str:
+    """Clamp an incoming season to a known one (guards SQL/API calls)."""
+    return season if season in SEASONS else DEFAULT_SEASON
+
 
 def get_db():
     return psycopg2.connect(
@@ -48,10 +59,17 @@ def get_db():
 def health_check():
     return {"status": "ok", "message": "Rockets Dashboard API v3 🚀"}
 
+
+@app.get("/seasons")
+def get_seasons():
+    """Seasons the dashboard can display; powers the navbar season selector."""
+    return {"seasons": SEASONS, "default": DEFAULT_SEASON}
+
 # ── Players ───────────────────────────────────────────────────────────────────
 
 @app.get("/players")
-def get_players(season_type: str = Query("Regular Season")):
+def get_players(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -69,19 +87,22 @@ def get_players(season_type: str = Query("Regular Season")):
                     ROUND(AVG(s.plus_minus)::numeric, 1) AS avg_plus_minus,
                     COUNT(s.game_id) AS games_played
                 FROM players p
-                LEFT JOIN player_game_stats s
+                JOIN player_game_stats s
                     ON p.player_id = s.player_id
                     AND (s.season_type = %s OR s.season_type IS NULL)
+                    AND s.season = %s
                 GROUP BY p.player_id, p.full_name, p.position, p.jersey_num, p.how_acquired
+                HAVING COUNT(s.game_id) > 0
                 ORDER BY avg_pts DESC NULLS LAST
-            """, (season_type,))
+            """, (season_type, season))
             return {"players": [dict(p) for p in cur.fetchall()]}
     finally:
         conn.close()
 
 @app.get("/players/overalls")
-def get_player_overalls():
+def get_player_overalls(season: str = Query(DEFAULT_SEASON)):
     """Compute approximate OVR (40–99) for every Rockets player using DB stats + recognition tier."""
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -96,11 +117,13 @@ def get_player_overalls():
                        ROUND(AVG(s.plus_minus)::numeric, 1) AS avg_pm,
                        COUNT(s.game_id)                     AS games_played
                 FROM players p
-                LEFT JOIN player_game_stats s
+                JOIN player_game_stats s
                     ON p.player_id = s.player_id
                     AND (s.season_type = 'Regular Season' OR s.season_type IS NULL)
+                    AND s.season = %s
                 GROUP BY p.player_id, p.full_name, p.position
-            """)
+                HAVING COUNT(s.game_id) > 0
+            """, (season,))
             rows = cur.fetchall()
 
         result = {}
@@ -123,7 +146,7 @@ def get_player_overalls():
             fg_s  = min(max((fg - 0.38) / 0.22 * 100, 0), 100)
             pm_s  = min(max((pm + 5)   / 10    * 100, 0), 100)
             gp_s  = min(gp  / 65.0 * 100, 100)
-            recog = 100 if is_cornerstone(name) else (75 if is_allstar(name) else 0)
+            recog = 100 if is_cornerstone(name, season) else (75 if is_allstar(name, season) else 0)
             pos_m = POSITION_VALUE.get(position.upper().strip(), 1.0)
 
             raw = (
@@ -140,7 +163,9 @@ def get_player_overalls():
         conn.close()
 
 @app.get("/players/{player_id}")
-def get_player(player_id: int, season_type: str = Query("Regular Season")):
+def get_player(player_id: int, season_type: str = Query("Regular Season"),
+               season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -153,8 +178,9 @@ def get_player(player_id: int, season_type: str = Query("Regular Season")):
                 FROM player_game_stats s
                 LEFT JOIN games g ON s.game_id = g.game_id
                 WHERE s.player_id = %s AND (s.season_type = %s OR s.season_type IS NULL)
+                  AND s.season = %s
                 ORDER BY g.game_date DESC
-            """, (player_id, season_type))
+            """, (player_id, season_type, season))
             game_log = cur.fetchall()
             cur.execute("""
                 SELECT
@@ -171,27 +197,32 @@ def get_player(player_id: int, season_type: str = Query("Regular Season")):
                     COUNT(*) AS games_played
                 FROM player_game_stats
                 WHERE player_id = %s AND (season_type = %s OR season_type IS NULL)
-            """, (player_id, season_type))
+                  AND season = %s
+            """, (player_id, season_type, season))
             averages = cur.fetchone()
             cur.execute("""
                 SELECT s.pts, s.reb, s.ast, g.game_date, g.matchup, g.outcome
                 FROM player_game_stats s
                 LEFT JOIN games g ON s.game_id = g.game_id
                 WHERE s.player_id = %s AND (s.season_type = %s OR s.season_type IS NULL)
+                  AND s.season = %s
                 ORDER BY g.game_date DESC LIMIT 5
-            """, (player_id, season_type))
+            """, (player_id, season_type, season))
             last5 = cur.fetchall()
         return {
             "player": dict(player),
             "averages": dict(averages),
             "game_log": [dict(g) for g in game_log],
             "last5": [dict(g) for g in last5],
+            "accolades": accolades_mod.get_accolades(player["full_name"], season),
         }
     finally:
         conn.close()
 
 @app.get("/players/{player_id}/stats")
-def get_player_stats(player_id: int, season_type: str = Query("Regular Season")):
+def get_player_stats(player_id: int, season_type: str = Query("Regular Season"),
+                     season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -204,8 +235,9 @@ def get_player_stats(player_id: int, season_type: str = Query("Regular Season"))
                 FROM player_game_stats s
                 LEFT JOIN games g ON s.game_id = g.game_id
                 WHERE s.player_id = %s AND (s.season_type = %s OR s.season_type IS NULL)
+                  AND s.season = %s
                 ORDER BY g.game_date DESC
-            """, (player_id, season_type))
+            """, (player_id, season_type, season))
             stats = cur.fetchall()
             cur.execute("""
                 SELECT ROUND(AVG(pts)::numeric,1) AS avg_pts,
@@ -215,7 +247,8 @@ def get_player_stats(player_id: int, season_type: str = Query("Regular Season"))
                        COUNT(*) AS games_played
                 FROM player_game_stats
                 WHERE player_id = %s AND (season_type = %s OR season_type IS NULL)
-            """, (player_id, season_type))
+                  AND season = %s
+            """, (player_id, season_type, season))
             averages = cur.fetchone()
         return {"player": dict(player), "averages": dict(averages), "game_log": [dict(s) for s in stats]}
     finally:
@@ -228,8 +261,10 @@ def get_games(
     outcome: str    = Query(None),
     home_away: str  = Query(None),
     season_type: str = Query("Regular Season"),
+    season: str     = Query(DEFAULT_SEASON),
     limit: int      = 100
 ):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -237,8 +272,9 @@ def get_games(
                 SELECT game_id, game_date, matchup, outcome, pts, opp_pts, home_away,
                        COALESCE(season_type, 'Regular Season') AS season_type
                 FROM games WHERE (season_type = %s OR (season_type IS NULL AND %s = 'Regular Season'))
+                  AND season = %s
             """
-            params = [season_type, season_type]
+            params = [season_type, season_type, season]
             if outcome:
                 query += " AND outcome = %s"
                 params.append(outcome.upper())
@@ -288,10 +324,10 @@ def get_game(game_id: str):
 # ── Game Predictor (Elo) ────────────────────────────────────────────────────────
 
 @app.get("/predict/teams")
-def get_predict_teams():
+def get_predict_teams(season: str = Query(DEFAULT_SEASON)):
     """List every team with its current Elo rating and record, sorted strongest
     first — used to populate the opponent picker and a power-ranking view."""
-    ratings = elo.get_ratings(SEASON)
+    ratings = elo.get_ratings(valid_season(season))
     teams = sorted(ratings.values(), key=lambda t: t["elo"], reverse=True)
     for rank, t in enumerate(teams, start=1):
         t["rank"] = rank
@@ -299,9 +335,11 @@ def get_predict_teams():
 
 @app.get("/predict")
 def predict_game(opponent: str = Query(..., description="Opponent team abbreviation, e.g. LAL"),
-                 location: str = Query("home", description="Rockets venue: 'home' or 'away'")):
+                 location: str = Query("home", description="Rockets venue: 'home' or 'away'"),
+                 season: str = Query(DEFAULT_SEASON)):
     """Predict a hypothetical Rockets vs. opponent game using league-wide Elo."""
-    ratings = elo.get_ratings(SEASON)
+    season = valid_season(season)
+    ratings = elo.get_ratings(season)
     rockets = ratings.get(ROCKETS_ABV)
     opp = ratings.get(opponent.upper())
     if not rockets:
@@ -317,7 +355,7 @@ def predict_game(opponent: str = Query(..., description="Opponent team abbreviat
 
     # Re-key the result from the Rockets' point of view for the frontend.
     return {
-        "season": SEASON,
+        "season": season,
         "location": "home" if rockets_home else "away",
         "rockets": {
             "abbr": rockets["abbr"], "name": rockets["name"], "elo": rockets["elo"],
@@ -335,7 +373,8 @@ def predict_game(opponent: str = Query(..., description="Opponent team abbreviat
 # ── Season summary ────────────────────────────────────────────────────────────
 
 @app.get("/season/summary")
-def get_season_summary(season_type: str = Query("Regular Season")):
+def get_season_summary(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -350,14 +389,16 @@ def get_season_summary(season_type: str = Query("Regular Season")):
                     SUM(CASE WHEN home_away='A' AND outcome='W' THEN 1 ELSE 0 END) AS away_wins,
                     SUM(CASE WHEN home_away='A' AND outcome='L' THEN 1 ELSE 0 END) AS away_losses
                 FROM games
-                WHERE season_type = %s OR (season_type IS NULL AND %s = 'Regular Season')
-            """, (season_type, season_type))
+                WHERE (season_type = %s OR (season_type IS NULL AND %s = 'Regular Season'))
+                  AND season = %s
+            """, (season_type, season_type, season))
             return dict(cur.fetchone())
     finally:
         conn.close()
 
 @app.get("/stats/leaders")
-def get_stat_leaders(season_type: str = Query("Regular Season")):
+def get_stat_leaders(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -365,9 +406,9 @@ def get_stat_leaders(season_type: str = Query("Regular Season")):
                 cur.execute(f"""
                     SELECT p.full_name, p.player_id, ROUND(AVG(s.{stat})::numeric, 1) AS avg
                     FROM player_game_stats s JOIN players p ON s.player_id = p.player_id
-                    WHERE s.season_type = %s OR s.season_type IS NULL
+                    WHERE (s.season_type = %s OR s.season_type IS NULL) AND s.season = %s
                     GROUP BY p.player_id, p.full_name ORDER BY avg DESC NULLS LAST LIMIT 5
-                """, (season_type,))
+                """, (season_type, season))
                 return [dict(r) for r in cur.fetchall()]
             return {"points": top5("pts"), "rebounds": top5("reb"),
                     "assists": top5("ast"), "steals": top5("stl"), "blocks": top5("blk")}
@@ -377,7 +418,8 @@ def get_stat_leaders(season_type: str = Query("Regular Season")):
 # ── Team Stats ────────────────────────────────────────────────────────────────
 
 @app.get("/team/stats")
-def get_team_stats(season_type: str = Query("Regular Season")):
+def get_team_stats(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -393,8 +435,9 @@ def get_team_stats(season_type: str = Query("Regular Season")):
                     ROUND(AVG(CASE WHEN home_away='A' THEN pts END)::numeric,1) AS away_ppg,
                     MAX(pts) AS max_pts, MIN(pts) AS min_pts
                 FROM games
-                WHERE season_type = %s OR (season_type IS NULL AND %s = 'Regular Season')
-            """, (season_type, season_type))
+                WHERE (season_type = %s OR (season_type IS NULL AND %s = 'Regular Season'))
+                  AND season = %s
+            """, (season_type, season_type, season))
             game_stats = cur.fetchone()
 
             # True team per-game stats:
@@ -410,8 +453,8 @@ def get_team_stats(season_type: str = Query("Regular Season")):
                     ROUND(SUM(ast)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_ast,
                     ROUND(SUM(reb)::numeric / NULLIF(COUNT(DISTINCT game_id), 0), 1) AS avg_reb
                 FROM player_game_stats
-                WHERE season_type = %s OR season_type IS NULL
-            """, (season_type,))
+                WHERE (season_type = %s OR season_type IS NULL) AND season = %s
+            """, (season_type, season))
             shooting = cur.fetchone()
 
             # Shot zone breakdown
@@ -420,9 +463,9 @@ def get_team_stats(season_type: str = Query("Regular Season")):
                     COUNT(*) AS attempts,
                     SUM(CASE WHEN made THEN 1 ELSE 0 END) AS makes,
                     ROUND(AVG(CASE WHEN made THEN 1.0 ELSE 0.0 END)*100,1) AS pct
-                FROM shots WHERE season_type = %s
+                FROM shots WHERE season_type = %s AND season = %s
                 GROUP BY shot_zone ORDER BY attempts DESC
-            """, (season_type,))
+            """, (season_type, season))
             zones = cur.fetchall()
 
             # Win/loss by month
@@ -433,12 +476,13 @@ def get_team_stats(season_type: str = Query("Regular Season")):
                     SUM(CASE WHEN outcome='W' THEN 1 ELSE 0 END) AS wins,
                     SUM(CASE WHEN outcome='L' THEN 1 ELSE 0 END) AS losses
                 FROM games
-                WHERE season_type = %s OR (season_type IS NULL AND %s = 'Regular Season')
+                WHERE (season_type = %s OR (season_type IS NULL AND %s = 'Regular Season'))
+                  AND season = %s
                 GROUP BY month, month_num
                 ORDER BY CASE WHEN EXTRACT(MONTH FROM game_date) >= 10
                               THEN EXTRACT(MONTH FROM game_date) - 10
                               ELSE EXTRACT(MONTH FROM game_date) + 2 END
-            """, (season_type, season_type))
+            """, (season_type, season_type, season))
             monthly = cur.fetchall()
 
         gs = dict(game_stats)
@@ -459,10 +503,11 @@ def get_team_stats(season_type: str = Query("Regular Season")):
         conn.close()
 
 @app.get("/team/shot-comparison")
-def get_team_shot_comparison():
+def get_team_shot_comparison(season: str = Query(DEFAULT_SEASON)):
     """Compare shot selection & efficiency by shot type — Regular Season vs Playoffs.
     Per-game frequency is included so the 82-game RS and short playoff run are
     actually comparable (raw attempt counts are not)."""
+    season = valid_season(season)
     ZONE_MAP = {
         "Restricted Area":        "At Rim",
         "In The Paint (Non-RA)":  "Paint",
@@ -477,9 +522,9 @@ def get_team_shot_comparison():
         with conn.cursor() as cur:
             cur.execute("""
                 SELECT season_type, COUNT(*) AS n FROM games
-                WHERE season_type IN ('Regular Season', 'Playoffs')
+                WHERE season_type IN ('Regular Season', 'Playoffs') AND season = %s
                 GROUP BY season_type
-            """)
+            """, (season,))
             games = {r["season_type"]: r["n"] for r in cur.fetchall()}
 
             cur.execute("""
@@ -487,9 +532,9 @@ def get_team_shot_comparison():
                        COUNT(*) AS att,
                        SUM(CASE WHEN made THEN 1 ELSE 0 END) AS makes
                 FROM shots
-                WHERE season_type IN ('Regular Season', 'Playoffs')
+                WHERE season_type IN ('Regular Season', 'Playoffs') AND season = %s
                 GROUP BY season_type, shot_zone
-            """)
+            """, (season,))
             rows = cur.fetchall()
 
         agg = {}            # (season_type, category) -> [att, makes]
@@ -527,14 +572,15 @@ def get_team_shot_comparison():
         conn.close()
 
 @app.get("/team/rankings")
-def get_team_rankings(season_type: str = Query("Regular Season")):
+def get_team_rankings(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
     """Fetch Houston Rockets league rankings for key stats via nba_api."""
     import time as _t
     _t.sleep(0.5)
+    season = valid_season(season)
     ROCKETS_ID_NBA = 1610612745
     try:
         df = leaguedashteamstats.LeagueDashTeamStats(
-            season=SEASON,
+            season=season,
             season_type_all_star=season_type,
             measure_type_detailed_defense="Base",
             per_mode_detailed="PerGame",
@@ -566,7 +612,8 @@ def get_team_rankings(season_type: str = Query("Regular Season")):
 # ── Shot Chart ────────────────────────────────────────────────────────────────
 
 @app.get("/shots/team/summary")
-def get_team_shot_summary(season_type: str = Query("Regular Season")):
+def get_team_shot_summary(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -574,9 +621,9 @@ def get_team_shot_summary(season_type: str = Query("Regular Season")):
                 SELECT shot_zone, COUNT(*) AS attempts,
                     SUM(CASE WHEN made THEN 1 ELSE 0 END) AS makes,
                     ROUND(AVG(CASE WHEN made THEN 1.0 ELSE 0.0 END)*100,1) AS pct
-                FROM shots WHERE season_type = %s
+                FROM shots WHERE season_type = %s AND season = %s
                 GROUP BY shot_zone ORDER BY attempts DESC
-            """, (season_type,))
+            """, (season_type, season))
             zones = cur.fetchall()
         return {"zones": [dict(z) for z in zones]}
     finally:
@@ -586,16 +633,18 @@ def get_team_shot_summary(season_type: str = Query("Regular Season")):
 def get_player_shots(
     player_id: int,
     season_type: str = Query("Regular Season"),
+    season: str = Query(DEFAULT_SEASON),
     made: bool = Query(None),
 ):
+    season = valid_season(season)
     conn = get_db()
     try:
         with conn.cursor() as cur:
             query = """
                 SELECT made, x, y, shot_zone, shot_type, distance, action_type, game_id
-                FROM shots WHERE player_id = %s AND season_type = %s
+                FROM shots WHERE player_id = %s AND season_type = %s AND season = %s
             """
-            params = [player_id, season_type]
+            params = [player_id, season_type, season]
             if made is not None:
                 query += " AND made = %s"
                 params.append(made)
@@ -605,9 +654,9 @@ def get_player_shots(
                 SELECT shot_zone, COUNT(*) AS attempts,
                     SUM(CASE WHEN made THEN 1 ELSE 0 END) AS makes,
                     ROUND(AVG(CASE WHEN made THEN 1.0 ELSE 0.0 END)*100,1) AS pct
-                FROM shots WHERE player_id = %s AND season_type = %s
+                FROM shots WHERE player_id = %s AND season_type = %s AND season = %s
                 GROUP BY shot_zone ORDER BY attempts DESC
-            """, [player_id, season_type])
+            """, [player_id, season_type, season])
             zones = cur.fetchall()
         return {
             "shots": [dict(s) for s in shots],
@@ -628,18 +677,19 @@ def search_nba_players(q: str = Query(..., min_length=2)):
     return {"players": matches}
 
 @app.get("/nba/player/{player_id}/stats")
-def get_nba_player_stats(player_id: int):
+def get_nba_player_stats(player_id: int, season: str = Query(DEFAULT_SEASON)):
+    season = valid_season(season)
     try:
         time.sleep(0.6)
-        log = playergamelog.PlayerGameLog(player_id=player_id, season=SEASON)
+        log = playergamelog.PlayerGameLog(player_id=player_id, season=season)
         df = log.get_data_frames()[0]
         if df.empty:
             raise HTTPException(status_code=404, detail="No stats found")
         info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
         info_df = info.get_data_frames()[0]
         name = info_df["DISPLAY_FIRST_LAST"].iloc[0]
-        corner = is_cornerstone(name)
-        star   = is_allstar(name)
+        corner = is_cornerstone(name, season)
+        star   = is_allstar(name, season)
         player_info = {
             "player_id": player_id,
             "full_name": name,
@@ -649,6 +699,7 @@ def get_nba_player_stats(player_id: int):
             "is_allstar":     star,
             "is_cornerstone": corner,
             "accolade":  "Franchise Cornerstone" if corner else ("All-Star" if star else None),
+            "accolades": accolades_mod.get_accolades(name, season),
         }
         averages = {
             "avg_pts":     round(float(df["PTS"].mean()), 1),
@@ -680,16 +731,18 @@ def get_nba_player_stats(player_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/nba/player/{player_id}/shots")
-def get_nba_player_shots(player_id: int, season_type: str = Query("Regular Season")):
+def get_nba_player_shots(player_id: int, season_type: str = Query("Regular Season"),
+                         season: str = Query(DEFAULT_SEASON)):
     """Live shot chart for ANY NBA player — pulls from nba_api rather than the
     local Rockets-only shots table, so the Compare page works league-wide.
     Returns the same shape as /shots/{id}."""
+    season = valid_season(season)
     try:
         from nba_api.stats.endpoints import shotchartdetail
         time.sleep(0.6)
         df = shotchartdetail.ShotChartDetail(
             team_id=0, player_id=player_id,
-            season_nullable=SEASON, season_type_all_star=season_type,
+            season_nullable=season, season_type_all_star=season_type,
             context_measure_simple="FGA",
         ).get_data_frames()[0]
         if df.empty:
@@ -752,11 +805,11 @@ def get_draft_assets():
 # ── Betting Edge Finder ───────────────────────────────────────────────────────
 
 @app.get("/betting/edges")
-def get_betting_edges():
+def get_betting_edges(season: str = Query(DEFAULT_SEASON)):
     """Live value bets — model win prob vs de-vigged sportsbook moneylines."""
     import betting
     try:
-        return betting.live_edges(SEASON)
+        return betting.live_edges(valid_season(season))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Betting engine failed: {e}")
 
@@ -766,10 +819,11 @@ def evaluate_bet(
     away: str = Query(..., description="Away team abbreviation"),
     home_odds: int = Query(..., description="Home moneyline (American), e.g. -150"),
     away_odds: int = Query(..., description="Away moneyline (American), e.g. +130"),
+    season: str = Query(DEFAULT_SEASON),
 ):
     """Manual mode — supply moneylines, get the model's edge. No API key needed."""
     import betting
-    res = betting.evaluate_matchup(SEASON, home, away, home_odds, away_odds)
+    res = betting.evaluate_matchup(valid_season(season), home, away, home_odds, away_odds)
     if res is None:
         raise HTTPException(status_code=404, detail="Unknown team abbreviation")
     return res
@@ -777,13 +831,33 @@ def evaluate_bet(
 # ── Trade Idea Engine ─────────────────────────────────────────────────────────
 
 @app.get("/trade/ideas")
-def get_trade_ideas():
+def get_trade_ideas(season: str = Query(DEFAULT_SEASON)):
     """Suggest realistic trades that address the Rockets' weaknesses (fit-based)."""
     import trade_ideas
     try:
-        return trade_ideas.get_trade_ideas(SEASON)
+        return trade_ideas.get_trade_ideas(valid_season(season))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Trade idea engine failed: {e}")
+
+
+@app.get("/team/clutch")
+def get_team_clutch(season: str = Query(DEFAULT_SEASON)):
+    """Houston's clutch performance — last 5 min, score within 5 (NBA's definition)."""
+    import clutch
+    try:
+        return clutch.get_clutch(valid_season(season))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Clutch engine failed: {e}")
+
+
+@app.get("/team/lineups")
+def get_team_lineups(size: int = Query(5, ge=2, le=5), season: str = Query(DEFAULT_SEASON)):
+    """Houston's best/worst lineup combinations by net rating (2-, 3-, or 5-man)."""
+    import lineups
+    try:
+        return lineups.get_lineups(valid_season(season), size=size)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lineup engine failed: {e}")
 
 # ── Trade Value Algorithm ─────────────────────────────────────────────────────
 
@@ -817,12 +891,13 @@ def _age_score(age, is_allstar=False):
     return raw
 
 @app.get("/trade/value/{player_id}")
-def get_trade_value(player_id: int):
+def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
     """Calculate trade value 0-100 for any NBA player using live season stats."""
     import time as _time
     _time.sleep(0.5)
+    season = valid_season(season)
     try:
-        log  = playergamelog.PlayerGameLog(player_id=player_id, season=SEASON)
+        log  = playergamelog.PlayerGameLog(player_id=player_id, season=season)
         df   = log.get_data_frames()[0]
         info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
         info_df = info.get_data_frames()[0]
@@ -865,7 +940,7 @@ def get_trade_value(player_id: int):
         try:
             import time as _t2; _t2.sleep(0.4)
             adv_df = playerdashboardbygeneralsplits.PlayerDashboardByGeneralSplits(
-                player_id=player_id, season=SEASON,
+                player_id=player_id, season=season,
                 measure_type_player_dashboard="Advanced",
                 per_mode_simple="PerGame",
             ).get_data_frames()[0]
@@ -902,8 +977,8 @@ def get_trade_value(player_id: int):
             drtg_component * 0.80
         )
 
-        is_corner      = is_cornerstone(name)
-        is_star        = is_allstar(name)
+        is_corner      = is_cornerstone(name, season)
+        is_star        = is_allstar(name, season)
         age_s          = _age_score(age, is_allstar=is_star)
         pos_mult       = POSITION_VALUE.get(position.upper().strip(), 1.0)
         recognition_s  = 100 if is_corner else (75 if is_star else 0)
@@ -965,8 +1040,10 @@ def get_trade_value(player_id: int):
 # ── Player Advanced Stats ─────────────────────────────────────────────────────
 
 @app.get("/players/{player_id}/advanced")
-def get_player_advanced(player_id: int, season_type: str = Query("Regular Season")):
+def get_player_advanced(player_id: int, season_type: str = Query("Regular Season"),
+                        season: str = Query(DEFAULT_SEASON)):
     """Fetch advanced stats for a player using nba_api (TS%, eFG%, ORtg, DRtg, USG%, PIE, etc.)."""
+    season = valid_season(season)
     import time as _t
     _t.sleep(0.5)
 
@@ -987,7 +1064,7 @@ def get_player_advanced(player_id: int, season_type: str = Query("Regular Season
             return None
 
     try:
-        log = playergamelog.PlayerGameLog(player_id=player_id, season=SEASON)
+        log = playergamelog.PlayerGameLog(player_id=player_id, season=season)
         df  = log.get_data_frames()[0]
         _t.sleep(0.4)
         info    = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
@@ -1034,7 +1111,7 @@ def get_player_advanced(player_id: int, season_type: str = Query("Regular Season
         rankings = {}
         try:
             league_adv = leaguedashplayerstats.LeagueDashPlayerStats(
-                season=SEASON,
+                season=season,
                 season_type_all_star=season_type,
                 measure_type_detailed_defense="Advanced",
                 per_mode_detailed="PerGame",
@@ -1082,6 +1159,7 @@ def get_player_advanced(player_id: int, season_type: str = Query("Regular Season
             "team":         team,
             "position":     position,
             "age":          age,
+            "accolades":    accolades_mod.get_accolades(name, season),
             "games_played": gp,
             "plus_minus":   pm,
             "tov":          tov,

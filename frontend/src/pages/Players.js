@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
@@ -179,7 +180,7 @@ export default function Players() {
 
       <div className="rp-header">
         <div className="rp-title">
-          2024–25 <span style={{ color: "var(--red)" }}>Roster</span>
+          {seasonLabel()} <span style={{ color: "var(--red)" }}>Roster</span>
         </div>
         <div className="rp-sub">Houston Rockets · Player Directory</div>
       </div>

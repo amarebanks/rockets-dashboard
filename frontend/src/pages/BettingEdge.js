@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 
@@ -157,7 +158,7 @@ export default function BettingEdge() {
           </>
         )}
         <div className="disclaimer">
-          Model uses 2024–25 Elo ratings (incl. home court). "Fair price" removes the book's vig. Edge = model probability − fair probability.
+          Model uses {seasonLabel()} Elo ratings (incl. home court). "Fair price" removes the book's vig. Edge = model probability − fair probability.
           Positive EV / Kelly &gt; 0 indicate a mathematically favorable bet. For entertainment & research — bet responsibly.
         </div>
       </div>

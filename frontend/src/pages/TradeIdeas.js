@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
@@ -24,6 +25,9 @@ const css = `
   .idea-headshot { width:78px; height:57px; object-fit:cover; object-position:top center; border-radius:4px; background:var(--surface2); border:1px solid var(--border); flex-shrink:0; }
   .idea-name { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; line-height:1; }
   .idea-team { font-size:11px; letter-spacing:1px; color:var(--muted); margin-top:3px; }
+  .idea-meta { display:flex; gap:8px; align-items:center; margin-top:5px; flex-wrap:wrap; }
+  .avail-pill { font-size:9px; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:2px; font-weight:700; white-space:nowrap; }
+  .rec-pill { font-size:10px; letter-spacing:0.5px; color:var(--muted); }
   .idea-statline { font-size:12px; color:var(--muted); margin-top:6px; }
   .idea-statline b { color:var(--text); }
   .addr-badges { margin-top:7px; display:flex; gap:5px; flex-wrap:wrap; }
@@ -46,6 +50,11 @@ const css = `
 `;
 
 const needColor = (w) => w >= 0.66 ? "var(--red)" : w >= 0.4 ? "var(--gold)" : "#4ade80";
+const availStyle = (label) => {
+  if (label === "Likely available") return { background:"rgba(74,222,128,0.14)", color:"var(--green)", border:"1px solid rgba(74,222,128,0.35)" };
+  if (label === "Possible")         return { background:"rgba(196,162,101,0.14)", color:"var(--gold)", border:"1px solid rgba(196,162,101,0.35)" };
+  return { background:"rgba(206,17,65,0.12)", color:"var(--red)", border:"1px solid rgba(206,17,65,0.3)" };
+};
 const verdictStyle = (v) => {
   if (v === "Fair value")   return { background: "rgba(74,222,128,0.15)", color: "var(--green)", border: "1px solid rgba(74,222,128,0.4)" };
   if (v === "Rockets overpay") return { background: "rgba(196,162,101,0.15)", color: "var(--gold)", border: "1px solid rgba(196,162,101,0.4)" };
@@ -68,7 +77,7 @@ export default function TradeIdeas() {
       <style>{css}</style>
       <div className="ti-head">
         <div className="ti-title">Championship <span style={{ color:"var(--red)" }}>Builder</span></div>
-        <div className="ti-sub">Trade ideas to fix Houston's weaknesses · 2024–25</div>
+        <div className="ti-sub">Trade ideas to fix Houston's weaknesses · {seasonLabel()}</div>
       </div>
 
       {loading ? (
@@ -92,9 +101,10 @@ export default function TradeIdeas() {
                 <div className="need-rank" style={{ color: needColor(n.weight) }}>{n.rank}/30</div>
               </div>
             ))}
-            {data.rockets_core.length > 0 && (
+            {(data.protected_core?.length > 0 || data.rockets_core.length > 0) && (
               <div className="core-line">
-                Core (protected): <b>{data.rockets_core[0]?.name}</b> · trade chips drawn from the rest of the roster + draft picks.
+                Untouchable core: <b>{(data.protected_core?.length ? data.protected_core : [data.rockets_core[0]?.name]).join(", ")}</b>
+                {" "}· trade chips drawn from the rest of the roster + draft picks.
               </div>
             )}
           </div>
@@ -120,6 +130,14 @@ export default function TradeIdeas() {
                         {t.is_allstar && <span className="ti-allstar">★ All-Star</span>}
                       </div>
                       <div className="idea-team">{t.team}</div>
+                      <div className="idea-meta">
+                        {t.available_label && (
+                          <span className="avail-pill" style={availStyle(t.available_label)}>
+                            {t.available_label}{t.availability != null ? ` · ${t.availability}%` : ""}
+                          </span>
+                        )}
+                        {t.team_record && <span className="rec-pill">{t.team} {t.team_record}</span>}
+                      </div>
                       <div className="idea-statline">
                         <b>{t.stats.pts}</b> PTS · <b>{t.stats.ast}</b> AST · <b>{t.stats.reb}</b> REB · <b>{t.stats.fg3_pct}%</b> 3P · <b>{t.stats.usg_pct}%</b> USG
                       </div>
@@ -157,8 +175,11 @@ export default function TradeIdeas() {
           })}
 
           <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, marginTop:8, lineHeight:1.6 }}>
-            Targets are ranked by fit to Houston's biggest needs blended with player value. Packages use the trade-value model
-            (star premium + diminishing returns) to land near fair value. Ideas weigh basketball value and roster fit rather than salary-cap matching.
+            Targets are filtered by trade availability — a player's team record (seller vs. contender), his role on that team, age,
+            and star tier decide whether he'd realistically be moved, so untouchable stars are screened out. Remaining targets are ranked
+            by need-fit, value, and gettability. Packages follow real-deal structure: an up-and-coming player (or two) plus pick compensation
+            — not one-for-one swaps — value-matched with the star-premium + diminishing-returns model and tailored to the seller (youth and
+            picks for rebuilders, win-now help for contenders). Only Houston's two cornerstones are off-limits. Fit-based, not salary-cap matched.
           </div>
         </>
       )}

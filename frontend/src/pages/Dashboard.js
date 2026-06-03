@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
 
@@ -106,7 +107,7 @@ export default function Dashboard() {
       {/* Page header */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: 36, fontWeight: 900, letterSpacing: 2, textTransform: "uppercase" }}>
-          2024–25 Season <span style={{ color: "var(--red)" }}>Overview</span>
+          {seasonLabel()} Season <span style={{ color: "var(--red)" }}>Overview</span>
         </div>
         <div style={{ color: "var(--muted)", fontSize: 12, letterSpacing: 3, textTransform: "uppercase", marginTop: 4 }}>
           Regular Season · Houston Rockets

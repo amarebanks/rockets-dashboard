@@ -30,7 +30,7 @@ load_dotenv()
 
 ROCKETS_ID  = 1610612745
 ROCKETS_ABV = "HOU"
-SEASON      = "2024-25"
+SEASON      = os.getenv("ROCKETS_SEASON", "2024-25")  # override: ROCKETS_SEASON=2025-26
 DELAY       = 1.0  # seconds between API calls
 
 DB_CONFIG = {
@@ -66,7 +66,8 @@ def create_tables(conn):
                 pts        INTEGER,
                 opp_pts    INTEGER,
                 home_away  CHAR(1),
-                season_type TEXT
+                season_type TEXT,
+                season      TEXT
             );
 
             CREATE TABLE IF NOT EXISTS player_game_stats (
@@ -90,6 +91,7 @@ def create_tables(conn):
                 ft_pct      NUMERIC(5,3),
                 plus_minus  INTEGER,
                 season_type TEXT,
+                season      TEXT,
                 UNIQUE (player_id, game_id)
             );
         """)
@@ -97,6 +99,7 @@ def create_tables(conn):
         migrations = [
             ("games",             "season_type", "TEXT"),
             ("games",             "opp_pts",     "INTEGER"),
+            ("games",             "season",      "TEXT"),
             ("player_game_stats", "fgm",         "INTEGER"),
             ("player_game_stats", "fga",         "INTEGER"),
             ("player_game_stats", "fg3m",        "INTEGER"),
@@ -104,6 +107,7 @@ def create_tables(conn):
             ("player_game_stats", "ftm",         "INTEGER"),
             ("player_game_stats", "fta",         "INTEGER"),
             ("player_game_stats", "season_type", "TEXT"),
+            ("player_game_stats", "season",      "TEXT"),
         ]
         for table, col, dtype in migrations:
             cur.execute(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {dtype}")
@@ -237,7 +241,7 @@ def _upsert_boxscore_stats(conn, hou_df, game_id, season_type):
             _safe_int(p.get("FG3M")), _safe_int(p.get("FG3A")),
             _safe_int(p.get("FTM")),  _safe_int(p.get("FTA")),
             _safe_float(p.get("FG_PCT")), _safe_float(p.get("FG3_PCT")), _safe_float(p.get("FT_PCT")),
-            _safe_int(p.get("PLUS_MINUS")), season_type,
+            _safe_int(p.get("PLUS_MINUS")), season_type, SEASON,
         ))
 
     if not rows:
@@ -248,7 +252,7 @@ def _upsert_boxscore_stats(conn, hou_df, game_id, season_type):
             INSERT INTO player_game_stats
                 (player_id, game_id, min, pts, reb, ast, stl, blk,
                  fgm, fga, fg3m, fg3a, ftm, fta,
-                 fg_pct, fg3_pct, ft_pct, plus_minus, season_type)
+                 fg_pct, fg3_pct, ft_pct, plus_minus, season_type, season)
             VALUES %s
             ON CONFLICT (player_id, game_id) DO UPDATE SET
                 min        = EXCLUDED.min,
@@ -259,7 +263,8 @@ def _upsert_boxscore_stats(conn, hou_df, game_id, season_type):
                 fg3a       = EXCLUDED.fg3a,       ftm        = EXCLUDED.ftm,
                 fta        = EXCLUDED.fta,        fg_pct     = EXCLUDED.fg_pct,
                 fg3_pct    = EXCLUDED.fg3_pct,    ft_pct     = EXCLUDED.ft_pct,
-                plus_minus = EXCLUDED.plus_minus, season_type= EXCLUDED.season_type
+                plus_minus = EXCLUDED.plus_minus, season_type= EXCLUDED.season_type,
+                season     = EXCLUDED.season
         """, rows)
     conn.commit()
 
@@ -283,16 +288,18 @@ def upsert_players(conn, df):
 def upsert_games(conn, df, season_type):
     df = df.copy()
     df["season_type"] = season_type
+    df["season"] = SEASON
     rows = list(df[["game_id", "game_date", "matchup", "outcome",
-                    "pts", "opp_pts", "home_away", "season_type"]].itertuples(index=False, name=None))
+                    "pts", "opp_pts", "home_away", "season_type", "season"]].itertuples(index=False, name=None))
     with conn.cursor() as cur:
         execute_values(cur, """
-            INSERT INTO games (game_id, game_date, matchup, outcome, pts, opp_pts, home_away, season_type)
+            INSERT INTO games (game_id, game_date, matchup, outcome, pts, opp_pts, home_away, season_type, season)
             VALUES %s
             ON CONFLICT (game_id) DO UPDATE SET
                 outcome     = EXCLUDED.outcome,
                 pts         = EXCLUDED.pts,
-                season_type = EXCLUDED.season_type
+                season_type = EXCLUDED.season_type,
+                season      = EXCLUDED.season
         """, rows)
     conn.commit()
     print(f"  Upserted {len(rows)} {season_type} games.")

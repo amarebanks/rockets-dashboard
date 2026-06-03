@@ -21,7 +21,7 @@ HOME_ADV    = 100.0    # home-court advantage, in Elo points (~3.5 pts of spread
 ELO_PER_PT  = 28.0     # Elo points ≈ one point of expected margin (538 rule of thumb)
 HOME_PTS    = 1.5      # points added to the home side's projected score
 
-_CACHE = {"ratings": None, "built_at": 0.0, "season": None}
+_CACHE = {}   # season -> {"ratings":..., "built_at":...}
 _CACHE_TTL = 6 * 60 * 60  # 6 hours
 
 
@@ -116,15 +116,13 @@ def _build_ratings(season, season_type="Regular Season"):
 
 
 def get_ratings(season, season_type="Regular Season", force=False):
-    """Return cached league ratings, rebuilding if stale, missing, or if the
-    season changed."""
+    """Return cached league ratings for a season, rebuilding if stale or missing.
+    Cached per-season so toggling the dashboard's season doesn't thrash rebuilds."""
     now = time.time()
-    if (force or _CACHE["ratings"] is None or _CACHE["season"] != season
-            or now - _CACHE["built_at"] > _CACHE_TTL):
-        _CACHE["ratings"] = _build_ratings(season, season_type)
-        _CACHE["built_at"] = now
-        _CACHE["season"] = season
-    return _CACHE["ratings"]
+    entry = _CACHE.get(season)
+    if force or entry is None or now - entry["built_at"] > _CACHE_TTL:
+        _CACHE[season] = {"ratings": _build_ratings(season, season_type), "built_at": now}
+    return _CACHE[season]["ratings"]
 
 
 def predict(home_team, away_team, ratings):
