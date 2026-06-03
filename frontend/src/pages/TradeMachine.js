@@ -105,12 +105,15 @@ function CapCard({ side, color }) {
 
 function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks, otherTeam }) {
   const [q, setQ] = useState("");
-  const [pick, setPick] = useState(PICKS[0].name);
-  const roster = useMemo(() => (teams.find(t => t.team === team)?.players) || [], [teams, team]);
+  const teamObj = useMemo(() => teams.find(t => t.team === team), [teams, team]);
+  const roster = teamObj?.players || [];
+  const allPicks = teamObj?.picks?.length ? teamObj.picks : (team ? PICKS : []);
+  const usedPicks = new Set(picks.map(p => p.name));
+  const availPicks = allPicks.filter(p => !usedPicks.has(p.name));
   const used = new Set(deal.map(p => p.name));
   const filtered = roster.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
-  const st = STATUS[teams.find(t => t.team === team)?.status] || STATUS.over_cap;
-  const committed = teams.find(t => t.team === team)?.committed_m;
+  const st = STATUS[teamObj?.status] || STATUS.over_cap;
+  const committed = teamObj?.committed_m;
 
   return (
     <div className={"tm-panel " + side}>
@@ -171,11 +174,16 @@ function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks,
             })}
             {filtered.length === 0 && <div style={{ padding: 10, color: "var(--muted)", fontSize: 12 }}>No matches.</div>}
           </div>
-          <div className="tm-pickadd">
-            <select value={pick} onChange={e => setPick(e.target.value)}>
-              {PICKS.map(p => <option key={p.name} value={p.name}>{p.name} ({p.value})</option>)}
-            </select>
-            <button onClick={() => { const pk = PICKS.find(x => x.name === pick); setPicks([...picks, pk]); }}>+ Pick</button>
+          <div style={{ fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: "var(--muted)", margin: "12px 0 4px" }}>
+            Tradeable picks {teamObj?.picks?.length ? "" : "(generic)"}
+          </div>
+          <div className="tm-roster" style={{ maxHeight: 170 }}>
+            {availPicks.map((p, i) => (
+              <div key={p.name + i} className="tm-rrow" onClick={() => setPicks([...picks, p])}>
+                <span>🏀 {p.name}</span><span className="rv">{p.value}</span>
+              </div>
+            ))}
+            {availPicks.length === 0 && <div style={{ padding: 10, color: "var(--muted)", fontSize: 12 }}>No picks available.</div>}
           </div>
         </>
       )}

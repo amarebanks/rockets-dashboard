@@ -802,6 +802,17 @@ def get_draft_assets():
     import draft
     return draft.get_draft_assets()
 
+
+@app.get("/draft/picks")
+def get_draft_picks(team: str = Query("HOU")):
+    """Real scraped pick ownership (incoming/outgoing, valued) for one team — from
+    the Fanspo snapshot (draft_scraper.py). Powers the team-by-team draft view."""
+    import draft
+    data = draft.get_team_picks(team.upper())
+    if not data:
+        raise HTTPException(status_code=404, detail="No scraped picks for that team — run draft_scraper.py")
+    return data
+
 # ── Betting Edge Finder ───────────────────────────────────────────────────────
 
 @app.get("/betting/edges")
@@ -851,7 +862,7 @@ def get_contracts_cap(season: str = Query(DEFAULT_SEASON)):
 def trade_rosters(season: str = Query(DEFAULT_SEASON)):
     """Every team's roster (value + salary + contract grade) plus its cap status —
     powers the Trade Machine's team pickers."""
-    import trade_ideas, contracts
+    import trade_ideas, contracts, draft
     season = valid_season(season)
     try:
         rosters = trade_ideas.get_rosters(season)
@@ -863,7 +874,8 @@ def trade_rosters(season: str = Query(DEFAULT_SEASON)):
     for tm, players in rosters.items():
         st = status.get(tm, {})
         teams.append({"team": tm, "committed_m": st.get("committed_m"),
-                      "status": st.get("status"), "players": players})
+                      "status": st.get("status"), "players": players,
+                      "picks": draft.tradeable_picks(tm)})   # real Fanspo pick inventory
     teams.sort(key=lambda t: t["team"])
     return {"season": season, "teams": teams, "lines": cap["lines"]}
 

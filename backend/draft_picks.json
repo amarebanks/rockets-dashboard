@@ -1,0 +1,4964 @@
+{
+  "scraped_at": "2026-06-03",
+  "season": "2026-2027",
+  "teams": {
+    "ATL": {
+      "team_id": 1,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "MIL or NOP",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the more favorable of MIL's 2026 1st round pick and NOP' 2026 1st round pick and MIL will receive the less favorable of the two (via NOP' right to swap for MIL)",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "SAS, CLE, MIN or UTA",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the more favorable of its 2026 1st round pick and ATL's 2026 1st round pick; UTA will receive the most favorable of its 2026 1st round pick protected for selections 9-30, MIN's 2026 1st round pick and CLE's 2026 1st round pick; MIN will receive the less favorable of its pick and the UTA pick if conveyable; ATL will receive the more favorable of (1) the less favorable of its 2026 1st round pick and SAS's 2026 1st round pick and (2) the less favorable of (a) the CLE pick and (b) the more favorable of the UTA pick if conveyable and the MIN pick and CLE will receive the less favorable of (1) and (2) (if the UTA pick falls within its protected range and is therefore not conveyable, then MIN's and CLE's commitments to UTA will be lifted) (via UTA's right to swap for MIN; via UTA's right to swap UTA or MIN for CLE; via SAS's right to swap for ATL; via ATL's right to swap ATL or SAS for CLE, UTA or MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "BOS, IND or MIA",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "NOP or MIL",
+          "to": "NOP  holds rights to swap",
+          "details": "NOP will receive the more favorable of its 2027 1st round pick and MIL's 2027 1st round pick and ATL will receive the less favorable of the two protected for selections 1-4; if this pick falls within its protected range and is therefore not conveyable, then NOP' commitment to ATL will be lifted and NOP will instead receive both picks (via NOP)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "UTA or CLE",
+          "to": "UTA  holds rights to swap",
+          "details": "UTA will receive the more favorable of its 2028 1st round pick and CLE's 2028 1st round pick; ATL will receive the more favorable of (1) its 2028 1st round pick and (2) the less favorable of the UTA pick and the CLE pick and CLE will receive the least favorable of the three (via UTA's right to swap for CLE; via ATL's right to swap for UTA or CLE)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "CLE",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "HOU",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL has the right to swap its 2031 2nd round pick for HOU's 2031 2nd round pick protected for selections 56-60 (if this pick falls within its protected range and is therefore not conveyable, then HOU's commitment to ATL will be lifted)",
+          "direction": "swap"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "BOS": {
+      "team_id": 2,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "ORL, DET or MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "MIN, NYK, NOP or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "UTA or ORL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS has the right to swap its 2028 1st round pick for BOS's 2028 1st round pick protected for selection 1; if this pick falls on its protected selection and is therefore not conveyable, then BOS will instead convey its 2028 2nd round pick to SAS protected for selections 46-60 (if this pick falls within its protected range and is therefore not conveyed, then BOS's commitment to SAS will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "NYK",
+          "details": "BOS's 2028 2nd round pick to NYK protected for selections 31-45 (if this pick falls within its protected range and is therefore not conveyed, then BOS's commitment to NYK will be lifted) (via ORL to PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "POR or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "UTA holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "HOU",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "BKN": {
+      "team_id": 3,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "MIA",
+          "details": "BKN's 2026 2nd round pick to MIA protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then BKN's commitment to MIA will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "LAC, BOS, IND or MIA",
+          "to": "BKN  holds rights to swap",
+          "details": "BKN will receive the less favorable of (1) the LAC' 2026 2nd round pick and (2) the most favorable of BOS's 2026 2nd round pick, IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the four (via MIA to IND; via MIL to MEM; via MEM' right to swap IND or MIA for BOS; via MEM' right to swap BOS, IND or MIA for LAC; via LAC to HOU to BKN)",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "ATL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU has the right to swap its 2027 1st round pick for BKN's 2027 1st round pick",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "WAS or DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "PHI",
+          "to": "",
+          "details": "Protected 1-8",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "ATL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "HOU, DAL or PHX",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the two most favorable of its 2029 1st round pick, DAL' 2029 1st round pick and PHX's 2029 1st round pick and BKN will receive the least favorable of the three (via DAL and PHX to BKN; via DAL or PHX to HOU; via HOU's right to swap for DAL or PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "GSW",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "BOS",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "DEN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "MIA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "CHA": {
+      "team_id": 4,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "PHX, WAS, ORL or MEM",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2026 1st round pick protected for selections 9-30 and PHX's 2026 1st round pick; MEM will receive the two most favorable of (1) its 2026 1st round pick, (2) the less favorable of the PHX pick and the WAS pick if conveyable and (3) ORL's 2026 1st round pick and CHA will receive the least favorable of (1), (2) and (3) (via WAS's right to swap for PHX; via MEM' right to swap ORL for PHX or WAS; via MEM' right to swap for PHX, WAS or ORL; via PHX to CHA)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "DEN or GSW",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "SAC or DET",
+          "details": "CHA's 2026 2nd round pick to SAC protected for selections 56-60 or to DET protected for selections 31-55 (CHA's commitment to DET or SAC will thereafter be lifted) (via NYK to ATL to SAS to SAC)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "MIA",
+          "to": "",
+          "details": "Protected 1-14",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "DAL",
+          "to": "",
+          "details": "Protected 1-2",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "SAC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "NOP or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "LAC swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "UTA, CLE or MIN",
+          "to": "",
+          "details": "UTA will receive the most / two most favorable of its 2029 1st round pick, CLE's 2029 1st round pick and MIN's 2029 1st round pick protected for selections 1-5 and CHA will receive the least / less favorable of these; if the MIN picks falls within its protected range and is therefore not conveyed, then MIN will instead convey its 2029 2nd round pick to UTA (via CLE and MIN to UTA to PHX)",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "DEN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "LAC or UTA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "DEN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "CHI": {
+      "team_id": 5,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "POR",
+          "to": "",
+          "details": "Protected 1-14",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "HOU",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "CHI's 2027 2nd round pick to WAS (in separate, protected conveyances; via WAS to NOP)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "DEN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "DET, MIL or NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "CLE": {
+      "team_id": 6,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the more favorable of its 2026 1st round pick and ATL's 2026 1st round pick; UTA will receive the most favorable of its 2026 1st round pick protected for selections 9-30, MIN's 2026 1st round pick and CLE's 2026 1st round pick; MIN will receive the less favorable of its pick and the UTA pick if conveyable; ATL will receive the more favorable of (1) the less favorable of its 2026 1st round pick and SAS's 2026 1st round pick and (2) the less favorable of (a) the CLE pick and (b) the more favorable of the UTA pick if conveyable and the MIN pick and CLE will receive the less favorable of (1) and (2) (if the UTA pick falls within its protected range and is therefore not conveyable, then MIN's and CLE's commitments to UTA will be lifted) (via UTA's right to swap for MIN; via UTA's right to swap UTA or MIN for CLE; via SAS's right to swap for ATL; via ATL's right to swap ATL or SAS for CLE, UTA or MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "UTA or PHX",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "MIN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "UTA  holds rights to swap",
+          "details": "UTA will receive the more favorable of its 2028 1st round pick and CLE's 2028 1st round pick; ATL will receive the more favorable of (1) its 2028 1st round pick and (2) the less favorable of the UTA pick and the CLE pick and CLE will receive the least favorable of the three (via UTA's right to swap for CLE; via ATL's right to swap for UTA or CLE)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "UTA or CHA",
+          "details": "UTA will receive the most / two most favorable of its 2029 1st round pick, CLE's 2029 1st round pick and MIN's 2029 1st round pick protected for selections 1-5 and CHA will receive the least / less favorable of these; if the MIN picks falls within its protected range and is therefore not conveyed, then MIN will instead convey its 2029 2nd round pick to UTA (via CLE and MIN to UTA to PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "ATL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "UTA or BOS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "DAL": {
+      "team_id": 7,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "OKC, PHX or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "CHA",
+          "details": "DAL' 2027 1st round pick to CHA protected for selections 1-2; if this pick falls within its protected range and is therefore not conveyed, then DAL will instead convey MIA's 2028 2nd round pick to CHA",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "WAS or DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "OKC  holds rights to swap",
+          "details": "OKC has the right to swap its 2028 1st round pick for DAL' 2028 1st round pick",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "IND",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the two most favorable of its 2029 1st round pick, DAL' 2029 1st round pick and PHX's 2029 1st round pick and BKN will receive the least favorable of the three (via DAL and PHX to BKN; via DAL or PHX to HOU; via HOU's right to swap for DAL or PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the most / more favorable of its 2030 1st round pick, DAL' 2030 1st round pick and MIN's 2030 1st round pick protected for selection 1; DAL will receive the less favorable of its pick and the SAS pick; MIN will receive the less favorable of (1) its pick and (2) the more favorable of the SAS pick and the DAL pick; if the MIN pick falls on its protected selection and is therefore not conveyable, then MIN's commitment to SAS will be lifted and SAS will instead have the right to swap its pick for the DAL pick (via SAS's right to swap for DAL; via SAS's right to swap SAS or DAL for MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "PHI",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "DEN": {
+      "team_id": 8,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "CHA or MIN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "OKC",
+          "details": "DEN's 1st round pick to OKC protected for selections 1-5 in 2027, 1-5 in 2028 and 1-5 in 2029; if DEN has not conveyed this first potential 1st round pick to OKC by 2029, then DEN will instead convey its 2029 2nd round pick to OKC; OKC may convey the 2027 pick to the LAC (see OKC incoming)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "CHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "DEN's 2028 2nd round pick to WAS protected for selections 31-33 (if this pick falls within its protected range and is therefore not conveyed, then DEN's commitment to WAS will be lifted) (via SAS to SAC)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "OKC",
+          "details": "only if and at least two years after DEN conveys a first potential 1st round pick to OKC, then DEN's next potential 1st round pick to OKC protected for selections 1-5 in 2029 and 1-5 in 2030; if DEN has not conveyed this next potential 1st round pick to OKC by 2030, then DEN will instead convey its 2030 2nd round pick to OKC (if the 1st round pick is conveyed, then OKC will still receive the 2nd round pick via CHA)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "DET": {
+      "team_id": 9,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "CHA",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS, ORL or NYK",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "BKN or DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "UTA  holds rights to swap",
+          "details": "UTA will receive the least favorable of (1) DET's 2028 2nd round pick protected for selections 56-60, (2) the less favorable of CHA's 2028 2nd round pick and the LAC' 2028 2nd round pick, (3) MIA's 2028 2nd round pick round pick, conveyable if DAL conveys a 1st round pick to CHA in 2027, and (iv) NYK's 2028 2nd round pick (via CHA to DAL to DET; via MIA to SAS to DAL to DET; via NYK to DET)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "CHA or LAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "MIA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "NYK",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "PHI",
+          "details": "DET's 2028 2nd round pick to PHI protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then DET's commitment to PHI will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "MIN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "MIN or GSW",
+          "to": "MIN  holds rights to swap",
+          "details": "MIN will receive the more favorable of its 2031 2nd round pick and GSW's 2031 2nd round pick and DET will receive the less favorable of the two (via MIN's right to swap for GSW)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "GSW": {
+      "team_id": 10,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "CHA or MIN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "PHI or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "PHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "GSW",
+          "to": "",
+          "details": "GSW's 2030 1st round pick to WAS protected for selections 1-20; if this pick falls within its protected range and is therefore not conveyed, then GSW will instead convey its 2030 2nd round pick to WAS",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "MIN  holds rights to swap",
+          "details": "MIN will receive the more favorable of its 2031 2nd round pick and GSW's 2031 2nd round pick and DET will receive the less favorable of the two (via MIN's right to swap for GSW)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "MEM",
+          "details": "GSW's 2032 2nd round pick to MEM protected for selections 31-50 (if this pick falls within its protected range and is therefore not conveyed, then GSW's commitment to MEM will be lifted)",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "HOU": {
+      "team_id": 11,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "OKC or WAS",
+          "details": "OKC will receive the two most / more favorable of its 2026 1st round pick, HOU's 2026 1st round pick protected for selections 1-4 and the LAC' 2026 1st round pick and WAS will receive the least / less favorable of these; if the HOU pick falls within its protected range and is therefore not conveyed, then HOU will instead convey its 2026 2nd round pick to OKC",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "CHI",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "BKN swap rights",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU has the right to swap its 2027 1st round pick for BKN's 2027 1st round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "POR or NOP",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the less favorable of POR's 2027 2nd round pick and NOP' 2027 2nd round pick if this pick falls outside its protected range of 31-55 (if this pick falls within its protected range and is therefore not conveyed, then POR's commitment to HOU will be lifted) (via POR to BOS)",
+          "direction": "swap"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "OKC, NYK, SAS or MIA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "DAL and / or PHX",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the two most favorable of its 2029 1st round pick, DAL' 2029 1st round pick and PHX's 2029 1st round pick and BKN will receive the least favorable of the three (via DAL and PHX to BKN; via DAL or PHX to HOU; via HOU's right to swap for DAL or PHX)",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "SAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "BOS",
+          "details": "HOU's 2031 2nd round pick to BOS protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then HOU's commitment to BOS will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL has the right to swap its 2031 2nd round pick for HOU's 2031 2nd round pick protected for selections 56-60 (if this pick falls within its protected range and is therefore not conveyable, then HOU's commitment to ATL will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "MIN or PHX",
+          "details": "No protections",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "IND": {
+      "team_id": 12,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "TOR",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "OKC, NYK, SAS or MIA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "UTA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "PHX swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "WAS swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of IND's 2031 2nd round pick and MIA's 2031 2nd round pick; MEM will receive the more favorable of (1) its 2031 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and IND will receive the least favorable of the three (via MIA's right to swap for IND; via UTA to WAS; via MEM' right to swap for MIA or IND)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "LAC": {
+      "team_id": 13,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "OKC or WAS",
+          "details": "OKC will receive the two most / more favorable of its 2026 1st round pick, HOU's 2026 1st round pick protected for selections 1-4 and the LAC' 2026 1st round pick and WAS will receive the least / less favorable of these; if the HOU pick falls within its protected range and is therefore not conveyed, then HOU will instead convey its 2026 2nd round pick to OKC",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "Protected 31-42",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BKN  holds rights to swap",
+          "details": "BKN will receive the less favorable of (1) the LAC' 2026 2nd round pick and (2) the most favorable of BOS's 2026 2nd round pick, IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the four (via MIA to IND; via MIL to MEM; via MEM' right to swap IND or MIA for BOS; via MEM' right to swap BOS, IND or MIA for LAC; via LAC to HOU to BKN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "OKC  holds rights to swap",
+          "details": "OKC has the right to swap its 2027 1st round pick or, if conveyed to OKC, DEN's 2027 1st round pick protected for selections 1-5 for the LAC' 2027 1st round pick",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "UTA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "PHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "CHA or DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "PHI  holds rights to swap",
+          "details": "PHI has the right to swap its 2029 1st round pick for the LAC' 2029 1st round pick protected for selections 1-3 (if this pick falls within its protected range and is therefore not conveyable, then the LAC' commitment to PHI will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "CHA or UTA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "LAL": {
+      "team_id": 14,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "TOR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "UTA",
+          "details": "LAL' 2027 1st round pick to UTA protected for selections 1-4; if this pick falls within its protected range and is therefore not conveyed, then the LAL will instead convey their 2027 2nd round pick to UTA",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "ORL or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "DAL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "MEM": {
+      "team_id": 15,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "LAC",
+          "to": "BKN  holds rights to swap",
+          "details": "BKN will receive the less favorable of (1) the LAC' 2026 2nd round pick and (2) the most favorable of BOS's 2026 2nd round pick, IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the four (via MIA to IND; via MIL to MEM; via MEM' right to swap IND or MIA for BOS; via MEM' right to swap BOS, IND or MIA for LAC; via LAC to HOU to BKN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "LAC or POR",
+          "details": "MEM' 2026 2nd round pick to LAC protected for sections 43-60 or to POR protected for selections 31-42 (MEM' commitment to POR or LAC will thereafter be lifted) (via UTA to ATL to LAC; via UTA to GSW to POR)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "HOU",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "ORL",
+          "to": "MEM  holds rights to swap",
+          "details": "MEM has the right to swap its 2029 1st round pick for ORL's 2029 1st round pick protected for selections 1-2; if this pick falls within its protected range and is therefore not conveyable, then ORL will instead convey its 2029 2nd round pick to MEM",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "ORL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "WAS or PHX",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2030 1st round pick and PHX's 2030 1st round pick; MEM will receive the more favorable of (1) its 2030 1st round pick and (2) the less favorable of the WAS pick and the PHX pick and PHX will receive the least favorable of the three (via WAS's right swap for PHX; via MEM' right to swap for WAS or PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "MIN",
+          "details": "MEM' 2030 2nd round pick to MIN protected for selections 31-50 (if this pick falls within its protected range and is therefore not conveyed, then MEM' commitment to MIN will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "IND or MIA",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of IND's 2031 2nd round pick and MIA's 2031 2nd round pick; MEM will receive the more favorable of (1) its 2031 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and IND will receive the least favorable of the three (via MIA's right to swap for IND; via UTA to WAS; via MEM' right to swap for MIA or IND)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "GSW",
+          "to": "",
+          "details": "Protected 31-50",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "MIA": {
+      "team_id": 16,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "BKN",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "CHA",
+          "details": "MIA's 1st round pick to CHA protected for selections 1-14 in 2027 and unprotected in 2028",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "OKC, NYK or SAS holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of IND's 2031 2nd round pick and MIA's 2031 2nd round pick; MEM will receive the more favorable of (1) its 2031 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and IND will receive the least favorable of the three (via MIA's right to swap for IND; via UTA to WAS; via MEM' right to swap for MIA or IND)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "MIL": {
+      "team_id": 17,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the more favorable of MIL's 2026 1st round pick and NOP' 2026 1st round pick and MIL will receive the less favorable of the two (via NOP' right to swap for MIL)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "UTA",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS, ORL or NYK",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "NOP  holds rights to swap",
+          "details": "NOP will receive the more favorable of its 2027 1st round pick and MIL's 2027 1st round pick and ATL will receive the less favorable of the two protected for selections 1-4; if this pick falls within its protected range and is therefore not conveyable, then NOP' commitment to ATL will be lifted and NOP will instead receive both picks (via NOP)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "POR  holds rights to swap",
+          "details": "POR will receive the more favorable of its 2028 1st round pick, protected for selections 15-30 if POR has not conveyed a 1st round pick to CHI by 2027, and MIL's 2028 1st round pick; WAS will receive the more favorable of (1) the more favorable of (a) its 2028 1st round pick and (b) the least / less favorable of BKN's 2028 1st round pick, PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable if PHI conveys a 1st round pick to OKC in 2026, and PHX's 2028 1st round pick and (2) the less favorable of the MIL pick and the POR pick if conveyable and MIL will receive the less favorable of (1) and (2) (if the POR pick is not conveyable, then MIL's commitment to POR will be lifted) (via POR's right to swap for MIL; via WAS's right to swap WAS, BKN, PHI or PHX for MIL or POR)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "POR or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "DET or CHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "POR  holds rights to swap",
+          "details": "POR has the right to swap its 2030 1st round pick for MIL's 2030 1st round pick",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "ORL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "MIN": {
+      "team_id": 18,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the more favorable of its 2026 1st round pick and ATL's 2026 1st round pick; UTA will receive the most favorable of its 2026 1st round pick protected for selections 9-30, MIN's 2026 1st round pick and CLE's 2026 1st round pick; MIN will receive the less favorable of its pick and the UTA pick if conveyable; ATL will receive the more favorable of (1) the less favorable of its 2026 1st round pick and SAS's 2026 1st round pick and (2) the less favorable of (a) the CLE pick and (b) the more favorable of the UTA pick if conveyable and the MIN pick and CLE will receive the less favorable of (1) and (2) (if the UTA pick falls within its protected range and is therefore not conveyable, then MIN's and CLE's commitments to UTA will be lifted) (via UTA's right to swap for MIN; via UTA's right to swap UTA or MIN for CLE; via SAS's right to swap for ATL; via ATL's right to swap ATL or SAS for CLE, UTA or MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "DEN or GSW",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS, NYK or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "IND, MIA or SAS",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "UTA or PHX",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "POR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "CLE",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "UTA or CHA",
+          "details": "UTA will receive the most / two most favorable of its 2029 1st round pick, CLE's 2029 1st round pick and MIN's 2029 1st round pick protected for selections 1-5 and CHA will receive the least / less favorable of these; if the MIN picks falls within its protected range and is therefore not conveyed, then MIN will instead convey its 2029 2nd round pick to UTA (via CLE and MIN to UTA to PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the most / more favorable of its 2030 1st round pick, DAL' 2030 1st round pick and MIN's 2030 1st round pick protected for selection 1; DAL will receive the less favorable of its pick and the SAS pick; MIN will receive the less favorable of (1) its pick and (2) the more favorable of the SAS pick and the DAL pick; if the MIN pick falls on its protected selection and is therefore not conveyable, then MIN's commitment to SAS will be lifted and SAS will instead have the right to swap its pick for the DAL pick (via SAS's right to swap for DAL; via SAS's right to swap SAS or DAL for MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "Protected 31-50",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "SAC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "GSW swap rights",
+          "to": "",
+          "details": "",
+          "direction": "swap"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "HOU or PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "NOP": {
+      "team_id": 19,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the more favorable of MIL's 2026 1st round pick and NOP' 2026 1st round pick and MIL will receive the less favorable of the two (via NOP' right to swap for MIL)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS, SAS or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "MIL",
+          "to": "NOP  holds rights to swap",
+          "details": "NOP will receive the more favorable of its 2027 1st round pick and MIL's 2027 1st round pick and ATL will receive the less favorable of the two protected for selections 1-4; if this pick falls within its protected range and is therefore not conveyable, then NOP' commitment to ATL will be lifted and NOP will instead receive both picks (via NOP)",
+          "direction": "swap"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "CHA or POR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "ORL  holds rights to swap",
+          "details": "ORL will receive the more favorable of its 2031 2nd round pick and NOP' 2031 2nd round pick and OKC will receive the less favorable of the two (via ORL's right to swap for NOP)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "TOR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "NYK": {
+      "team_id": 20,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "WAS",
+          "to": "",
+          "details": "Protected 1-8",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS or WAS holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "ORL, DET or MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "BKN holds rights to swap",
+          "details": "if (1) PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable to BKN if PHI conveys a 1st round pick to OKC in 2026, is conveyed to BKN and is the third most favorable of PHI, BKN's 2028 1st round pick, PHX's 2028 1st round pick and NYK's 2028 1st round pick and (2) NYK is the most or second most favorable of the four, then BKN will receive the most and third most favorable of the four; in all other scenarios, BKN will receive the most / two most favorable of these; if PHI if conveyed and / or NYK is less favorable than BKN and PHX, then NYK will receive the least favorable of NYK, BKN and PHX; in all other scenarios, NYK will receive the second most favorable of the three; WAS will receive the more favorable of (1) its 2028 1st round pick and (2) the least / less favorable of PHI if conveyed, BKN and PHX and PHX will receive the less favorable of (1) and (2); WAS may swap the pick it receives for MIL or POR (see WAS incoming) (via BKN's right to swap BKN or PHI for PHX; via BKN's right to swap BKN or PHX for NYK; via WAS's right to swap for PHX, BKN or PHI)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "BOS",
+          "to": "",
+          "details": "Protected 31-45",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "IND or PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "DET",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "DET or CHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "ATL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "BKN",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "OKC": {
+      "team_id": 21,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "UTA",
+          "to": "",
+          "details": "Protected 1-8",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "PHI",
+          "to": "",
+          "details": "Protected 1-4",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "DAL or PHI swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "LAC",
+          "to": "OKC  holds rights to swap",
+          "details": "OKC has the right to swap its 2027 1st round pick or, if conveyed to OKC, DEN's 2027 1st round pick protected for selections 1-5 for the LAC' 2027 1st round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "DEN",
+          "to": "",
+          "details": "Protected 1-5",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "SAS",
+          "to": "",
+          "details": "Protected 1-16",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "HOU, IND or MIA swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "DAL",
+          "to": "OKC  holds rights to swap",
+          "details": "OKC has the right to swap its 2028 1st round pick for DAL' 2028 1st round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "UTA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "DEN",
+          "to": "",
+          "details": "only if and at least two years after DEN conveys a first potential 1st round pick to OKC, then DEN's next potential 1st round pick to OKC protected for selections 1-5 in 2029 and 1-5 in 2030; if DEN has not conveyed this next potential 1st round pick to OKC by 2030, then DEN will instead convey its 2030 2nd round pick to OKC (if the 1st round pick is conveyed, then OKC will still receive the 2nd round pick via CHA)",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "BOS",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "ATL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "MIA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "DEN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "HOU",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "MIA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "ORL or NOP",
+          "to": "ORL  holds rights to swap",
+          "details": "ORL will receive the more favorable of its 2031 2nd round pick and NOP' 2031 2nd round pick and OKC will receive the less favorable of the two (via ORL's right to swap for NOP)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "ORL": {
+      "team_id": 22,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2026 1st round pick protected for selections 9-30 and PHX's 2026 1st round pick; MEM will receive the two most favorable of (1) its 2026 1st round pick, (2) the less favorable of the PHX pick and the WAS pick if conveyable and (3) ORL's 2026 1st round pick and CHA will receive the least favorable of (1), (2) and (3) (via WAS's right to swap for PHX; via MEM' right to swap ORL for PHX or WAS; via MEM' right to swap for PHX, WAS or ORL; via PHX to CHA)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "DET or MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "UTA holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "POR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "LAL or WAS",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "MEM  holds rights to swap",
+          "details": "MEM has the right to swap its 2029 1st round pick for ORL's 2029 1st round pick protected for selections 1-2; if this pick falls within its protected range and is therefore not conveyable, then ORL will instead convey its 2029 2nd round pick to MEM",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "MEM",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "NOP swap rights",
+          "to": "ORL  holds rights to swap",
+          "details": "ORL has the right to swap its 2030 2nd round pick for NOP' 2030 2nd round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "MIL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "NOP swap rights",
+          "to": "ORL  holds rights to swap",
+          "details": "ORL will receive the more favorable of its 2031 2nd round pick and NOP' 2031 2nd round pick and OKC will receive the less favorable of the two (via ORL's right to swap for NOP)",
+          "direction": "swap"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "PHI": {
+      "team_id": 23,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "OKC",
+          "details": "PHI's 1st round pick to OKC protected for selections 1-4 in 2026 and 1-4 in 2027; if PHI has not conveyed a 1st round pick to OKC by 2027, then PHI will instead convey its 2027 2nd round pick to OKC",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "OKC, PHX or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "GSW or PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "BKN",
+          "details": "if PHI conveys a 1st round pick to OKC in 2026, then PHI's 2028 1st round pick to BKN protected for selections 1-8; if PHI does not convey a 1st round pick to BKN in 2028, then PHI will instead convey its 2028 2nd round pick to BKN; BKN may convey the 2028 1st round pick to PHX (see BKN incoming) which may then convey this pick to WAS (see PHX outgoing)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "LAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "DET",
+          "to": "",
+          "details": "Protected 31-55",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "GSW",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "LAC",
+          "to": "PHI  holds rights to swap",
+          "details": "PHI has the right to swap its 2029 1st round pick for the LAC' 2029 1st round pick protected for selections 1-3 (if this pick falls within its protected range and is therefore not conveyable, then the LAC' commitment to PHI will be lifted)",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "DAL",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "PHX or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "WAS",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "PHX": {
+      "team_id": 24,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2026 1st round pick protected for selections 9-30 and PHX's 2026 1st round pick; MEM will receive the two most favorable of (1) its 2026 1st round pick, (2) the less favorable of the PHX pick and the WAS pick if conveyable and (3) ORL's 2026 1st round pick and CHA will receive the least favorable of (1), (2) and (3) (via WAS's right to swap for PHX; via MEM' right to swap ORL for PHX or WAS; via MEM' right to swap for PHX, WAS or ORL; via PHX to CHA)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "OKC, DAL or PHI",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "HOU",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "UTA, CLE or MIN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "PHI or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "BKN, NYK or WAS holds rights to swap",
+          "details": "if (1) PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable to BKN if PHI conveys a 1st round pick to OKC in 2026, is conveyed to BKN and is the third most favorable of PHI, BKN's 2028 1st round pick, PHX's 2028 1st round pick and NYK's 2028 1st round pick and (2) NYK is the most or second most favorable of the four, then BKN will receive the most and third most favorable of the four; in all other scenarios, BKN will receive the most / two most favorable of these; if PHI if conveyed and / or NYK is less favorable than BKN and PHX, then NYK will receive the least favorable of NYK, BKN and PHX; in all other scenarios, NYK will receive the second most favorable of the three; WAS will receive the more favorable of (1) its 2028 1st round pick and (2) the least / less favorable of PHI if conveyed, BKN and PHX and PHX will receive the less favorable of (1) and (2); WAS may swap the pick it receives for MIL or POR (see WAS incoming) (via BKN's right to swap BKN or PHI for PHX; via BKN's right to swap BKN or PHX for NYK; via WAS's right to swap for PHX, BKN or PHI)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "IND or NYK",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the two most favorable of its 2029 1st round pick, DAL' 2029 1st round pick and PHX's 2029 1st round pick and BKN will receive the least favorable of the three (via DAL and PHX to BKN; via DAL or PHX to HOU; via HOU's right to swap for DAL or PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2030 1st round pick and PHX's 2030 1st round pick; MEM will receive the more favorable of (1) its 2030 1st round pick and (2) the less favorable of the WAS pick and the PHX pick and PHX will receive the least favorable of the three (via WAS's right swap for PHX; via MEM' right to swap for WAS or PHX)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "PHI or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "UTA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "CHA",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "MIN holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "POR": {
+      "team_id": 25,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "CHI",
+          "details": "POR's 1st round pick to CHI protected for selections 1-14 in 2026, 1-14 in 2027 and 1-14 in 2028; if POR has not conveyed a 1st round pick to CHI by 2028, then POR will instead convey its 2028 2nd round pick to CHI",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "MEM",
+          "to": "",
+          "details": "Protected 31-42",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "BOS, SAS or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "CHA holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "MIN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "HOU  holds rights to swap",
+          "details": "HOU will receive the less favorable of POR's 2027 2nd round pick and NOP' 2027 2nd round pick if this pick falls outside its protected range of 31-55 (if this pick falls within its protected range and is therefore not conveyed, then POR's commitment to HOU will be lifted) (via POR to BOS)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "MIL",
+          "to": "POR  holds rights to swap",
+          "details": "POR will receive the more favorable of its 2028 1st round pick, protected for selections 15-30 if POR has not conveyed a 1st round pick to CHI by 2027, and MIL's 2028 1st round pick; WAS will receive the more favorable of (1) the more favorable of (a) its 2028 1st round pick and (b) the least / less favorable of BKN's 2028 1st round pick, PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable if PHI conveys a 1st round pick to OKC in 2026, and PHX's 2028 1st round pick and (2) the less favorable of the MIL pick and the POR pick if conveyable and MIL will receive the less favorable of (1) and (2) (if the POR pick is not conveyable, then MIL's commitment to POR will be lifted) (via POR's right to swap for MIL; via WAS's right to swap WAS, BKN, PHI or PHX for MIL or POR)",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "ORL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "SAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "IND or WAS",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "MEM",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "MIL swap rights",
+          "to": "POR  holds rights to swap",
+          "details": "POR has the right to swap its 2030 1st round pick for MIL's 2030 1st round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "PHI or WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "SAC": {
+      "team_id": 26,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "CHA",
+          "to": "",
+          "details": "Protected 56-60",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "SAS",
+          "to": "",
+          "details": "Protected 17-30",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "CHA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "POR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "HOU",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "MIN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS has the right to swap its 2031 1st round pick for SAC's 2031 1st round pick",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "SAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "SAS": {
+      "team_id": 27,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "ATL swap posibility",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the more favorable of its 2026 1st round pick and ATL's 2026 1st round pick; UTA will receive the most favorable of its 2026 1st round pick protected for selections 9-30, MIN's 2026 1st round pick and CLE's 2026 1st round pick; MIN will receive the less favorable of its pick and the UTA pick if conveyable; ATL will receive the more favorable of (1) the less favorable of its 2026 1st round pick and SAS's 2026 1st round pick and (2) the less favorable of (a) the CLE pick and (b) the more favorable of the UTA pick if conveyable and the MIN pick and CLE will receive the less favorable of (1) and (2) (if the UTA pick falls within its protected range and is therefore not conveyable, then MIN's and CLE's commitments to UTA will be lifted) (via UTA's right to swap for MIN; via UTA's right to swap UTA or MIN for CLE; via SAS's right to swap for ATL; via ATL's right to swap ATL or SAS for CLE, UTA or MIN)",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "IND or MIA",
+          "to": "ATL  holds rights to swap",
+          "details": "ATL will receive the less favorable of (1) BOS's 2026 2nd round pick and (2) the more favorable of IND's 2026 2nd round pick and MIA's 2026 2nd round pick and MEM will receive the most favorable of the three; SAS will receive the more favorable of (1) its 2026 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and MIN will receive the least favorable of the three; MEM may convey the pick it receives to BKN and instead receive LAC if more favorable (see MEM incoming) (via MIA to IND to MIL; via MEM' right to swap IND or MIA for BOS; via BOS to ATL; via SAS's right to swap for IND or MIA; via IND to MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "NOP or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "UTA",
+          "to": "",
+          "details": "Protected 56-60",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "SAC or OKC",
+          "details": "SAS's 2027 1st round pick to SAC protected for selections 17-30 or to OKC protected for selections 1-16; if this pick falls within its protected range of 1-16, then SAC will instead convey its 2027 2nd round pick and CHA's 2027 2nd round pick to OKC (SAS's commitment to OKC or SAC will thereafter be lifted) (via SAC)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "ATL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "OKC, HOU, IND or MIA swap rights",
+          "to": "",
+          "details": "No protections",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "BOS",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS has the right to swap its 2028 1st round pick for BOS's 2028 1st round pick protected for selection 1; if this pick falls on its protected selection and is therefore not conveyable, then BOS will instead convey its 2028 2nd round pick to SAS protected for selections 46-60 (if this pick falls within its protected range and is therefore not conveyed, then BOS's commitment to SAS will be lifted)",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "NOP",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "MIN",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "LAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "NOP",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "DAL or MIN",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the most / more favorable of its 2030 1st round pick, DAL' 2030 1st round pick and MIN's 2030 1st round pick protected for selection 1; DAL will receive the less favorable of its pick and the SAS pick; MIN will receive the less favorable of (1) its pick and (2) the more favorable of the SAS pick and the DAL pick; if the MIN pick falls on its protected selection and is therefore not conveyable, then MIN's commitment to SAS will be lifted and SAS will instead have the right to swap its pick for the DAL pick (via SAS's right to swap for DAL; via SAS's right to swap SAS or DAL for MIN)",
+          "direction": "swap"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "SAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "CLE",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "SAC swap rights",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS has the right to swap its 2031 1st round pick for SAC's 2031 1st round pick",
+          "direction": "swap"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "SAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "TOR": {
+      "team_id": 28,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "IND",
+          "details": "TOR's 2026 2nd round pick to IND protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then TOR's commitment to IND will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "NOP",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        }
+      ]
+    },
+    "UTA": {
+      "team_id": 29,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "MIN or CLE",
+          "to": "SAS  holds rights to swap",
+          "details": "SAS will receive the more favorable of its 2026 1st round pick and ATL's 2026 1st round pick; UTA will receive the most favorable of its 2026 1st round pick protected for selections 9-30, MIN's 2026 1st round pick and CLE's 2026 1st round pick; MIN will receive the less favorable of its pick and the UTA pick if conveyable; ATL will receive the more favorable of (1) the less favorable of its 2026 1st round pick and SAS's 2026 1st round pick and (2) the less favorable of (a) the CLE pick and (b) the more favorable of the UTA pick if conveyable and the MIN pick and CLE will receive the less favorable of (1) and (2) (if the UTA pick falls within its protected range and is therefore not conveyable, then MIN's and CLE's commitments to UTA will be lifted) (via UTA's right to swap for MIN; via UTA's right to swap UTA or MIN for CLE; via SAS's right to swap for ATL; via ATL's right to swap ATL or SAS for CLE, UTA or MIN)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "OKC",
+          "details": "UTA's 2026 1st round pick to OKC protected for selections 1-8 (if this pick falls within its protected range and is therefore not conveyed, then UTA's commitment to OKC will be lifted)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "SAS or MIL",
+          "details": "UTA's 2026 2nd round pick to SAS protected for selections 56-60 or to MIL protected for selections 31-55 (UTA's commitment to MIL or SAS will thereafter be lifted) (via MIN to SAS)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "LAL",
+          "to": "",
+          "details": "Protected 1-4",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "LAC",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "BOS or ORL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "IND",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "CLE swap rights",
+          "to": "UTA  holds rights to swap",
+          "details": "UTA will receive the more favorable of its 2028 1st round pick and CLE's 2028 1st round pick; ATL will receive the more favorable of (1) its 2028 1st round pick and (2) the less favorable of the UTA pick and the CLE pick and CLE will receive the least favorable of the three (via UTA's right to swap for CLE; via ATL's right to swap for UTA or CLE)",
+          "direction": "swap"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "OKC",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "DET, CHA, LAC, MIA or NYK",
+          "to": "UTA  holds rights to swap",
+          "details": "UTA will receive the least favorable of (1) DET's 2028 2nd round pick protected for selections 56-60, (2) the less favorable of CHA's 2028 2nd round pick and the LAC' 2028 2nd round pick, (3) MIA's 2028 2nd round pick round pick, conveyable if DAL conveys a 1st round pick to CHA in 2027, and (iv) NYK's 2028 2nd round pick (via CHA to DAL to DET; via MIA to SAS to DAL to DET; via NYK to DET)",
+          "direction": "swap"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "CHA holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "BOS or CLE",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "WAS",
+          "details": "No protections",
+          "direction": "outgoing"
+        }
+      ]
+    },
+    "WAS": {
+      "team_id": 30,
+      "picks": [
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "PHX",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2026 1st round pick protected for selections 9-30 and PHX's 2026 1st round pick; MEM will receive the two most favorable of (1) its 2026 1st round pick, (2) the less favorable of the PHX pick and the WAS pick if conveyable and (3) ORL's 2026 1st round pick and CHA will receive the least favorable of (1), (2) and (3) (via WAS's right to swap for PHX; via MEM' right to swap ORL for PHX or WAS; via MEM' right to swap for PHX, WAS or ORL; via PHX to CHA)",
+          "direction": "swap"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "OKC, HOU or LAC",
+          "to": "",
+          "details": "OKC will receive the two most / more favorable of its 2026 1st round pick, HOU's 2026 1st round pick protected for selections 1-4 and the LAC' 2026 1st round pick and WAS will receive the least / less favorable of these; if the HOU pick falls within its protected range and is therefore not conveyed, then HOU will instead convey its 2026 2nd round pick to OKC",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 1,
+          "from": "",
+          "to": "NYK",
+          "details": "WAS's 2026 1st round pick to NYK protected for selections 1-8; if WAS does not convey a 1st round pick to NYK in 2026, then WAS will instead convey its 2026 2nd round pick and 2027 2nd round pick to NYK (via HOU to OKC)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "MIN, NYK, NOP or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2026,
+          "round": 2,
+          "from": "OKC, DAL or PHI",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "GSW or PHX",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "CHI",
+          "to": "",
+          "details": "CHI's 2027 2nd round pick to WAS (in separate, protected conveyances; via WAS to NOP)",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "BKN or DAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "MIL or POR",
+          "to": "POR  holds rights to swap",
+          "details": "POR will receive the more favorable of its 2028 1st round pick, protected for selections 15-30 if POR has not conveyed a 1st round pick to CHI by 2027, and MIL's 2028 1st round pick; WAS will receive the more favorable of (1) the more favorable of (a) its 2028 1st round pick and (b) the least / less favorable of BKN's 2028 1st round pick, PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable if PHI conveys a 1st round pick to OKC in 2026, and PHX's 2028 1st round pick and (2) the less favorable of the MIL pick and the POR pick if conveyable and MIL will receive the less favorable of (1) and (2) (if the POR pick is not conveyable, then MIL's commitment to POR will be lifted) (via POR's right to swap for MIL; via WAS's right to swap WAS, BKN, PHI or PHX for MIL or POR)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "from": "PHI, BKN or PHX",
+          "to": "holds rights to swap",
+          "details": "if (1) PHI's 2028 1st round pick, which would be protected for selections 1-8 and otherwise conveyable to BKN if PHI conveys a 1st round pick to OKC in 2026, is conveyed to BKN and is the third most favorable of PHI, BKN's 2028 1st round pick, PHX's 2028 1st round pick and NYK's 2028 1st round pick and (2) NYK is the most or second most favorable of the four, then BKN will receive the most and third most favorable of the four; in all other scenarios, BKN will receive the most / two most favorable of these; if PHI if conveyed and / or NYK is less favorable than BKN and PHX, then NYK will receive the least favorable of NYK, BKN and PHX; in all other scenarios, NYK will receive the second most favorable of the three; WAS will receive the more favorable of (1) its 2028 1st round pick and (2) the least / less favorable of PHI if conveyed, BKN and PHX and PHX will receive the less favorable of (1) and (2); WAS may swap the pick it receives for MIL or POR (see WAS incoming) (via BKN's right to swap BKN or PHI for PHX; via BKN's right to swap BKN or PHX for NYK; via WAS's right to swap for PHX, BKN or PHI)",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "DEN",
+          "to": "",
+          "details": "Protected 31-33",
+          "direction": "incoming"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "from": "",
+          "to": "ORL holds rights to swap",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "from": "BOS, MIL or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "",
+          "to": "IND or POR",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "HOU",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "from": "LAL",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "PHX swap rights",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of its 2030 1st round pick and PHX's 2030 1st round pick; MEM will receive the more favorable of (1) its 2030 1st round pick and (2) the less favorable of the WAS pick and the PHX pick and PHX will receive the least favorable of the three (via WAS's right swap for PHX; via MEM' right to swap for WAS or PHX)",
+          "direction": "swap"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "",
+          "to": "PHI",
+          "details": "No protections",
+          "direction": "outgoing"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "from": "PHX or POR",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "from": "IND or MIA",
+          "to": "WAS  holds rights to swap",
+          "details": "WAS will receive the more favorable of IND's 2031 2nd round pick and MIA's 2031 2nd round pick; MEM will receive the more favorable of (1) its 2031 2nd round pick and (2) the less favorable of the IND pick and the MIA pick and IND will receive the least favorable of the three (via MIA's right to swap for IND; via UTA to WAS; via MEM' right to swap for MIA or IND)",
+          "direction": "swap"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "",
+          "to": "",
+          "details": "",
+          "direction": "incoming"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "from": "UTA",
+          "to": "",
+          "details": "No protections",
+          "direction": "incoming"
+        }
+      ]
+    }
+  }
+}
