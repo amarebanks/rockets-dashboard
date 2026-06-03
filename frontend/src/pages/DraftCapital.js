@@ -3,6 +3,8 @@ import axios from "axios";
 
 const API = "http://127.0.0.1:8000";
 
+const CONFIRMED_DRAFT_YEAR = 2026;   // the next draft, whose order is set by final standings
+
 const TEAMS = ["ATL", "BOS", "BKN", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
   "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK",
   "OKC", "ORL", "PHI", "PHX", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"];
@@ -29,6 +31,7 @@ const css = `
   .pick-card.out { opacity:0.78; }
   .pick-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .pick-label { font-weight:600; font-size:14px; }
+  .pick-num { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:15px; color:var(--gold); letter-spacing:0.5px; }
   .pick-to { font-size:11px; color:var(--muted); }
   .pick-details { font-size:11px; color:var(--muted); line-height:1.5; margin-top:5px; }
   .badge { display:inline-block; font-size:8px; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:2px; font-weight:700; }
@@ -51,6 +54,7 @@ function PickCard({ p, outgoing }) {
     <div className={"pick-card" + (outgoing ? " out" : "")}>
       <div className="pick-top">
         <span className={"badge " + kind}>{p.kind === "swap" ? "Swap" : (p.round === 1 ? "1st" : "2nd")}</span>
+        {p.pick_number && <span className="pick-num">No. {p.pick_number}</span>}
         <span className="pick-label">{p.label}</span>
         {isProtected(p.details) && <span className="badge prot">Protected</span>}
         {outgoing && p.to && <span className="pick-to">→ {p.to}</span>}
@@ -142,8 +146,10 @@ export default function DraftCapital() {
 
           <div className="note">
             Real future-pick ownership scraped from Fanspo (incoming, outgoing, protections & swap rights).
-            A <b>swap</b> names its counterparty — e.g. a 2027 BKN swap is the right to swap with Brooklyn's pick,
-            distinct from an outright pick acquired from Phoenix. Re-run <b>draft_scraper.py</b> to refresh.
+            <b>Exact pick numbers</b> are shown for the {CONFIRMED_DRAFT_YEAR} draft, computed from final standings —
+            round-2 (31–60) and round-1 non-lottery slots are exact; round-1 lottery slots (1–14) are pre-lottery order.
+            Later drafts have no order yet. A <b>swap</b> names its counterparty (e.g. a 2027 BKN swap), distinct from an
+            outright pick acquired from another team. Re-run <b>draft_scraper.py</b> to refresh.
           </div>
         </>
       )}

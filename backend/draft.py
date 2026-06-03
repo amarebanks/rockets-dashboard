@@ -121,6 +121,61 @@ def _load_snapshot():
 
 _SNAP = _load_snapshot()
 HAS_PICKS = bool(_SNAP and _SNAP.get("teams"))
+_VALID_TRIS = set(_SNAP["teams"]) if HAS_PICKS else set()
+
+# Only the NEXT draft's order is "confirmed" — it's set by the just-completed
+# season's standings. Future drafts have no order yet (no number shown).
+CONFIRMED_DRAFT_YEAR = CURRENT_DRAFT_YEAR_FANSPO   # 2026, set by the 2025-26 season
+_ORDER_CACHE = {}
+
+
+def _prior_season(draft_year):
+    return f"{draft_year - 1}-{str(draft_year)[2:]}"
+
+
+def _draft_order(prior_season):
+    """{tri: {1: round-1 slot, 2: round-2 slot}} by reverse standings of
+    `prior_season` (worst record picks first). Round 2 (31–60) is exact; round 1
+    is the pre-lottery order (the lottery can still move the top 4). Cached."""
+    if prior_season in _ORDER_CACHE:
+        return _ORDER_CACHE[prior_season]
+    order = {}
+    try:
+        from nba_api.stats.endpoints import leaguedashteamstats
+        from nba_api.stats.static import teams as _static_teams
+        id2tri = {t["id"]: t["abbreviation"] for t in _static_teams.get_teams()}
+        df = leaguedashteamstats.LeagueDashTeamStats(
+            season=prior_season, season_type_all_star="Regular Season").get_data_frames()[0]
+        rows = sorted(
+            [(id2tri.get(int(r["TEAM_ID"])), float(r["W_PCT"])) for _, r in df.iterrows()],
+            key=lambda x: x[1])                       # worst record first
+        for i, (tri, _wp) in enumerate(rows):
+            if tri:
+                order[tri] = {1: i + 1, 2: 31 + i}
+    except Exception:
+        order = {}
+    _ORDER_CACHE[prior_season] = order
+    return order
+
+
+def _source_tri(p, own_tri):
+    """The team whose draft slot a pick conveys: own pick → the team itself;
+    'via CHI' → CHI; conditional / multi-team / swap rights → None (no single slot)."""
+    frm = (p.get("from") or "").strip().upper().replace(" SWAP RIGHTS", "").strip()
+    if not frm:
+        return own_tri
+    return frm if frm in _VALID_TRIS else None
+
+
+def _pick_number(p, own_tri, order):
+    """Exact overall pick number when the draft order is confirmed (next draft),
+    else None. Swaps and conditional picks have no single number."""
+    if p.get("year") != CONFIRMED_DRAFT_YEAR or p.get("direction") == "swap":
+        return None
+    src = _source_tri(p, own_tri)
+    if not src:
+        return None
+    return order.get(src, {}).get(p.get("round"))
 
 
 def _fanspo_value(p, current_year):
@@ -159,12 +214,15 @@ def get_team_picks(tri, current_year=CURRENT_DRAFT_YEAR_FANSPO):
     t = _SNAP["teams"].get(tri.upper())
     if not t:
         return None
+    order = _draft_order(_prior_season(CONFIRMED_DRAFT_YEAR))
     incoming, outgoing = [], []
     for p in t["picks"]:
+        num = _pick_number(p, tri.upper(), order)
         item = {
             "year": p["year"], "round": p["round"], "from": p.get("from", ""),
             "to": p.get("to", ""), "details": p.get("details", ""),
             "label": _pick_label(p), "value": _fanspo_value(p, current_year),
+            "pick_number": num,
             "kind": "swap" if p["direction"] == "swap" else ("first" if p["round"] == 1 else "second"),
         }
         (outgoing if p["direction"] == "outgoing" else incoming).append(item)
@@ -189,6 +247,7 @@ def tradeable_picks(tri):
     data = get_team_picks(tri)
     if not data:
         return []
-    picks = [{"name": p["label"], "value": p["value"]} for p in data["incoming"]]
+    picks = [{"name": p["label"] + (f" · No. {p['pick_number']}" if p.get("pick_number") else ""),
+              "value": p["value"]} for p in data["incoming"]]
     picks.sort(key=lambda p: p["value"], reverse=True)
     return picks
