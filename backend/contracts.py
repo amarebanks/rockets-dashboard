@@ -382,6 +382,44 @@ def trade_legal(out_salary, in_salary, status):
     return legal, allowed, shortfall
 
 
+_STATUS_LABEL = {
+    "room": "Cap Room", "over_cap": "Over Cap", "taxpayer": "Taxpayer",
+    "first_apron": "First Apron", "second_apron": "Second Apron",
+}
+
+
+def apply_trade(team, out_salary, in_salary, season=DEFAULT_SEASON):
+    """How a trade moves ONE team across the cap lines: payroll and apron status
+    before vs after sending `out_salary` and taking back `in_salary`, plus whether
+    the team can legally absorb the incoming money. Returns a display-ready dict."""
+    lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
+    before = team_committed(team, season)
+    if before is None:
+        before = lines["cap"]   # assume a cap-team if unknown, so math still works
+    after = before - out_salary + in_salary
+
+    def _status(committed):
+        if committed >= lines["apron2"]:  return "second_apron"
+        if committed >= lines["apron1"]:  return "first_apron"
+        if committed >= lines["tax"]:     return "taxpayer"
+        if committed >= lines["cap"]:     return "over_cap"
+        return "room"
+
+    status_before, status_after = _status(before), _status(after)
+    legal, allowed, shortfall = trade_legal(out_salary, in_salary, status_before)
+    return {
+        "team": team,
+        "out_salary_m": _fmt_m(out_salary), "in_salary_m": _fmt_m(in_salary),
+        "committed_before_m": _fmt_m(before), "committed_after_m": _fmt_m(after),
+        "status_before": status_before, "status_after": status_after,
+        "status_before_label": _STATUS_LABEL.get(status_before, status_before),
+        "status_after_label": _STATUS_LABEL.get(status_after, status_after),
+        "tax_after_m": _fmt_m(after - lines["tax"]),     # >0 = a taxpayer after
+        "legal": legal, "allowed_m": _fmt_m(allowed),
+        "shortfall_m": _fmt_m(shortfall),
+    }
+
+
 # ── Cap view payload ─────────────────────────────────────────────────────────
 
 def get_cap_sheet(season=DEFAULT_SEASON):

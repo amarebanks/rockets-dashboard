@@ -7,7 +7,7 @@ Endpoints: players, games, shots, season summary, stat leaders,
 import os
 import time
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import psycopg2.extras
@@ -845,6 +845,83 @@ def get_contracts_cap(season: str = Query(DEFAULT_SEASON)):
     """Per-team salary-cap sheet: committed payroll vs the cap / tax / apron lines."""
     import contracts
     return contracts.get_cap_sheet(valid_season(season))
+
+
+@app.get("/trade/rosters")
+def trade_rosters(season: str = Query(DEFAULT_SEASON)):
+    """Every team's roster (value + salary + contract grade) plus its cap status —
+    powers the Trade Machine's team pickers."""
+    import trade_ideas, contracts
+    season = valid_season(season)
+    try:
+        rosters = trade_ideas.get_rosters(season)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Roster build failed: {e}")
+    cap = contracts.get_cap_sheet(season)
+    status = {t["team"]: t for t in cap["teams"]}
+    teams = []
+    for tm, players in rosters.items():
+        st = status.get(tm, {})
+        teams.append({"team": tm, "committed_m": st.get("committed_m"),
+                      "status": st.get("status"), "players": players})
+    teams.sort(key=lambda t: t["team"])
+    return {"season": season, "teams": teams, "lines": cap["lines"]}
+
+
+@app.post("/trade/evaluate")
+def evaluate_trade(payload: dict = Body(...)):
+    """Evaluate a 2-team trade: salary in/out, cap-legality + apron impact for each
+    team, and the value balance — the Trade Machine's verdict engine."""
+    import trade_ideas, contracts
+    season = valid_season(payload.get("season") or DEFAULT_SEASON)
+    meta = trade_ideas.get_player_meta(season)
+
+    def _side(s):
+        team = (s.get("team") or "").upper()
+        items, out_salary = [], 0
+        for n in s.get("players", []):
+            m = meta.get(n) or {}
+            val = m.get("value", 0)
+            sal = m.get("salary") or contracts.get_salary(n, season, val)
+            out_salary += sal
+            items.append({"name": n, "type": "player", "value": val,
+                          "salary_m": round(sal / 1_000_000, 1),
+                          "contract_label": m.get("contract_label")})
+        picks = [{"name": p.get("name"), "type": "pick", "value": p.get("value", 0)}
+                 for p in s.get("picks", [])]
+        return team, items, picks, out_salary
+
+    team_a, players_a, picks_a, out_a = _side(payload.get("a", {}))
+    team_b, players_b, picks_b, out_b = _side(payload.get("b", {}))
+
+    give_a = trade_ideas.package_value(players_a + picks_a)   # value A sends out
+    give_b = trade_ideas.package_value(players_b + picks_b)   # value B sends out
+
+    imp_a = contracts.apply_trade(team_a, out_a, out_b, season) if team_a else None
+    imp_b = contracts.apply_trade(team_b, out_b, out_a, season) if team_b else None
+
+    diff = abs(give_a - give_b)
+    base = max(give_a, give_b) or 1
+    pct = round(diff / base * 100, 1)
+    if give_a == give_b == 0:
+        verdict, winner = "Add players to evaluate", None
+    elif pct < 8:
+        verdict, winner = "Fair trade", None
+    else:
+        winner = team_b if give_a > give_b else team_a   # whoever GIVES less, wins
+        verdict = f"{'Slight edge' if pct < 18 else 'Lopsided'} — {winner}"
+
+    legal = all(i["legal"] for i in (imp_a, imp_b) if i)
+    return {
+        "season": season,
+        "a": {"team": team_a, "players": players_a, "picks": picks_a,
+              "give_value": give_a, "cap": imp_a},
+        "b": {"team": team_b, "players": players_b, "picks": picks_b,
+              "give_value": give_b, "cap": imp_b},
+        "fairness": {"verdict": verdict, "diff_pct": pct, "winner": winner,
+                     "a_gives": give_a, "b_gives": give_b},
+        "legal": legal,
+    }
 
 
 @app.get("/contracts/team/{team}")

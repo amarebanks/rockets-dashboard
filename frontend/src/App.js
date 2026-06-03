@@ -16,6 +16,7 @@ import DraftCapital from "./pages/DraftCapital";
 import Clutch from "./pages/Clutch";
 import Lineups from "./pages/Lineups";
 import Contracts from "./pages/Contracts";
+import TradeMachine from "./pages/TradeMachine";
 import { SEASONS, getSeason, setSeason, applySeasonParam } from "./season";
 
 // Inject the selected season into every API request before any component mounts.
@@ -122,6 +123,7 @@ function Navbar() {
         <NavLink to="/compare" className="nav-link">Compare</NavLink>
         <NavLink to="/live" className="nav-link"><span className="live-dot"/>Live</NavLink>
         <NavLink to="/trade" className="nav-link">Trade</NavLink>
+        <NavLink to="/machine" className="nav-link">Machine</NavLink>
         <NavLink to="/build" className="nav-link">Build</NavLink>
         <NavLink to="/draft" className="nav-link">Draft</NavLink>
         <NavLink to="/caps" className="nav-link">Caps</NavLink>
@@ -174,6 +176,7 @@ export default function App() {
         <Route path="/live" element={<LiveScores />} />
         <Route path="/trade" element={<TradeAnalyzer />} />
         <Route path="/predict" element={<Predictor />} />
+        <Route path="/machine" element={<TradeMachine />} />
         <Route path="/build" element={<TradeIdeas />} />
         <Route path="/edge" element={<BettingEdge />} />
         <Route path="/draft" element={<DraftCapital />} />

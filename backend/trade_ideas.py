@@ -598,6 +598,12 @@ def _build(season):
         gives, out_value, cost, verdict, diff_pct, protected, salary_info = _build_package(
             c["value"], rockets, prefer, star=is_star, season=season,
             target_salary=c.get("salary", 0))
+        # Post-trade cap impact for both teams: Houston sends its package salary and
+        # takes back the target; the other team does the reverse.
+        cap_impact = {
+            "hou": contracts.apply_trade(ROCKETS_ABBR, salary_info["out"], salary_info["in"], season),
+            "other": contracts.apply_trade(c["team"], salary_info["in"], salary_info["out"], season),
+        }
         top_need = c["addresses"][0]
         need_rank = needs[top_need]["rank"]
         grade = c["contract"]
@@ -632,6 +638,7 @@ def _build(season):
             "cost": cost,
             "fairness": {"verdict": verdict, "diff_pct": diff_pct},
             "salary": salary_info,
+            "cap_impact": cap_impact,
             "protected": protected,
             "rationale": rationale,
         })
@@ -652,6 +659,30 @@ def _build(season):
     player_values = {s["name"]: s["base_value"] for s in players
                      if s["gp"] >= 20 and s["min"] >= 12}
     player_teams = {s["name"]: s["team"] for s in players if s["gp"] >= 1}
+
+    # Per-player meta + per-team rosters for the Trade Machine (value, salary,
+    # contract). Dedupe traded players to the team they logged the most minutes for.
+    player_meta = {}
+    for s in players:
+        if s["gp"] < 1:
+            continue
+        prev = player_meta.get(s["name"])
+        if prev and prev["_min"] >= s["min"]:
+            continue
+        player_meta[s["name"]] = {
+            "name": s["name"], "team": s["team"], "value": s["value"],
+            "base_value": s["base_value"], "salary": s["salary"],
+            "salary_m": round(s["salary"] / 1_000_000, 1),
+            "contract_label": s["contract"]["label"], "age": s["age"],
+            "pts": round(s["pts"], 1), "is_allstar": s["is_allstar"], "_min": s["min"],
+        }
+    rosters = {}
+    for m in player_meta.values():
+        m.pop("_min", None)
+        rosters.setdefault(m["team"], []).append(m)
+    for t in rosters:
+        rosters[t].sort(key=lambda p: p["value"], reverse=True)
+
     return {
         "season": season,
         "needs": needs_sorted,
@@ -660,6 +691,8 @@ def _build(season):
         "ideas": ideas,
         "player_values": player_values,
         "player_teams": player_teams,
+        "player_meta": player_meta,
+        "rosters": rosters,
     }
 
 
@@ -671,6 +704,23 @@ def get_player_values(season, force=False):
 def get_player_teams(season, force=False):
     """League-wide {name: team_abbr} of who actually played where (nba_api)."""
     return get_trade_ideas(season, force=force).get("player_teams", {})
+
+
+def get_player_meta(season, force=False):
+    """League-wide {name: {value, salary, contract_label, team, ...}} for the Trade Machine."""
+    return get_trade_ideas(season, force=force).get("player_meta", {})
+
+
+def get_rosters(season, force=False):
+    """{team_abbr: [player meta, …]} grouped + sorted by value, for the Trade Machine."""
+    return get_trade_ideas(season, force=force).get("rosters", {})
+
+
+def package_value(items):
+    """Premium-adjusted, diminishing-returns value of a set of trade assets
+    (each {"type": "player"|"pick", "value": n}). Shared with the Trade Machine
+    so its fairness read matches the Championship Builder."""
+    return round(_adjusted(items), 1)
 
 
 def _ordinal(n):

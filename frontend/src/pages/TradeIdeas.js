@@ -43,6 +43,10 @@ const css = `
   .salary-line { display:flex; align-items:center; gap:8px; margin-top:10px; font-size:11px; color:var(--muted); flex-wrap:wrap; }
   .salary-line b { color:var(--text); font-family:'Barlow Condensed',sans-serif; font-size:14px; }
   .legal-pill { font-size:9px; letter-spacing:1px; text-transform:uppercase; padding:3px 9px; border-radius:2px; font-weight:800; white-space:nowrap; }
+  .cap-impact { margin-top:14px; padding-top:12px; border-top:1px solid var(--border); }
+  .cap-impact-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .cap-impact-row { font-size:12px; color:var(--muted); line-height:1.7; }
+  .cap-impact-row b { color:var(--text); font-family:'Barlow Condensed',sans-serif; }
   .idea-foot { display:flex; align-items:center; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
   .verdict-chip { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; padding:4px 12px; border-radius:2px; font-weight:700; white-space:nowrap; }
   .ti-allstar { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:#000; padding:2px 6px; border-radius:2px; margin-left:8px; vertical-align:middle; font-weight:700; }
@@ -65,6 +69,23 @@ const verdictStyle = (v) => {
   if (v === "Fair value")   return { background: "rgba(74,222,128,0.15)", color: "var(--green)", border: "1px solid rgba(74,222,128,0.4)" };
   if (v === "Rockets overpay") return { background: "rgba(196,162,101,0.15)", color: "var(--gold)", border: "1px solid rgba(196,162,101,0.4)" };
   return { background: "rgba(206,17,65,0.15)", color: "var(--red)", border: "1px solid rgba(206,17,65,0.4)" };
+};
+const APRON = {
+  room:         { c: "#4a9eff", label: "Cap Room" },
+  over_cap:     { c: "var(--muted)", label: "Over Cap" },
+  taxpayer:     { c: "var(--gold)", label: "Taxpayer" },
+  first_apron:  { c: "#ff8c3c", label: "First Apron" },
+  second_apron: { c: "var(--red)", label: "Second Apron" },
+};
+const StatusShift = ({ c }) => {
+  const a = APRON[c.status_before] || APRON.over_cap;
+  const b = APRON[c.status_after] || APRON.over_cap;
+  return (
+    <span>
+      <b>{c.team}</b> ${c.committed_before_m}M <span style={{ color: a.c }}>({a.label})</span>
+      {" → "}${c.committed_after_m}M <span style={{ color: b.c, fontWeight: c.status_before !== c.status_after ? 700 : 400 }}>({b.label})</span>
+    </span>
+  );
 };
 const contractStyle = (label) => {
   if (label === "Bargain" || label === "Value") return { background:"rgba(74,222,128,0.14)", color:"var(--green)" };
@@ -197,6 +218,14 @@ export default function TradeIdeas() {
                     )}
                   </div>
                 </div>
+
+                {idea.cap_impact && (
+                  <div className="cap-impact">
+                    <div className="cap-impact-label">Post-trade cap impact</div>
+                    <div className="cap-impact-row"><StatusShift c={idea.cap_impact.hou} /></div>
+                    <div className="cap-impact-row"><StatusShift c={idea.cap_impact.other} /></div>
+                  </div>
+                )}
 
                 <div className="idea-foot">
                   <span className="verdict-chip" style={verdictStyle(idea.fairness.verdict)}>
