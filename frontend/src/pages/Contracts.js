@@ -38,9 +38,11 @@ const css = `
   .ct-clabel { font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:800; padding:2px 6px; border-radius:3px; }
   .ct-note { font-size:11px; color:var(--muted); line-height:1.6; margin-top:10px; }
   .ct-note b { color:var(--text); }
-  .ct-roster { margin-top:12px; display:grid; grid-template-columns:1fr 80px; gap:4px 12px; font-size:12px; }
+  .ct-roster { margin-top:14px; display:grid; grid-template-columns:1fr auto 88px; gap:5px 14px; font-size:12px; align-items:baseline; }
   .ct-roster .rn { color:var(--text); }
-  .ct-roster .rs { text-align:right; color:var(--muted); font-family:'Barlow Condensed',sans-serif; font-weight:700; }
+  .ct-roster .rt { color:var(--muted); font-size:10px; letter-spacing:0.5px; text-align:right; white-space:nowrap; }
+  .ct-roster .rs { text-align:right; color:var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; }
+  .ct-roster-head { grid-column:1/-1; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:8px; border-top:1px solid var(--border); padding-top:8px; }
   .loading { display:flex; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; letter-spacing:2px; text-transform:uppercase; }
   .legend { font-size:11px; color:var(--muted); letter-spacing:0.5px; line-height:1.7; margin-top:18px; }
   .legend b { color:var(--text); }
@@ -161,9 +163,20 @@ export default function Contracts() {
 
                     {d.contracts && d.contracts.length > 0 && (
                       <div className="ct-roster">
+                        <div className="ct-roster-head">Contracts — current cap hit · term · total remaining</div>
                         {d.contracts.map((c, i) => (
                           <Fragment key={i}>
-                            <div className="rn">{c.name}{c.option ? ` · ${c.option}` : ""}</div>
+                            <div className="rn">
+                              {c.name}
+                              {d.relief_plan && d.relief_plan.best_player === c.name && (
+                                <span style={{ color:"var(--gold)", fontSize:10, marginLeft:6 }}>★ keep</span>
+                              )}
+                            </div>
+                            <div className="rt">
+                              {c.years_left ? `${c.years_left}yr${c.option ? " " + c.option : ""}` : ""}
+                              {c.expires ? ` · FA ${c.expires}` : ""}
+                              {c.total_remaining_m ? ` · $${c.total_remaining_m}M total` : ""}
+                            </div>
                             <div className="rs">${c.salary_m}M</div>
                           </Fragment>
                         ))}
@@ -179,7 +192,8 @@ export default function Contracts() {
 
       <div className="legend">
         <b>Tap any taxpayer/apron team</b> to see the most likely moves it would make to get back under the line —
-        teams shed <b>bad contracts</b> first, then overpaid vets, and protect their stars. The two <b>aprons</b> are
+        teams shed <b>bad contracts</b> first, then overpaid vets, and never move their best player or stars for cap
+        relief (marked <span style={{ color:"var(--gold)" }}>★ keep</span>). The two <b>aprons</b> are
         hard spending limits that restrict how a team can build (trades, exceptions, draft picks), so front offices work
         hard to duck under them. Salaries are curated approximations — edit <b>backend/contracts.py</b> to refine them.
       </div>

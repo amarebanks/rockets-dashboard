@@ -3,7 +3,11 @@ contracts.py — curated NBA salary / contract data + cap math.
 
 nba_api exposes NO salary data, so the tables here are hand-maintained and
 APPROXIMATE (same philosophy as draft.py's pick inventory — edit them as deals
-happen). The module does three jobs:
+happen). Contracts are modeled as the CURRENT-SEASON cap hit plus a forward
+outlook (years remaining, option, projected future salaries, when it expires) —
+not a per-historical-season salary map.
+
+The module does three jobs:
 
   • CAP VIEW   — each team's committed salary vs the cap / luxury-tax / apron
                  lines, so you can see who's a taxpayer and who has room.
@@ -14,7 +18,7 @@ happen). The module does three jobs:
                  only proposes cap-legal packages (and adds salary filler when a
                  high-paid target needs matching money).
 
-Salaries are in whole dollars. Curated coverage is deepest for Houston, league
+Salaries are whole dollars. Curated coverage is deepest for Houston, league
 stars, and notable bad contracts; anyone uncurated falls back to a value-based
 salary ESTIMATE so the trade engine always has a number to match against.
 """
@@ -22,136 +26,133 @@ salary ESTIMATE so the trade engine always has a number to match against.
 import recognition
 
 # ── Cap landscape (real published figures) ───────────────────────────────────
-# cap = salary cap, tax = luxury-tax line, apron1 / apron2 = the two aprons.
 CAP_BY_SEASON = {
     "2025-26": {"cap": 154_647_000, "tax": 187_895_000, "apron1": 195_945_000, "apron2": 207_824_000},
     "2024-25": {"cap": 140_588_000, "tax": 170_814_000, "apron1": 178_132_000, "apron2": 188_931_000},
 }
 DEFAULT_SEASON = "2025-26"
-
-# Minimum-ish salary used as the floor for the estimate fallback.
+RAISE = 1.05            # assumed annual raise when projecting future cap hits
 _MIN_SALARY = 2_300_000
 
 
 # ── Curated contracts ────────────────────────────────────────────────────────
-# name → {"team": ABBR, "salary": {season: dollars}, "years_left": n, "option": "PO"|"TO"|None}
-# years_left / option are after the listed season (for display flavor only).
-# APPROXIMATE — edit to match reality. Anyone not here is estimated from value.
+# name → {team, salary (current-season cap hit), years_left (incl. current),
+#         option ("PO"|"TO"|None on the final year), expires (FA summer, year str)}
+# Future salaries are projected from `salary` with RAISE. APPROXIMATE — edit freely.
 CONTRACTS = {
-    # ── Houston Rockets (post-KD-trade roster) ──
-    "Kevin Durant":        {"team": "HOU", "salary": {"2025-26": 54_708_608}, "years_left": 1, "option": None},
-    "Alperen Sengun":      {"team": "HOU", "salary": {"2024-25": 5_419_000, "2025-26": 33_935_000}, "years_left": 4, "option": None},
-    "Fred VanVleet":       {"team": "HOU", "salary": {"2024-25": 42_846_615, "2025-26": 25_000_000}, "years_left": 1, "option": "TO"},
-    "Dorian Finney-Smith": {"team": "HOU", "salary": {"2025-26": 13_350_000}, "years_left": 3, "option": "PO"},
-    "Steven Adams":        {"team": "HOU", "salary": {"2024-25": 12_600_000, "2025-26": 12_600_000}, "years_left": 2, "option": None},
-    "Clint Capela":        {"team": "HOU", "salary": {"2025-26": 7_150_000}, "years_left": 2, "option": None},
-    "Jabari Smith Jr.":    {"team": "HOU", "salary": {"2024-25": 11_369_000, "2025-26": 12_435_000}, "years_left": 1, "option": None},
-    "Tari Eason":          {"team": "HOU", "salary": {"2024-25": 4_775_000, "2025-26": 5_739_000}, "years_left": 1, "option": None},
-    "Amen Thompson":       {"team": "HOU", "salary": {"2024-25": 8_613_000, "2025-26": 9_044_000}, "years_left": 2, "option": "TO"},
-    "Reed Sheppard":       {"team": "HOU", "salary": {"2024-25": 6_792_000, "2025-26": 7_132_000}, "years_left": 2, "option": None},
-    "Jae'Sean Tate":       {"team": "HOU", "salary": {"2024-25": 7_600_000, "2025-26": 7_600_000}, "years_left": 1, "option": "TO"},
-    "Aaron Holiday":       {"team": "HOU", "salary": {"2025-26": 4_762_000}, "years_left": 1, "option": None},
-    "Jock Landale":        {"team": "HOU", "salary": {"2024-25": 8_000_000, "2025-26": 8_000_000}, "years_left": 1, "option": None},
-    "Josh Okogie":         {"team": "HOU", "salary": {"2025-26": 7_750_000}, "years_left": 1, "option": "TO"},
+    # ── Houston Rockets ──
+    "Kevin Durant":        {"team": "HOU", "salary": 54_708_608, "years_left": 1, "option": None, "expires": "2026"},
+    "Alperen Sengun":      {"team": "HOU", "salary": 33_935_000, "years_left": 5, "option": None, "expires": "2030"},
+    "Fred VanVleet":       {"team": "HOU", "salary": 25_000_000, "years_left": 2, "option": "TO", "expires": "2027"},
+    "Dorian Finney-Smith": {"team": "HOU", "salary": 13_350_000, "years_left": 4, "option": "PO", "expires": "2029"},
+    "Steven Adams":        {"team": "HOU", "salary": 12_600_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Clint Capela":        {"team": "HOU", "salary":  7_150_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Jabari Smith Jr.":    {"team": "HOU", "salary": 12_435_000, "years_left": 5, "option": None, "expires": "2030"},
+    "Tari Eason":          {"team": "HOU", "salary":  5_739_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Amen Thompson":       {"team": "HOU", "salary":  9_044_000, "years_left": 2, "option": "TO", "expires": "2027"},
+    "Reed Sheppard":       {"team": "HOU", "salary":  7_132_000, "years_left": 3, "option": "TO", "expires": "2028"},
+    "Jae'Sean Tate":       {"team": "HOU", "salary":  7_600_000, "years_left": 1, "option": "TO", "expires": "2026"},
+    "Aaron Holiday":       {"team": "HOU", "salary":  4_762_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Jock Landale":        {"team": "HOU", "salary":  8_000_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Josh Okogie":         {"team": "HOU", "salary":  7_750_000, "years_left": 1, "option": "TO", "expires": "2026"},
 
     # ── League stars / max & near-max deals ──
-    "Shai Gilgeous-Alexander": {"team": "OKC", "salary": {"2025-26": 38_333_000}, "years_left": 4, "option": None},
-    "Nikola Jokic":        {"team": "DEN", "salary": {"2025-26": 55_224_000}, "years_left": 2, "option": "PO"},
-    "Luka Doncic":         {"team": "LAL", "salary": {"2025-26": 45_999_000}, "years_left": 2, "option": "PO"},
-    "Giannis Antetokounmpo": {"team": "MIL", "salary": {"2025-26": 54_126_000}, "years_left": 2, "option": "PO"},
-    "Joel Embiid":         {"team": "PHI", "salary": {"2025-26": 55_224_000}, "years_left": 3, "option": "PO"},
-    "Victor Wembanyama":   {"team": "SAS", "salary": {"2025-26": 13_853_000}, "years_left": 1, "option": None},
-    "Jayson Tatum":        {"team": "BOS", "salary": {"2025-26": 54_126_000}, "years_left": 4, "option": None},
-    "Anthony Edwards":     {"team": "MIN", "salary": {"2025-26": 42_176_000}, "years_left": 4, "option": None},
-    "Devin Booker":        {"team": "PHX", "salary": {"2025-26": 53_142_000}, "years_left": 3, "option": None},
-    "Anthony Davis":       {"team": "DAL", "salary": {"2025-26": 54_126_000}, "years_left": 2, "option": "PO"},
-    "Stephen Curry":       {"team": "GSW", "salary": {"2025-26": 59_606_000}, "years_left": 1, "option": None},
-    "LeBron James":        {"team": "LAL", "salary": {"2025-26": 52_627_000}, "years_left": 1, "option": "PO"},
-    "Jalen Brunson":       {"team": "NYK", "salary": {"2025-26": 34_944_000}, "years_left": 3, "option": "PO"},
-    "Jaylen Brown":        {"team": "BOS", "salary": {"2025-26": 53_142_000}, "years_left": 4, "option": None},
-    "Donovan Mitchell":    {"team": "CLE", "salary": {"2025-26": 46_438_000}, "years_left": 3, "option": "PO"},
-    "Kawhi Leonard":       {"team": "LAC", "salary": {"2025-26": 50_000_000}, "years_left": 2, "option": None},
-    "Cade Cunningham":     {"team": "DET", "salary": {"2025-26": 46_438_000}, "years_left": 4, "option": None},
-    "Tyrese Maxey":        {"team": "PHI", "salary": {"2025-26": 37_896_000}, "years_left": 3, "option": None},
-    "Jamal Murray":        {"team": "DEN", "salary": {"2025-26": 46_081_000}, "years_left": 3, "option": None},
-    "Jalen Johnson":       {"team": "ATL", "salary": {"2025-26": 30_000_000}, "years_left": 4, "option": None},
-    "Jalen Duren":         {"team": "DET", "salary": {"2025-26": 6_700_000}, "years_left": 1, "option": None},
-    "Chet Holmgren":       {"team": "OKC", "salary": {"2025-26": 13_787_000}, "years_left": 1, "option": None},
-    "Domantas Sabonis":    {"team": "SAC", "salary": {"2025-26": 43_577_000}, "years_left": 3, "option": None},
-    "Karl-Anthony Towns":  {"team": "NYK", "salary": {"2025-26": 53_142_000}, "years_left": 2, "option": "PO"},
-    "Bam Adebayo":         {"team": "MIA", "salary": {"2025-26": 37_096_000}, "years_left": 3, "option": "PO"},
-    "Evan Mobley":         {"team": "CLE", "salary": {"2025-26": 37_896_000}, "years_left": 4, "option": None},
-    "De'Aaron Fox":        {"team": "SAS", "salary": {"2025-26": 37_096_000}, "years_left": 2, "option": None},
-    "Brandon Ingram":      {"team": "TOR", "salary": {"2025-26": 36_000_000}, "years_left": 2, "option": None},
-    "Deni Avdija":         {"team": "POR", "salary": {"2025-26": 14_437_000}, "years_left": 3, "option": None},
-    "Scottie Barnes":      {"team": "TOR", "salary": {"2025-26": 38_333_000}, "years_left": 4, "option": None},
-    "Austin Reaves":       {"team": "LAL", "salary": {"2025-26": 13_945_000}, "years_left": 1, "option": "PO"},
+    "Shai Gilgeous-Alexander": {"team": "OKC", "salary": 38_333_000, "years_left": 5, "option": None, "expires": "2031"},
+    "Nikola Jokic":        {"team": "DEN", "salary": 55_224_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Luka Doncic":         {"team": "LAL", "salary": 45_999_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Giannis Antetokounmpo": {"team": "MIL", "salary": 54_126_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Joel Embiid":         {"team": "PHI", "salary": 55_224_000, "years_left": 4, "option": "PO", "expires": "2029"},
+    "Victor Wembanyama":   {"team": "SAS", "salary": 13_853_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Jayson Tatum":        {"team": "BOS", "salary": 54_126_000, "years_left": 5, "option": "PO", "expires": "2030"},
+    "Anthony Edwards":     {"team": "MIN", "salary": 42_176_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Devin Booker":        {"team": "PHX", "salary": 53_142_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Anthony Davis":       {"team": "DAL", "salary": 54_126_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Stephen Curry":       {"team": "GSW", "salary": 59_606_000, "years_left": 2, "option": None, "expires": "2027"},
+    "LeBron James":        {"team": "LAL", "salary": 52_627_000, "years_left": 1, "option": "PO", "expires": "2026"},
+    "Jalen Brunson":       {"team": "NYK", "salary": 34_944_000, "years_left": 4, "option": "PO", "expires": "2029"},
+    "Jaylen Brown":        {"team": "BOS", "salary": 53_142_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Donovan Mitchell":    {"team": "CLE", "salary": 46_438_000, "years_left": 4, "option": "PO", "expires": "2029"},
+    "Kawhi Leonard":       {"team": "LAC", "salary": 50_000_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Cade Cunningham":     {"team": "DET", "salary": 46_438_000, "years_left": 5, "option": None, "expires": "2030"},
+    "Tyrese Maxey":        {"team": "PHI", "salary": 37_896_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Jamal Murray":        {"team": "DEN", "salary": 46_081_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Jalen Johnson":       {"team": "ATL", "salary": 30_000_000, "years_left": 5, "option": None, "expires": "2030"},
+    "Jalen Duren":         {"team": "DET", "salary":  6_700_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Chet Holmgren":       {"team": "OKC", "salary": 13_787_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Domantas Sabonis":    {"team": "SAC", "salary": 43_577_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Karl-Anthony Towns":  {"team": "NYK", "salary": 53_142_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Bam Adebayo":         {"team": "MIA", "salary": 37_096_000, "years_left": 4, "option": "PO", "expires": "2029"},
+    "Evan Mobley":         {"team": "CLE", "salary": 37_896_000, "years_left": 5, "option": None, "expires": "2030"},
+    "De'Aaron Fox":        {"team": "SAS", "salary": 37_096_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Brandon Ingram":      {"team": "TOR", "salary": 36_000_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Deni Avdija":         {"team": "POR", "salary": 14_437_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Scottie Barnes":      {"team": "TOR", "salary": 38_333_000, "years_left": 5, "option": None, "expires": "2030"},
+    "Austin Reaves":       {"team": "LAL", "salary": 13_945_000, "years_left": 1, "option": "PO", "expires": "2026"},
 
-    # ── Notable "bad" / heavy contracts (overpaid vs production — dump candidates) ──
-    "Ben Simmons":         {"team": "BKN", "salary": {"2024-25": 40_338_000}, "years_left": 0, "option": None},
-    "Bradley Beal":        {"team": "PHX", "salary": {"2025-26": 53_666_000}, "years_left": 1, "option": "NTC"},
-    "Zach LaVine":         {"team": "SAC", "salary": {"2025-26": 47_499_000}, "years_left": 1, "option": "PO"},
-    "Andrew Wiggins":      {"team": "MIA", "salary": {"2025-26": 28_222_000}, "years_left": 1, "option": "PO"},
-    "Tobias Harris":       {"team": "DET", "salary": {"2025-26": 26_000_000}, "years_left": 1, "option": None},
-    "Jordan Poole":        {"team": "WAS", "salary": {"2025-26": 31_829_000}, "years_left": 2, "option": None},
-    "Fred VanVleet ":      {"team": "HOU", "salary": {}, "years_left": 0, "option": None},  # guard against trailing-space dupes
-    "Pascal Siakam":       {"team": "IND", "salary": {"2025-26": 42_745_000}, "years_left": 3, "option": None},
-    "Rudy Gobert":         {"team": "MIN", "salary": {"2025-26": 43_827_000}, "years_left": 1, "option": "PO"},
-    "Julius Randle":       {"team": "MIN", "salary": {"2025-26": 33_138_000}, "years_left": 1, "option": "PO"},
-    "CJ McCollum":         {"team": "WAS", "salary": {"2025-26": 30_666_000}, "years_left": 1, "option": None},
-    "Klay Thompson":       {"team": "DAL", "salary": {"2025-26": 16_575_000}, "years_left": 2, "option": None},
-    "Kristaps Porzingis":  {"team": "ATL", "salary": {"2025-26": 30_731_000}, "years_left": 1, "option": None},
-    "Nikola Vucevic":      {"team": "CHI", "salary": {"2025-26": 21_484_000}, "years_left": 1, "option": None},
-    "Zion Williamson":     {"team": "NOP", "salary": {"2025-26": 39_446_000}, "years_left": 3, "option": None},
-    "Brandon Miller":      {"team": "CHA", "salary": {"2025-26": 11_650_000}, "years_left": 1, "option": None},
+    # ── Notable heavy / "bad" contracts (overpaid vs production — dump candidates) ──
+    "Bradley Beal":        {"team": "LAC", "salary":  5_400_000, "years_left": 2, "option": "PO", "expires": "2027"},  # waived by PHX, signed LAC
+    "Zach LaVine":         {"team": "SAC", "salary": 47_499_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "Andrew Wiggins":      {"team": "MIA", "salary": 28_222_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "Tobias Harris":       {"team": "DET", "salary": 26_000_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Jordan Poole":        {"team": "WAS", "salary": 31_829_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Pascal Siakam":       {"team": "IND", "salary": 42_745_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Rudy Gobert":         {"team": "MIN", "salary": 43_827_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "Julius Randle":       {"team": "MIN", "salary": 33_138_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "CJ McCollum":         {"team": "WAS", "salary": 30_666_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Klay Thompson":       {"team": "DAL", "salary": 16_575_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Kristaps Porzingis":  {"team": "ATL", "salary": 30_731_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Nikola Vucevic":      {"team": "CHI", "salary": 21_484_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Zion Williamson":     {"team": "NOP", "salary": 39_446_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Jimmy Butler":        {"team": "GSW", "salary": 54_126_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "Dillon Brooks":       {"team": "PHX", "salary": 21_000_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Jalen Green":         {"team": "PHX", "salary": 33_333_000, "years_left": 4, "option": None, "expires": "2029"},
 
     # ── Common mid-tier trade targets / quality starters ──
-    "Mikal Bridges":       {"team": "NYK", "salary": {"2025-26": 24_900_000}, "years_left": 1, "option": None},
-    "OG Anunoby":          {"team": "NYK", "salary": {"2025-26": 39_000_000}, "years_left": 4, "option": None},
-    "Desmond Bane":        {"team": "ORL", "salary": {"2025-26": 36_725_000}, "years_left": 4, "option": None},
-    "Jerami Grant":        {"team": "POR", "salary": {"2025-26": 32_000_000}, "years_left": 3, "option": "PO"},
-    "Jrue Holiday":        {"team": "POR", "salary": {"2025-26": 32_400_000}, "years_left": 2, "option": None},
-    "Jimmy Butler":        {"team": "GSW", "salary": {"2025-26": 54_126_000}, "years_left": 1, "option": "PO"},
-    "Derrick White":       {"team": "BOS", "salary": {"2025-26": 28_100_000}, "years_left": 3, "option": None},
-    "Jaren Jackson Jr.":   {"team": "MEM", "salary": {"2025-26": 23_410_000}, "years_left": 1, "option": None},
-    "Ja Morant":           {"team": "MEM", "salary": {"2025-26": 39_446_000}, "years_left": 3, "option": None},
-    "Trae Young":          {"team": "ATL", "salary": {"2025-26": 45_999_000}, "years_left": 2, "option": "PO"},
-    "Darius Garland":      {"team": "CLE", "salary": {"2025-26": 39_446_000}, "years_left": 3, "option": None},
-    "Lauri Markkanen":     {"team": "UTA", "salary": {"2025-26": 46_385_000}, "years_left": 4, "option": None},
-    "Collin Sexton":       {"team": "CHA", "salary": {"2025-26": 19_000_000}, "years_left": 1, "option": None},
-    "Stephon Castle":      {"team": "SAS", "salary": {"2025-26": 9_165_000}, "years_left": 2, "option": None},
-    "Dyson Daniels":       {"team": "ATL", "salary": {"2025-26": 6_750_000}, "years_left": 1, "option": None},
-    "Cason Wallace":       {"team": "OKC", "salary": {"2025-26": 5_200_000}, "years_left": 1, "option": None},
-    "Ausar Thompson":      {"team": "DET", "salary": {"2025-26": 9_200_000}, "years_left": 2, "option": "TO"},
-}
-# Remove the dummy guard entry (kept above only to document the trailing-space hazard).
-CONTRACTS.pop("Fred VanVleet ", None)
-
-# ── Team committed salary (for the cap view). APPROXIMATE total team payroll for
-# the season; used directly so the cap sheet doesn't depend on curating every
-# rostered player. Edit toward real totals. (~$170M ≈ tax-line team.)
-TEAM_COMMITTED = {
-    "2025-26": {
-        "HOU": 196_000_000, "OKC": 168_000_000, "DEN": 188_000_000, "LAL": 195_000_000,
-        "MIL": 186_000_000, "PHI": 192_000_000, "SAS": 165_000_000, "BOS": 225_000_000,
-        "MIN": 205_000_000, "PHX": 215_000_000, "DAL": 178_000_000, "GSW": 198_000_000,
-        "NYK": 215_000_000, "CLE": 198_000_000, "LAC": 190_000_000, "DET": 172_000_000,
-        "SAC": 187_000_000, "TOR": 188_000_000, "POR": 170_000_000, "ATL": 184_000_000,
-        "MIA": 184_000_000, "IND": 178_000_000, "CHI": 160_000_000, "WAS": 168_000_000,
-        "NOP": 175_000_000, "CHA": 158_000_000, "MEM": 182_000_000, "ORL": 186_000_000,
-        "UTA": 155_000_000, "BKN": 152_000_000,
-    },
+    "Mikal Bridges":       {"team": "NYK", "salary": 24_900_000, "years_left": 1, "option": None, "expires": "2026"},
+    "OG Anunoby":          {"team": "NYK", "salary": 39_000_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Desmond Bane":        {"team": "ORL", "salary": 36_725_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Jerami Grant":        {"team": "POR", "salary": 32_000_000, "years_left": 3, "option": "PO", "expires": "2028"},
+    "Jrue Holiday":        {"team": "POR", "salary": 32_400_000, "years_left": 2, "option": None, "expires": "2027"},
+    "Derrick White":       {"team": "BOS", "salary": 28_100_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Jaren Jackson Jr.":   {"team": "MEM", "salary": 23_410_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Ja Morant":           {"team": "MEM", "salary": 39_446_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Trae Young":          {"team": "ATL", "salary": 45_999_000, "years_left": 2, "option": "PO", "expires": "2027"},
+    "Darius Garland":      {"team": "CLE", "salary": 39_446_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Lauri Markkanen":     {"team": "UTA", "salary": 46_385_000, "years_left": 4, "option": None, "expires": "2029"},
+    "Collin Sexton":       {"team": "CHA", "salary": 19_000_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Stephon Castle":      {"team": "SAS", "salary":  9_165_000, "years_left": 3, "option": None, "expires": "2028"},
+    "Dyson Daniels":       {"team": "ATL", "salary":  6_750_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Cason Wallace":       {"team": "OKC", "salary":  5_200_000, "years_left": 1, "option": None, "expires": "2026"},
+    "Ausar Thompson":      {"team": "DET", "salary":  9_200_000, "years_left": 2, "option": "TO", "expires": "2027"},
 }
 
 _CONTRACTS_NORM = {recognition.norm_name(n): v for n, v in CONTRACTS.items()}
+
+# ── Team committed salary (current season) for the cap view. APPROXIMATE total
+# team payroll; used directly so the cap sheet doesn't depend on curating every
+# rostered player. Edit toward real totals. (~$188M ≈ the luxury-tax line.)
+TEAM_COMMITTED = {
+    "HOU": 196_000_000, "OKC": 168_000_000, "DEN": 188_000_000, "LAL": 195_000_000,
+    "MIL": 186_000_000, "PHI": 192_000_000, "SAS": 165_000_000, "BOS": 225_000_000,
+    "MIN": 205_000_000, "PHX": 193_000_000, "DAL": 178_000_000, "GSW": 198_000_000,
+    "NYK": 215_000_000, "CLE": 198_000_000, "LAC": 190_000_000, "DET": 172_000_000,
+    "SAC": 187_000_000, "TOR": 188_000_000, "POR": 170_000_000, "ATL": 184_000_000,
+    "MIA": 184_000_000, "IND": 178_000_000, "CHI": 160_000_000, "WAS": 168_000_000,
+    "NOP": 175_000_000, "CHA": 158_000_000, "MEM": 182_000_000, "ORL": 186_000_000,
+    "UTA": 155_000_000, "BKN": 152_000_000,
+}
+
+
+def _fmt_m(dollars):
+    return round(dollars / 1_000_000, 1)
 
 
 # ── Salary lookup + estimate fallback ────────────────────────────────────────
 
 def _expected_salary(value):
     """The salary a player's 0–100 trade value 'should' command (a fair-market
-    curve). Used both for the bargain/overpaid judgment and the estimate fallback
-    when a player isn't in the curated table."""
+    curve). Drives the bargain/overpaid judgment and the estimate fallback for
+    players not in the curated table."""
     table = [(95, 56_000_000), (88, 48_000_000), (82, 41_000_000), (76, 35_000_000),
              (68, 27_000_000), (60, 20_000_000), (52, 14_000_000), (44, 9_500_000),
              (36, 6_000_000), (28, 4_000_000), (0, _MIN_SALARY)]
@@ -166,34 +167,60 @@ def _expected_salary(value):
 
 
 def get_salary(name, season=DEFAULT_SEASON, value=None):
-    """Player's salary for the season. Curated if known, else estimated from
-    `value` (0–100 trade value). Returns whole dollars."""
+    """Player's current-season cap hit. Curated if known, else estimated from
+    `value` (0–100). Contracts are forward-looking, so the curated figure is used
+    regardless of `season`; only the estimate fallback needs a value."""
     c = _CONTRACTS_NORM.get(recognition.norm_name(name))
-    if c:
-        sal = c["salary"].get(season)
-        if sal:
-            return sal
+    if c and c.get("salary"):
+        return c["salary"]
     if value is not None:
         return _expected_salary(value)
     return _MIN_SALARY
 
 
+def _future_salaries(salary, years_left, season=DEFAULT_SEASON):
+    """Projected cap hits for the seasons AFTER the current one (RAISE per year)."""
+    out = []
+    start = int(season[:4])
+    s = salary
+    for i in range(1, max(0, years_left)):
+        s = round(s * RAISE, -3)
+        yr = start + i
+        out.append({"season": f"{yr}-{str(yr + 1)[2:]}", "amount": s, "amount_m": _fmt_m(s)})
+    return out
+
+
+def contract_outlook(name, season=DEFAULT_SEASON):
+    """Current + future view of a contract for display: salary now, projected
+    future cap hits, total remaining value, years left, option, expiry. None if
+    the player isn't in the curated table."""
+    c = _CONTRACTS_NORM.get(recognition.norm_name(name))
+    if not c or not c.get("salary"):
+        return None
+    yl = c.get("years_left", 1)
+    future = _future_salaries(c["salary"], yl, season)
+    total = c["salary"] + sum(f["amount"] for f in future)
+    return {
+        "salary": c["salary"], "salary_m": _fmt_m(c["salary"]),
+        "years_left": yl, "option": c.get("option"), "expires": c.get("expires"),
+        "future": future,
+        "total_remaining": total, "total_remaining_m": _fmt_m(total),
+    }
+
+
 def get_contract(name):
-    """Full curated contract record (team, salary map, years_left, option) or None."""
+    """Raw curated contract record (team, salary, years_left, option, expires)."""
     return _CONTRACTS_NORM.get(recognition.norm_name(name))
 
 
 # ── Contract → trade-value modifier ──────────────────────────────────────────
 
 def contract_grade(name, value, season=DEFAULT_SEASON):
-    """Judge a contract relative to production. Returns a dict:
-        salary, expected, ratio, label ("Bargain"|"Fair"|"Overpaid"|"Bad contract"),
-        value_delta (added to the player's 0–100 trade value), dumpable (bool).
-
-    A bargain (e.g. a star on a rookie deal) is a positive trade asset; a bad
-    contract is a drag teams will attach picks to shed. value_delta is small and
-    bounded so it tunes, not dominates, the stat-driven value.
-    """
+    """Judge a contract relative to production. Returns salary, expected, ratio,
+    label (Bargain|Value|Fair|Overpaid|Bad contract), value_delta (added to the
+    0–100 trade value), dumpable, and the forward outlook (years_left/option/
+    expires/total_remaining_m/future). value_delta is bounded so it tunes, not
+    dominates, the stat-driven value."""
     salary = get_salary(name, season, value)
     expected = _expected_salary(value)
     ratio = salary / expected if expected else 1.0
@@ -209,24 +236,28 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
     else:
         label, delta = "Bad contract", -min(10.0, (ratio - 1.20) * 14)
 
-    return {
+    out = {
         "salary": salary,
         "expected": expected,
         "ratio": round(ratio, 2),
         "label": label,
         "value_delta": round(delta, 1),
-        "dumpable": ratio > 1.40,   # team would attach an asset to move it for cap relief
+        "dumpable": ratio > 1.40,
     }
+    outlook = contract_outlook(name, season)
+    if outlook:
+        out.update({k: outlook[k] for k in
+                    ("years_left", "option", "expires", "total_remaining_m", "future")})
+    return out
 
 
 # ── CBA salary-matching / legality ───────────────────────────────────────────
 
 def team_apron_status(team, season=DEFAULT_SEASON):
-    """Where a team sits relative to the cap lines: 'room' | 'over_cap' |
-    'taxpayer' | 'first_apron' | 'second_apron'. Governs how much salary it can
-    take back in a trade."""
+    """Where a team sits vs the cap lines: room | over_cap | taxpayer |
+    first_apron | second_apron. Governs how much salary it can take back."""
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
-    committed = TEAM_COMMITTED.get(season, {}).get(team)
+    committed = TEAM_COMMITTED.get(team)
     if committed is None:
         return "over_cap"
     if committed >= lines["apron2"]:  return "second_apron"
@@ -237,15 +268,13 @@ def team_apron_status(team, season=DEFAULT_SEASON):
 
 
 def matchable_incoming(out_salary, status):
-    """Max salary a team in `status` may take back when sending `out_salary`
-    (simplified 2023 CBA). Second-apron teams must match dollar-for-dollar;
-    apron/tax/over-cap teams use 125% + $250K; teams under the cap can absorb
-    into room (handled by the caller), so here they also get the generous bracket."""
+    """Max salary a team in `status` may take back for `out_salary` (simplified
+    2023 CBA). Second-apron = dollar-for-dollar; apron/tax/over-cap = 125%+$250K;
+    below the cap = 200%+$250K."""
     if status == "second_apron":
-        return out_salary + 100_000               # essentially dollar-in / dollar-out
+        return out_salary + 100_000
     if status in ("first_apron", "taxpayer", "over_cap"):
         return round(out_salary * 1.25 + 250_000)
-    # below the cap: 200% + $250K (the most generous matching bracket)
     return round(out_salary * 2.0 + 250_000)
 
 
@@ -254,7 +283,6 @@ def trade_legal(out_salary, in_salary, status):
     Returns (legal: bool, allowed: int, shortfall: int>=0)."""
     allowed = matchable_incoming(out_salary, status)
     legal = in_salary <= allowed
-    # Minimum outgoing salary required to legally absorb in_salary.
     if status == "second_apron":
         need_out = max(0, in_salary - 100_000)
     elif status in ("first_apron", "taxpayer", "over_cap"):
@@ -267,17 +295,12 @@ def trade_legal(out_salary, in_salary, status):
 
 # ── Cap view payload ─────────────────────────────────────────────────────────
 
-def _fmt_m(dollars):
-    return round(dollars / 1_000_000, 1)
-
-
 def get_cap_sheet(season=DEFAULT_SEASON):
-    """Per-team cap summary for the Contracts page: committed payroll vs the
-    cap / tax / apron lines, sorted by payroll (biggest spenders first)."""
+    """Per-team cap summary: committed payroll vs the cap / tax / apron lines,
+    sorted by payroll (biggest spenders first)."""
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
-    committed = TEAM_COMMITTED.get(season, {})
     teams = []
-    for team, total in committed.items():
+    for team, total in TEAM_COMMITTED.items():
         status = team_apron_status(team, season)
         teams.append({
             "team": team,
@@ -285,8 +308,8 @@ def get_cap_sheet(season=DEFAULT_SEASON):
             "committed_m": _fmt_m(total),
             "status": status,
             "over_cap_m": _fmt_m(total - lines["cap"]),
-            "room_m": _fmt_m(lines["cap"] - total),     # negative if over the cap
-            "tax_m": _fmt_m(total - lines["tax"]),       # positive if a taxpayer
+            "room_m": _fmt_m(lines["cap"] - total),
+            "tax_m": _fmt_m(total - lines["tax"]),
         })
     teams.sort(key=lambda t: t["committed"], reverse=True)
     return {
@@ -298,72 +321,82 @@ def get_cap_sheet(season=DEFAULT_SEASON):
 
 
 def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
-    """For a team over the tax/apron lines, the most likely moves to get back
-    under — the real front-office calculus the user wants surfaced, especially
-    for teams 'well above the second apron'.
+    """For a team over the tax/apron, the most likely moves to get back under —
+    the real front-office calculus, especially for teams 'well above the second
+    apron'.
 
-    We target the highest line the team is over (a second-apron team aims to get
-    under the second apron first). Candidates are the team's curated contracts,
-    shed worst-first (bad/overpaid deals, then biggest expirings), assuming each
-    is moved/replaced by a minimum salary (so net saving = salary − minimum,
-    reflecting that you take back some money in any trade). Returns None for
-    teams already in line.
+    Targets the highest line the team is over. Candidates are the team's curated
+    contracts, shed worst-first (bad/overpaid deals, then overpaid vets), assuming
+    each is moved for a minimum-salary replacement (net saving = salary − minimum).
+    A team will NOT shed its best player or any star/cornerstone for cap relief —
+    those are protected (they'd only move by request, and then via trade, not a
+    salary dump). Returns None for teams already in line.
 
     `value_lookup(name) -> 0–100 value` (optional) lets the planner grade each
-    contract; without it, raw salary ordering is used.
+    contract and identify the team's best player to protect him.
     """
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
-    committed = TEAM_COMMITTED.get(season, {}).get(team)
+    committed = TEAM_COMMITTED.get(team)
     if committed is None:
         return None
     status = team_apron_status(team, season)
     if status in ("room", "over_cap"):
-        return None  # not a tax/apron team — no relief pressure
+        return None
 
-    # The line to dip under (just below the highest one they're over).
     if committed >= lines["apron2"]:   target_name, target = "second apron", lines["apron2"]
     elif committed >= lines["apron1"]: target_name, target = "first apron", lines["apron1"]
     else:                              target_name, target = "luxury tax", lines["tax"]
     overage = committed - target
 
-    # Candidate contracts on this team, worst-first.
+    # Identify the team's best player (by value) so we never recommend moving him.
+    team_players = [(n, c) for n, c in CONTRACTS.items() if c["team"] == team and c.get("salary")]
+    best_name = None
+    if value_lookup:
+        graded = [(n, value_lookup(n)) for n, _ in team_players]
+        graded = [(n, v) for n, v in graded if v is not None]
+        if graded:
+            best_name = max(graded, key=lambda x: x[1])[0]
+
     cands = []
-    for name, c in CONTRACTS.items():
-        if c["team"] != team:
-            continue
-        sal = c["salary"].get(season)
-        if not sal or sal <= _MIN_SALARY * 1.5:
+    for name, c in team_players:
+        sal = c["salary"]
+        if sal <= _MIN_SALARY * 1.5:
             continue  # minimum deals don't create meaningful relief
         val = value_lookup(name) if value_lookup else None
         grade = contract_grade(name, val, season) if val is not None else {"label": "—", "dumpable": False, "ratio": None}
-        # Teams shed contracts in a realistic order, NOT just biggest salary:
-        #   0 bad contracts → 1 overpaid/fair vets → 2 bargains (kept if possible)
-        #   → 3 All-Stars & franchise cornerstones (last resort).
-        # A team dumps dead money before it touches a star or a good-value deal.
-        keeper = recognition.is_cornerstone(name) or recognition.star_floor(name, season) >= 76
+        # Protected: the team's best player, plus any star/cornerstone. A team
+        # doesn't dump its franchise talent for cap relief — those are never
+        # candidates here (only the rest of the roster is).
+        protected = (name == best_name) or recognition.is_cornerstone(name) \
+            or recognition.star_floor(name, season) >= 76
+        if protected:
+            continue
         label = grade.get("label")
-        if keeper:                               tier = 3
-        elif label in ("Bargain", "Value"):      tier = 2
-        elif grade.get("dumpable"):              tier = 0
-        else:                                    tier = 1
-        rank = (tier, -(grade.get("ratio") or 0), -sal)
+        # Shed order: 0 bad contracts → 1 overpaid/fair vets → 2 bargains (kept last).
+        if label in ("Bargain", "Value"):   tier = 2
+        elif grade.get("dumpable"):          tier = 0
+        else:                                tier = 1
         cands.append({"name": name, "salary": sal, "salary_m": _fmt_m(sal),
-                      "label": grade.get("label"), "rank": rank,
-                      "option": c.get("option")})
+                      "label": label, "option": c.get("option"),
+                      "rank": (tier, -(grade.get("ratio") or 0), -sal)})
     cands.sort(key=lambda x: x["rank"])
 
     moves, saved = [], 0
     for c in cands:
         if saved >= overage:
             break
-        net = c["salary"] - _MIN_SALARY     # replace the outgoing deal with a minimum
-        action = "Decline option / let expire" if c["option"] in ("PO", "TO") else "Trade / shed"
+        net = c["salary"] - _MIN_SALARY
+        # Cap relief is almost always a trade; a team option expiring this summer
+        # is the one case a team simply lets the salary come off the books.
+        expiring_team_option = c["option"] == "TO" and (
+            get_contract(c["name"]) or {}).get("years_left", 9) <= 1
+        action = "Decline team option" if expiring_team_option else "Trade away"
         moves.append({"name": c["name"], "salary_m": c["salary_m"],
-                      "label": c["label"], "action": action,
-                      "saves_m": _fmt_m(net)})
+                      "label": c["label"], "action": action, "saves_m": _fmt_m(net)})
         saved += net
 
     reachable = saved >= overage
+    names = ", ".join(m["name"] for m in moves)
     return {
         "team": team,
         "status": status,
@@ -371,33 +404,32 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
         "committed_m": _fmt_m(committed),
         "target_m": _fmt_m(target),
         "overage_m": _fmt_m(overage),
+        "best_player": best_name,
         "moves": moves,
         "projected_saving_m": _fmt_m(saved),
         "gets_under": reachable,
         "note": (
-            f"Shedding {', '.join(m['name'] for m in moves)} clears about "
-            f"${_fmt_m(saved)}M — enough to dip under the {target_name}."
-            if reachable else
-            f"Even moving {', '.join(m['name'] for m in moves) or 'their tradable deals'} "
-            f"(~${_fmt_m(saved)}M) leaves them over the {target_name}; a bigger salary dump "
-            f"or a star trade would be required."
+            f"Moving {names} clears about ${_fmt_m(saved)}M — enough to dip under the {target_name}."
+            if reachable and moves else
+            f"Even moving {names or 'their movable deals'} (~${_fmt_m(saved)}M) leaves them over the "
+            f"{target_name}; only a bigger salary dump or a star trade gets them under."
         ),
     }
 
 
 def get_team_contracts(team, season=DEFAULT_SEASON):
-    """Curated contracts for one team (for a roster cap breakdown). Approximate —
-    only players in the CONTRACTS table appear."""
+    """Curated contracts for one team, with the forward outlook on each. APPROXIMATE
+    — only players in the CONTRACTS table appear."""
     rows = []
     for name, c in CONTRACTS.items():
-        if c["team"] != team:
+        if c["team"] != team or not c.get("salary"):
             continue
-        sal = c["salary"].get(season)
-        if not sal:
-            continue
+        o = contract_outlook(name, season)
         rows.append({
-            "name": name, "salary": sal, "salary_m": _fmt_m(sal),
+            "name": name, "salary": c["salary"], "salary_m": _fmt_m(c["salary"]),
             "years_left": c.get("years_left"), "option": c.get("option"),
+            "expires": c.get("expires"),
+            "total_remaining_m": o["total_remaining_m"] if o else _fmt_m(c["salary"]),
         })
     rows.sort(key=lambda r: r["salary"], reverse=True)
     return rows

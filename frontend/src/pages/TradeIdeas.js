@@ -153,6 +153,12 @@ export default function TradeIdeas() {
                             {t.contract_label}{t.salary_m != null ? ` · $${t.salary_m}M` : ""}
                           </span>
                         )}
+                        {t.contract_years && (
+                          <span className="rec-pill">
+                            {t.contract_years}yr{t.contract_option ? ` ${t.contract_option}` : ""}
+                            {t.contract_expires ? ` · FA ${t.contract_expires}` : ""}
+                          </span>
+                        )}
                         {t.team_record && <span className="rec-pill">{t.team} {t.team_record}</span>}
                       </div>
                       <div className="idea-statline">
