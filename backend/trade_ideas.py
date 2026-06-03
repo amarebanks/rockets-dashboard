@@ -21,8 +21,10 @@ cached in-process since a completed season's data doesn't change.
 import time
 from nba_api.stats.endpoints import leaguedashplayerstats, leaguedashteamstats
 import recognition
+import contracts
 
 ROCKETS_ID = 1610612745
+ROCKETS_ABBR = "HOU"
 
 # Houston's genuine cornerstones per season — kept out of every package. Everyone else,
 # including up-and-coming players (Jabari Smith Jr., Reed Sheppard, Tari Eason), is a
@@ -274,13 +276,18 @@ def _adjusted(items):
     return sum(v * (DECAY ** idx) for idx, v in enumerate(vals))
 
 
-def _build_package(target_value, rockets, prefer="balanced", star=False, season=None):
+def _build_package(target_value, rockets, prefer="balanced", star=False, season=None,
+                   target_salary=0):
     """Assemble a realistic Rockets package for a target's acquisition cost.
 
     Mirrors how real deals are shaped: an up-and-coming player (or two) headlines,
     complementary salary/young pieces fill the gap, and pick compensation is almost
     always attached — not a one-for-one swap. Only Houston's cornerstones are
     off-limits; everyone else (Jabari Smith Jr., Reed Sheppard, Tari Eason…) is fair game.
+
+    After value-matching, the package is checked for CBA legality: Houston must send
+    enough salary to legally absorb the target. If it's short, salary FILLER (an
+    expendable contract, bad deals first) is added so the trade is cap-legal.
     """
     cost = target_value * premium_mult(target_value)
     untouchable = {recognition.norm_name(n) for n in _untouchable(season)}
@@ -288,7 +295,9 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
     core = [p["name"] for p in ranked if recognition.norm_name(p["name"]) in untouchable]
     protected = ", ".join(core) if core else (ranked[0]["name"] if ranked else None)
 
-    players = [{"name": p["name"], "value": p["value"], "type": "player", "age": p.get("age")}
+    players = [{"name": p["name"], "value": p["value"], "type": "player", "age": p.get("age"),
+                "salary": p.get("salary") or contracts.get_salary(p["name"], season, p["value"]),
+                "dumpable": p.get("contract", {}).get("dumpable", False)}
                for p in ranked if recognition.norm_name(p["name"]) not in untouchable]
     picks = [{"name": nm, "value": v, "type": "pick"} for nm, v in PICKS]   # value-desc
 
@@ -367,10 +376,57 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
     if diff_pct >= 12:    verdict = "Rockets overpay"
     elif diff_pct <= -12: verdict = "Package falls short"
     else:                 verdict = "Fair value"
+
+    # ── Cap-legal salary matching ────────────────────────────────────────────
+    # Houston must send enough salary to legally take the target back. If the
+    # value-matched package is short on salary, add filler contracts (bad/dumpable
+    # deals first, then largest) until it's legal — exactly how real deals attach
+    # a matching salary to a young-talent + picks core.
+    status = contracts.team_apron_status(ROCKETS_ABBR, season)
+
+    def _pkg_salary(items):
+        return sum(i.get("salary", 0) for i in items if i["type"] == "player")
+
+    out_salary = _pkg_salary(chosen)
+    legal, allowed, shortfall = contracts.trade_legal(out_salary, target_salary, status)
+    if not legal:
+        filler = [i for i, p in enumerate(players) if i not in used]
+        # Worst contracts first (cap relief for Houston too), then biggest salary —
+        # but prefer ones that add the least extra VALUE so we don't lard the deal.
+        filler.sort(key=lambda i: (not players[i]["dumpable"], players[i]["value"], -players[i]["salary"]))
+        for i in filler:
+            if legal:
+                break
+            f = dict(players[i]); f["filler"] = True
+            chosen.append(f); used.add(i)
+            out_salary = _pkg_salary(chosen)
+            legal, allowed, shortfall = contracts.trade_legal(out_salary, target_salary, status)
+        out_value = round(_adjusted(chosen), 1)
+        diff_pct = round((out_value - cost) / cost * 100, 1) if cost else 0
+
+    salary_info = {
+        "out": out_salary, "out_m": round(out_salary / 1_000_000, 1),
+        "in": target_salary, "in_m": round(target_salary / 1_000_000, 1),
+        "allowed_m": round(allowed / 1_000_000, 1),
+        "houston_status": status,
+        "legal": legal,
+        "note": (
+            "Salary-legal as constructed."
+            if legal else
+            f"Needs ~${round(shortfall/1_000_000,1)}M more outgoing salary to be legal "
+            f"(Houston is a {status.replace('_',' ')} team)."
+        ),
+    }
+
     # Display order: players (by value, desc) first, then picks (by value, desc).
     chosen.sort(key=lambda a: (a["type"] != "player", -a["value"]))
-    clean = [{k: v for k, v in a.items() if k != "age"} for a in chosen]
-    return clean, out_value, round(cost, 1), verdict, diff_pct, protected
+    clean = []
+    for a in chosen:
+        row = {k: v for k, v in a.items() if k not in ("age", "dumpable")}
+        if a["type"] == "player":
+            row["salary_m"] = round(a.get("salary", 0) / 1_000_000, 1)
+        clean.append(row)
+    return clean, out_value, round(cost, 1), verdict, diff_pct, protected, salary_info
 
 
 def _fetch_players(season):
@@ -468,13 +524,26 @@ def _build(season):
     needs, team_ctx = _fetch_team_data(season)
     total_w = sum(n["weight"] for n in needs.values()) or 1.0
 
-    # First pass: value everyone, and rank players within their own team (rotation only).
+    # First pass: on-court value everyone, and rank players within their own team
+    # (rotation only) by that pure value, so team-role is unaffected by contracts.
     for s in players:
-        s["value"], s["is_cornerstone"], s["is_allstar"] = _proxy_value(s, season)
+        base, corner, star = _proxy_value(s, season)
+        s["base_value"] = base
+        s["value"] = base
+        s["is_cornerstone"], s["is_allstar"] = corner, star
     rotation = [s for s in players if s["min"] >= 20 and s["gp"] >= 20]
     team_order = {}
-    for s in sorted(rotation, key=lambda p: p["value"], reverse=True):
+    for s in sorted(rotation, key=lambda p: p["base_value"], reverse=True):
         team_order.setdefault(s["team_id"], []).append(s["player_id"])
+
+    # Contract pass: a player's TRADE value reflects his deal — a bargain is a
+    # bonus asset, a bad contract a drag teams pay to escape. Salary is attached
+    # for the cap-legal matching done when building packages.
+    for s in players:
+        g = contracts.contract_grade(s["name"], s["base_value"], season)
+        s["contract"] = g
+        s["salary"] = g["salary"]
+        s["value"] = round(min(100.0, max(0.0, s["base_value"] + g["value_delta"])), 1)
 
     rockets, candidates = [], []
     for s in players:
@@ -495,6 +564,13 @@ def _build(season):
         order = team_order.get(c["team_id"], [])
         team_rank = (order.index(c["player_id"]) + 1) if c["player_id"] in order else 5
         avail = _availability(c, ctx["tier"], team_rank)
+        # A bad contract on a tax/apron team is shopped for cap relief — more gettable.
+        if c["contract"]["dumpable"]:
+            house = contracts.team_apron_status(ctx["team"], season)
+            if house in ("taxpayer", "first_apron", "second_apron"):
+                avail = _clamp(avail * 1.30)
+            else:
+                avail = _clamp(avail * 1.12)
         if avail < AVAIL_FLOOR:
             continue   # untouchable — drop it so we stop suggesting unrealistic stars
 
@@ -519,15 +595,19 @@ def _build(season):
         ctx = c["team_ctx"]
         prefer = _return_pref(ctx["tier"])
         is_star = c["is_allstar"] or c["value"] >= 74
-        gives, out_value, cost, verdict, diff_pct, protected = _build_package(
-            c["value"], rockets, prefer, star=is_star, season=season)
+        gives, out_value, cost, verdict, diff_pct, protected, salary_info = _build_package(
+            c["value"], rockets, prefer, star=is_star, season=season,
+            target_salary=c.get("salary", 0))
         top_need = c["addresses"][0]
         need_rank = needs[top_need]["rank"]
+        grade = c["contract"]
         rationale = (
             f"Houston ranks {_ordinal(need_rank)} in {top_need.lower()}; "
             f"{c['name']} ({_stat_line(c, top_need)}) upgrades it directly"
             + (f" and adds {', '.join(a.lower() for a in c['addresses'][1:])}. " if len(c["addresses"]) > 1 else ". ")
             + _why_they_deal(c, ctx, prefer)
+            + (f" {c['team']} would also welcome shedding his ${grade['salary']/1_000_000:.0f}M "
+               f"contract for cap relief." if grade["dumpable"] else "")
         )
         ideas.append({
             "target": {
@@ -538,6 +618,8 @@ def _build(season):
                 "available_label": _avail_label(c["availability"]),
                 "team_record": f"{ctx['w']}–{ctx['l']}",
                 "team_tier": ctx["tier"],
+                "salary_m": round(grade["salary"] / 1_000_000, 1),
+                "contract_label": grade["label"],
                 "stats": {"pts": round(c["pts"],1), "reb": round(c["reb"],1), "ast": round(c["ast"],1),
                           "fg3_pct": round(c["fg3_pct"]*100,1), "stl": round(c["stl"],1),
                           "blk": round(c["blk"],1), "usg_pct": round(c["usg_pct"]*100,1)},
@@ -546,6 +628,7 @@ def _build(season):
             "out_value": out_value,
             "cost": cost,
             "fairness": {"verdict": verdict, "diff_pct": diff_pct},
+            "salary": salary_info,
             "protected": protected,
             "rationale": rationale,
         })
@@ -560,13 +643,23 @@ def _build(season):
     untouchable = {recognition.norm_name(n) for n in _untouchable(season)}
     protected_core = [r["name"] for r in sorted(rockets_min, key=lambda r: r["value"], reverse=True)
                       if recognition.norm_name(r["name"]) in untouchable]
+    # League-wide on-court value map (name → base value) — reused by the contracts
+    # cap-relief planner to grade deals without re-fetching league stats.
+    player_values = {s["name"]: s["base_value"] for s in players
+                     if s["gp"] >= 20 and s["min"] >= 12}
     return {
         "season": season,
         "needs": needs_sorted,
         "rockets_core": sorted(rockets_min, key=lambda r: r["value"], reverse=True)[:5],
         "protected_core": protected_core,
         "ideas": ideas,
+        "player_values": player_values,
     }
+
+
+def get_player_values(season, force=False):
+    """League-wide {name: on-court value} from the cached build (no extra fetch)."""
+    return get_trade_ideas(season, force=force).get("player_values", {})
 
 
 def _ordinal(n):

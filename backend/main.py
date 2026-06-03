@@ -840,6 +840,36 @@ def get_trade_ideas(season: str = Query(DEFAULT_SEASON)):
         raise HTTPException(status_code=500, detail=f"Trade idea engine failed: {e}")
 
 
+@app.get("/contracts/cap")
+def get_contracts_cap(season: str = Query(DEFAULT_SEASON)):
+    """Per-team salary-cap sheet: committed payroll vs the cap / tax / apron lines."""
+    import contracts
+    return contracts.get_cap_sheet(valid_season(season))
+
+
+@app.get("/contracts/team/{team}")
+def get_contracts_team(team: str, season: str = Query(DEFAULT_SEASON)):
+    """One team's curated contracts plus, if they're over the line, the most likely
+    cap-relief moves to get back under (especially for second-apron teams)."""
+    import contracts, trade_ideas
+    season = valid_season(season)
+    team = team.upper()
+    # League-wide value lookup so the relief planner grades contracts (bad/overpaid
+    # first, franchise players last) instead of just shedding the biggest salary.
+    try:
+        values = trade_ideas.get_player_values(season)
+    except Exception:
+        values = {}
+    vlookup = (lambda n: values.get(n)) if values else None
+    return {
+        "season": season,
+        "team": team,
+        "status": contracts.team_apron_status(team, season),
+        "contracts": contracts.get_team_contracts(team, season),
+        "relief_plan": contracts.cap_relief_plan(team, season, value_lookup=vlookup),
+    }
+
+
 @app.get("/team/clutch")
 def get_team_clutch(season: str = Query(DEFAULT_SEASON)):
     """Houston's clutch performance — last 5 min, score within 5 (NBA's definition)."""

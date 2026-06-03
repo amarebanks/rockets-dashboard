@@ -37,6 +37,12 @@ const css = `
   .give-row { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 10px; background:var(--surface2); border-radius:3px; margin-bottom:5px; font-size:13px; }
   .give-val { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; color:var(--gold); }
   .give-pick { color:var(--muted); }
+  .give-salary { font-size:10px; color:var(--muted); margin-left:6px; }
+  .give-filler { font-size:8px; letter-spacing:1px; text-transform:uppercase; background:rgba(150,150,150,0.16); color:var(--muted); padding:1px 5px; border-radius:2px; margin-left:6px; vertical-align:middle; }
+  .contract-pill { font-size:9px; letter-spacing:0.5px; text-transform:uppercase; padding:2px 7px; border-radius:2px; font-weight:700; white-space:nowrap; }
+  .salary-line { display:flex; align-items:center; gap:8px; margin-top:10px; font-size:11px; color:var(--muted); flex-wrap:wrap; }
+  .salary-line b { color:var(--text); font-family:'Barlow Condensed',sans-serif; font-size:14px; }
+  .legal-pill { font-size:9px; letter-spacing:1px; text-transform:uppercase; padding:3px 9px; border-radius:2px; font-weight:800; white-space:nowrap; }
   .idea-foot { display:flex; align-items:center; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
   .verdict-chip { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; padding:4px 12px; border-radius:2px; font-weight:700; white-space:nowrap; }
   .ti-allstar { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:#000; padding:2px 6px; border-radius:2px; margin-left:8px; vertical-align:middle; font-weight:700; }
@@ -59,6 +65,12 @@ const verdictStyle = (v) => {
   if (v === "Fair value")   return { background: "rgba(74,222,128,0.15)", color: "var(--green)", border: "1px solid rgba(74,222,128,0.4)" };
   if (v === "Rockets overpay") return { background: "rgba(196,162,101,0.15)", color: "var(--gold)", border: "1px solid rgba(196,162,101,0.4)" };
   return { background: "rgba(206,17,65,0.15)", color: "var(--red)", border: "1px solid rgba(206,17,65,0.4)" };
+};
+const contractStyle = (label) => {
+  if (label === "Bargain" || label === "Value") return { background:"rgba(74,222,128,0.14)", color:"var(--green)" };
+  if (label === "Overpaid")     return { background:"rgba(255,140,60,0.16)", color:"#ff8c3c" };
+  if (label === "Bad contract") return { background:"rgba(206,17,65,0.16)", color:"var(--red)" };
+  return { background:"rgba(150,150,150,0.14)", color:"var(--muted)" };
 };
 
 export default function TradeIdeas() {
@@ -136,6 +148,11 @@ export default function TradeIdeas() {
                             {t.available_label}{t.availability != null ? ` · ${t.availability}%` : ""}
                           </span>
                         )}
+                        {t.contract_label && (
+                          <span className="contract-pill" style={contractStyle(t.contract_label)}>
+                            {t.contract_label}{t.salary_m != null ? ` · $${t.salary_m}M` : ""}
+                          </span>
+                        )}
                         {t.team_record && <span className="rec-pill">{t.team} {t.team_record}</span>}
                       </div>
                       <div className="idea-statline">
@@ -156,10 +173,22 @@ export default function TradeIdeas() {
                       <div className="give-row" key={i}>
                         <span className={g.type === "pick" ? "give-pick" : ""}>
                           {g.type === "pick" ? "🏀 " : ""}{g.name}
+                          {g.salary_m != null && g.salary_m > 0 && <span className="give-salary">${g.salary_m}M</span>}
+                          {g.filler && <span className="give-filler">salary filler</span>}
                         </span>
                         <span className="give-val">{g.value}</span>
                       </div>
                     ))}
+                    {idea.salary && (
+                      <div className="salary-line">
+                        <span className="legal-pill" style={idea.salary.legal
+                          ? { background:"rgba(74,222,128,0.16)", color:"var(--green)" }
+                          : { background:"rgba(206,17,65,0.16)", color:"var(--red)" }}>
+                          {idea.salary.legal ? "✓ Cap-legal" : "✕ Needs filler"}
+                        </span>
+                        <span>out <b>${idea.salary.out_m}M</b> · in <b>${idea.salary.in_m}M</b> · max take-back ${idea.salary.allowed_m}M</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -179,7 +208,9 @@ export default function TradeIdeas() {
             and star tier decide whether he'd realistically be moved, so untouchable stars are screened out. Remaining targets are ranked
             by need-fit, value, and gettability. Packages follow real-deal structure: an up-and-coming player (or two) plus pick compensation
             — not one-for-one swaps — value-matched with the star-premium + diminishing-returns model and tailored to the seller (youth and
-            picks for rebuilders, win-now help for contenders). Only Houston's two cornerstones are off-limits. Fit-based, not salary-cap matched.
+            picks for rebuilders, win-now help for contenders). Only Houston's two cornerstones are off-limits. Deals are now <b>cap-legal</b>:
+            each package sends enough salary (adding filler contracts when needed) to legally absorb the target under CBA matching rules, and a
+            player's contract nudges his value — bargains are assets, bad contracts are discounts their team will move for cap relief.
           </div>
         </>
       )}
