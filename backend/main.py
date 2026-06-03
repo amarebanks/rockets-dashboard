@@ -854,19 +854,22 @@ def get_contracts_team(team: str, season: str = Query(DEFAULT_SEASON)):
     import contracts, trade_ideas
     season = valid_season(season)
     team = team.upper()
-    # League-wide value lookup so the relief planner grades contracts (bad/overpaid
-    # first, franchise players last) instead of just shedding the biggest salary.
+    # League-wide value + real-roster lookups so the relief planner grades contracts
+    # (bad/overpaid first, franchise players last) and sheds only players actually on
+    # the team (excluding dead money on the cap sheet).
     try:
         values = trade_ideas.get_player_values(season)
+        teams_map = trade_ideas.get_player_teams(season)
     except Exception:
-        values = {}
+        values, teams_map = {}, {}
     vlookup = (lambda n: values.get(n)) if values else None
+    roster = [n for n, t in teams_map.items() if t == team] or None
     return {
         "season": season,
         "team": team,
         "status": contracts.team_apron_status(team, season),
         "contracts": contracts.get_team_contracts(team, season),
-        "relief_plan": contracts.cap_relief_plan(team, season, value_lookup=vlookup),
+        "relief_plan": contracts.cap_relief_plan(team, season, value_lookup=vlookup, roster=roster),
     }
 
 

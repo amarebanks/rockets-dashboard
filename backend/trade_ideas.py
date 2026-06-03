@@ -646,10 +646,12 @@ def _build(season):
     untouchable = {recognition.norm_name(n) for n in _untouchable(season)}
     protected_core = [r["name"] for r in sorted(rockets_min, key=lambda r: r["value"], reverse=True)
                       if recognition.norm_name(r["name"]) in untouchable]
-    # League-wide on-court value map (name → base value) — reused by the contracts
-    # cap-relief planner to grade deals without re-fetching league stats.
+    # League-wide maps reused by the contracts cap-relief planner (no re-fetch):
+    # on-court value, and the REAL team each player suited up for (so the planner
+    # sheds only actual roster players, not dead money on a team's cap sheet).
     player_values = {s["name"]: s["base_value"] for s in players
                      if s["gp"] >= 20 and s["min"] >= 12}
+    player_teams = {s["name"]: s["team"] for s in players if s["gp"] >= 1}
     return {
         "season": season,
         "needs": needs_sorted,
@@ -657,12 +659,18 @@ def _build(season):
         "protected_core": protected_core,
         "ideas": ideas,
         "player_values": player_values,
+        "player_teams": player_teams,
     }
 
 
 def get_player_values(season, force=False):
     """League-wide {name: on-court value} from the cached build (no extra fetch)."""
     return get_trade_ideas(season, force=force).get("player_values", {})
+
+
+def get_player_teams(season, force=False):
+    """League-wide {name: team_abbr} of who actually played where (nba_api)."""
+    return get_trade_ideas(season, force=force).get("player_teams", {})
 
 
 def _ordinal(n):

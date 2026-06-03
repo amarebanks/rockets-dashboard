@@ -1,0 +1,5353 @@
+{
+  "scraped_at": "2026-06-03",
+  "seasons": [
+    "2025-26",
+    "2026-27"
+  ],
+  "players": {
+    "C.J. McCollum": {
+      "team": "ATL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 30666666,
+        "2026-27": 45999999
+      }
+    },
+    "Jalen Johnson": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 30000000,
+        "2026-27": 30000000
+      }
+    },
+    "Jonathan Kuminga": {
+      "team": "ATL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 23799569,
+        "2026-27": 24300000
+      }
+    },
+    "Nickeil Alexander-Walker": {
+      "team": "ATL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 15161800,
+        "2026-27": 14403710
+      }
+    },
+    "Onyeka Okongwu": {
+      "team": "ATL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 15000000,
+        "2026-27": 16100000
+      }
+    },
+    "Corey Kispert": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 13975000,
+        "2026-27": 13975000
+      }
+    },
+    "Zaccharie Risacher": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 13197720,
+        "2026-27": 13826040
+      }
+    },
+    "Gabe Vincent": {
+      "team": "ATL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 11500000,
+        "2026-27": 21850000
+      }
+    },
+    "Buddy Hield": {
+      "team": "ATL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 9219512,
+        "2026-27": 9658536
+      }
+    },
+    "Dyson Daniels": {
+      "team": "ATL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 7707709,
+        "2026-27": 25000000
+      }
+    },
+    "Asa Newell": {
+      "team": "ATL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3237480,
+        "2026-27": 3399480
+      }
+    },
+    "Jock Landale": {
+      "team": "ATL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Keaton Wallace": {
+      "team": "ATL",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 3409966
+      }
+    },
+    "Mouhamed Gueye": {
+      "team": "ATL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Tony Bradley": {
+      "team": "ATL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2450000
+      }
+    },
+    "Duop Reath": {
+      "team": "ATL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2221677
+      }
+    },
+    "N'Faly Dante": {
+      "team": "ATL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494
+      }
+    },
+    "Nikola Djurisic": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1272870
+      }
+    },
+    "Caleb Houstan": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 699440
+      }
+    },
+    "Trent Forrest": {
+      "team": "ATL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Wesley Matthews": {
+      "team": "ATL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Dylan Windler": {
+      "team": "ATL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Jayson Tatum": {
+      "team": "BOS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 54126450,
+        "2026-27": 58456566
+      }
+    },
+    "Jaylen Brown": {
+      "team": "BOS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 53142264,
+        "2026-27": 57078728
+      }
+    },
+    "Derrick White": {
+      "team": "BOS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 28100000,
+        "2026-27": 30348000
+      }
+    },
+    "Nikola Vucevic": {
+      "team": "BOS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 21481481,
+        "2026-27": 30000000
+      }
+    },
+    "Sam Hauser": {
+      "team": "BOS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 10044644,
+        "2026-27": 10848215
+      }
+    },
+    "Payton Pritchard": {
+      "team": "BOS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 7232143,
+        "2026-27": 7767857
+      }
+    },
+    "Hugo Gonzalez": {
+      "team": "BOS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2783880,
+        "2026-27": 2923560
+      }
+    },
+    "Baylor Scheierman": {
+      "team": "BOS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2619000,
+        "2026-27": 2744040
+      }
+    },
+    "Luka Garza": {
+      "team": "BOS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2461463,
+        "2026-27": 2801346
+      }
+    },
+    "Neemias Queta": {
+      "team": "BOS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2349578,
+        "2026-27": 2667944
+      }
+    },
+    "Jordan Walsh": {
+      "team": "BOS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Amari Williams": {
+      "team": "BOS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 490128,
+        "2026-27": 2150917
+      }
+    },
+    "Max Shulga": {
+      "team": "BOS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 212145,
+        "2026-27": 2150917
+      }
+    },
+    "Ron Harper Jr.": {
+      "team": "BOS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 123045,
+        "2026-27": 2584539
+      }
+    },
+    "Dalano Banton": {
+      "team": "BOS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2801346
+      }
+    },
+    "Charles Bassey": {
+      "team": "GSW",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2450000
+      }
+    },
+    "John Tonje": {
+      "team": "BOS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 73153,
+        "2026-27": 2185633
+      }
+    },
+    "Torrey Craig": {
+      "team": "BOS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Blake Griffin": {
+      "team": "BOS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Mfiondu Kabengele": {
+      "team": "BOS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Michael Porter Jr.": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 38333050,
+        "2026-27": 40806150
+      }
+    },
+    "Nicolas Claxton": {
+      "team": "BKN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 25541760,
+        "2026-27": 23320738
+      }
+    },
+    "Terance Mann": {
+      "team": "BKN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 15500000,
+        "2026-27": 15500000
+      }
+    },
+    "Egor Demin": {
+      "team": "BKN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 6889200,
+        "2026-27": 7233720
+      }
+    },
+    "Ochai Agbaji": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 6383525,
+        "2026-27": 19150575
+      }
+    },
+    "Day'Ron Sharpe": {
+      "team": "BKN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6250000,
+        "2026-27": 6250000
+      }
+    },
+    "Ziaire Williams": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 6250000,
+        "2026-27": 6250000
+      }
+    },
+    "Nolan Traore": {
+      "team": "BKN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 3811560,
+        "2026-27": 4002000
+      }
+    },
+    "Noah Clowney": {
+      "team": "BKN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3398640,
+        "2026-27": 5414034
+      }
+    },
+    "Drake Powell": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3372240,
+        "2026-27": 3540600
+      }
+    },
+    "Ben Saraf": {
+      "team": "BKN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2884560,
+        "2026-27": 3028560
+      }
+    },
+    "Danny Wolf": {
+      "team": "BKN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2801280,
+        "2026-27": 2941440
+      }
+    },
+    "Josh Minott": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2378870,
+        "2026-27": 2584539
+      }
+    },
+    "Jalen Wilson": {
+      "team": "BKN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 5372878
+      }
+    },
+    "Grant Nelson": {
+      "team": "BKN",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Malachi Smith": {
+      "team": "BKN",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 42650,
+        "2026-27": 2150917
+      }
+    },
+    "Cameron Thomas": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 844607,
+        "2026-27": 2450000
+      }
+    },
+    "Haywood Highsmith": {
+      "team": "PHX",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 827984,
+        "2026-27": 3018158
+      }
+    },
+    "Kobe Bufkin": {
+      "team": "MEM",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Dariq Whitehead": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Hunter Tyson": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2221677
+      }
+    },
+    "Tyrese Martin": {
+      "team": "PHI",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2191897,
+        "2026-27": 2185633
+      }
+    },
+    "Keon Johnson": {
+      "team": "BKN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 271614
+      }
+    },
+    "Trevon Scott": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 11773
+      }
+    },
+    "Maxwell Lewis": {
+      "team": "BKN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 100000
+      }
+    },
+    "Yuri Collins": {
+      "team": "BKN",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 85300
+      }
+    },
+    "D'Andre Davis": {
+      "team": "BKN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 85300
+      }
+    },
+    "David Muoka": {
+      "team": "BKN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 85300
+      }
+    },
+    "Terry Roberts": {
+      "team": "BKN",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 25000
+      }
+    },
+    "LaMelo Ball": {
+      "team": "CHA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 37958760,
+        "2026-27": 40770520
+      }
+    },
+    "Miles Bridges": {
+      "team": "CHA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 25000000,
+        "2026-27": 22826087
+      }
+    },
+    "Josh Green": {
+      "team": "CHA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 13666667,
+        "2026-27": 14679012
+      }
+    },
+    "Grant Williams": {
+      "team": "CHA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 13645500,
+        "2026-27": 14265750
+      }
+    },
+    "Coby White": {
+      "team": "CHA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 12888889,
+        "2026-27": 24488889
+      }
+    },
+    "Brandon Miller": {
+      "team": "CHA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 11968800,
+        "2026-27": 15104626
+      }
+    },
+    "Kon Knueppel": {
+      "team": "CHA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 10015680,
+        "2026-27": 10516560
+      }
+    },
+    "Tre Mann": {
+      "team": "CHA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 8000000,
+        "2026-27": 8000000
+      }
+    },
+    "Tidjane Salaun": {
+      "team": "CHA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 7863240,
+        "2026-27": 8237880
+      }
+    },
+    "Liam McNeeley": {
+      "team": "CHA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2763960,
+        "2026-27": 2902080
+      }
+    },
+    "Xavier Tillman": {
+      "team": "CHA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2546675,
+        "2026-27": 2450000
+      }
+    },
+    "Sion James": {
+      "team": "CHA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2411090
+      }
+    },
+    "Ryan Kalkbrenner": {
+      "team": "CHA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2411090
+      }
+    },
+    "Moussa Diabate": {
+      "team": "CHA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2270735,
+        "2026-27": 2461462
+      }
+    },
+    "Pat Connaughton": {
+      "team": "CHA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 9423869,
+        "2026-27": 3815861
+      }
+    },
+    "Mike Conley": {
+      "team": "MIN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 725834,
+        "2026-27": 2450000
+      }
+    },
+    "Malaki Branham": {
+      "team": "CHA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4962033
+      }
+    },
+    "Nick Smith Jr.": {
+      "team": "LAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 13197,
+        "2026-27": 2497812
+      }
+    },
+    "Spencer Dinwiddie": {
+      "team": "CHA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Anfernee Simons": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 27678571,
+        "2026-27": 41517857
+      }
+    },
+    "Josh Giddey": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 25000000,
+        "2026-27": 25000000
+      }
+    },
+    "Collin Sexton": {
+      "team": "CHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 19175000,
+        "2026-27": 28762500
+      }
+    },
+    "Zach Collins": {
+      "team": "CHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 18080496,
+        "2026-27": 27120744
+      }
+    },
+    "Patrick Williams": {
+      "team": "CHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 18000000,
+        "2026-27": 18000000
+      }
+    },
+    "Isaac Okoro": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11000000,
+        "2026-27": 11814814
+      }
+    },
+    "Jalen Smith": {
+      "team": "CHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 9000000,
+        "2026-27": 9428571
+      }
+    },
+    "Tre Jones": {
+      "team": "CHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 8000000,
+        "2026-27": 8000000
+      }
+    },
+    "Rob Dillingham": {
+      "team": "CHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 6576120,
+        "2026-27": 6889320
+      }
+    },
+    "Guerschon Yabusele": {
+      "team": "CHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 5500000,
+        "2026-27": 6600000
+      }
+    },
+    "Matas Buzelis": {
+      "team": "CHI",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 5455560,
+        "2026-27": 5715360
+      }
+    },
+    "Noa Essengue": {
+      "team": "CHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 5429520,
+        "2026-27": 5701200
+      }
+    },
+    "Nick Richards": {
+      "team": "CHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5000000,
+        "2026-27": 9500000
+      }
+    },
+    "Leonard Miller": {
+      "team": "CHI",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Mouhamadou Gueye": {
+      "team": "CHI",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 47092,
+        "2026-27": 2411090
+      }
+    },
+    "Jaden Ivey": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 10107163
+      }
+    },
+    "Jevon Carter": {
+      "team": "ORL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 871000,
+        "2026-27": 2450000
+      }
+    },
+    "Talen Horton-Tucker": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Matt Thomas": {
+      "team": "CHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Donovan Mitchell": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 50105628
+      }
+    },
+    "Evan Mobley": {
+      "team": "CLE",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 50105628
+      }
+    },
+    "James Harden": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 39446090,
+        "2026-27": 42317307
+      }
+    },
+    "Jarrett Allen": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 20000000,
+        "2026-27": 28000000
+      }
+    },
+    "Max Strus": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 15936452,
+        "2026-27": 16660836
+      }
+    },
+    "Dennis Schr\u00f6der": {
+      "team": "CLE",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 14104000,
+        "2026-27": 14809200
+      }
+    },
+    "Sam Merrill": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8482144,
+        "2026-27": 9160715
+      }
+    },
+    "Dean Wade": {
+      "team": "CLE",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 6623456,
+        "2026-27": 12584566
+      }
+    },
+    "Jaylon Tyson": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3492480,
+        "2026-27": 3658560
+      }
+    },
+    "Keon Ellis": {
+      "team": "CLE",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2301587,
+        "2026-27": 2450000
+      }
+    },
+    "Larry Nance Jr.": {
+      "team": "CLE",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Thomas Bryant": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Craig Porter Jr.": {
+      "team": "CLE",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Tyrese Proctor": {
+      "team": "CLE",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Nae'qwan Tomlin": {
+      "team": "CLE",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 718150,
+        "2026-27": 2411090
+      }
+    },
+    "Ricky Rubio": {
+      "team": "CLE",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 424672,
+        "2026-27": 424672
+      }
+    },
+    "Ed Davis": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Damian Jones": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Raul Neto": {
+      "team": "CLE",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Chuma Okeke": {
+      "team": "CLE",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Rajon Rondo": {
+      "team": "CLE",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Tristan Thompson": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Kyrie Irving": {
+      "team": "DAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 36566002,
+        "2026-27": 39491282
+      }
+    },
+    "Khris Middleton": {
+      "team": "DAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 35086419,
+        "2026-27": 52629629
+      }
+    },
+    "Klay Thompson": {
+      "team": "DAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 16666667,
+        "2026-27": 17460317
+      }
+    },
+    "Daniel Gafford": {
+      "team": "DAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 14386320,
+        "2026-27": 17263584
+      }
+    },
+    "PJ Washington": {
+      "team": "DAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 14152174,
+        "2026-27": 19813044
+      }
+    },
+    "Cooper Flagg": {
+      "team": "DAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 13825920,
+        "2026-27": 14517480
+      }
+    },
+    "Caleb Martin": {
+      "team": "DAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 9594044,
+        "2026-27": 10001494
+      }
+    },
+    "Naji Marshall": {
+      "team": "DAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 9000000,
+        "2026-27": 9428571
+      }
+    },
+    "Max Christie": {
+      "team": "DAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 7714286,
+        "2026-27": 8285714
+      }
+    },
+    "Dereck Lively II": {
+      "team": "DAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5253360,
+        "2026-27": 7239131
+      }
+    },
+    "Dwight Powell": {
+      "team": "DAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4000000,
+        "2026-27": 7600000
+      }
+    },
+    "AJ Johnson": {
+      "team": "DAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 3090480,
+        "2026-27": 3237120
+      }
+    },
+    "Marvin Bagley III": {
+      "team": "DAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Brandon Williams": {
+      "team": "DAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2270735,
+        "2026-27": 2450000
+      }
+    },
+    "Ryan Nembhard": {
+      "team": "DAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 321875,
+        "2026-27": 2185633
+      }
+    },
+    "Tyus Jones": {
+      "team": "DEN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 514682,
+        "2026-27": 2450000
+      }
+    },
+    "JaVale McGee": {
+      "team": "SAC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Olivier-Maxence Prosper": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 527879,
+        "2026-27": 2497812
+      }
+    },
+    "Jeremiah Robinson-Earl": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Nicolo Melli": {
+      "team": "DAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 5066667,
+        "2026-27": 5066667
+      }
+    },
+    "Kai Jones": {
+      "team": "DAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Theo Pinson": {
+      "team": "DAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296271,
+        "2026-27": 2450000
+      }
+    },
+    "Greg Brown III": {
+      "team": "DAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Moses Wright": {
+      "team": "DAL",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 2048491,
+        "2026-27": 2185633
+      }
+    },
+    "McKinley Wright IV": {
+      "team": "DAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048491,
+        "2026-27": 2185633
+      }
+    },
+    "Nikola Jokic": {
+      "team": "DEN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 55224526,
+        "2026-27": 59033114
+      }
+    },
+    "Jamal Murray": {
+      "team": "DEN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 50105628
+      }
+    },
+    "Aaron Gordon": {
+      "team": "DEN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 22841455,
+        "2026-27": 31978037
+      }
+    },
+    "Cameron Johnson": {
+      "team": "DEN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 21057065,
+        "2026-27": 23062500
+      }
+    },
+    "Jonas Valanciunas": {
+      "team": "DEN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 10395000,
+        "2026-27": 10000000
+      }
+    },
+    "Zeke Nnaji": {
+      "team": "DEN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 8177778,
+        "2026-27": 7466667
+      }
+    },
+    "Christian Braun": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4921797,
+        "2026-27": 21551726
+      }
+    },
+    "Peyton Watson": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4356476,
+        "2026-27": 13069428
+      }
+    },
+    "DaRon Holmes II": {
+      "team": "DEN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3218760,
+        "2026-27": 3372120
+      }
+    },
+    "Julian Strawther": {
+      "team": "DEN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2674200,
+        "2026-27": 4826931
+      }
+    },
+    "Tim Hardaway Jr.": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Bruce Brown Jr.": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jalen Pickett": {
+      "team": "DEN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Spencer Jones": {
+      "team": "DEN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 623967,
+        "2026-27": 2650000
+      }
+    },
+    "Vlatko Cancar": {
+      "team": "DEN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "DeMarcus Cousins": {
+      "team": "DEN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Troy Daniels": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Justin Holiday": {
+      "team": "DEN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Richard Jefferson": {
+      "team": "DEN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Markus Howard": {
+      "team": "DEN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Cade Cunningham": {
+      "team": "DET",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 50105628
+      }
+    },
+    "Tobias Harris": {
+      "team": "DET",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 26634146,
+        "2026-27": 39951219
+      }
+    },
+    "Kevin Huerter": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 17991071,
+        "2026-27": 26986607
+      }
+    },
+    "Duncan Robinson": {
+      "team": "DET",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 16834692,
+        "2026-27": 15992957
+      }
+    },
+    "Isaiah Stewart": {
+      "team": "DET",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 15000000,
+        "2026-27": 15000000
+      }
+    },
+    "Caris LeVert": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 14104000,
+        "2026-27": 14809200
+      }
+    },
+    "Ausar Thompson": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8775000,
+        "2026-27": 11117925
+      }
+    },
+    "Ron Holland II": {
+      "team": "DET",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 8657280,
+        "2026-27": 9069600
+      }
+    },
+    "Jalen Duren": {
+      "team": "DET",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6483144,
+        "2026-27": 19449432
+      }
+    },
+    "Paul Reed": {
+      "team": "DET",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5335894,
+        "2026-27": 5602689
+      }
+    },
+    "Daniss Jenkins": {
+      "team": "DET",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 3809524,
+        "2026-27": 4000000
+      }
+    },
+    "Marcus Sasser": {
+      "team": "DET",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2886720,
+        "2026-27": 5198983
+      }
+    },
+    "Javonte Green": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Chaz Lanier": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Tolu Smith III": {
+      "team": "DET",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 70638,
+        "2026-27": 2411090
+      }
+    },
+    "Dario Saric": {
+      "team": "DET",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 5426400
+      }
+    },
+    "Isaac Jones": {
+      "team": "DET",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377
+      }
+    },
+    "Bobi Klintman": {
+      "team": "DET",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1955377
+      }
+    },
+    "Malik Beasley": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 7200000,
+        "2026-27": 7200000
+      }
+    },
+    "Stephen Curry": {
+      "team": "GSW",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 59606817,
+        "2026-27": 62587158
+      }
+    },
+    "Jimmy Butler": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 54126450,
+        "2026-27": 56832773
+      }
+    },
+    "Kristaps Porzingis": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 30731707,
+        "2026-27": 46097561
+      }
+    },
+    "Draymond Green": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 25892857,
+        "2026-27": 27678571
+      }
+    },
+    "Moses Moody": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11574075,
+        "2026-27": 12500000
+      }
+    },
+    "Al Horford": {
+      "team": "GSW",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5685000,
+        "2026-27": 5969250
+      }
+    },
+    "Brandin Podziemski": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3687960,
+        "2026-27": 5679459
+      }
+    },
+    "De'Anthony Melton": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3080921,
+        "2026-27": 3451779
+      }
+    },
+    "Gary Payton II": {
+      "team": "GSW",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Gui Santos": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 4629630
+      }
+    },
+    "Quinten Post": {
+      "team": "GSW",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2650000
+      }
+    },
+    "Seth Curry": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1755198,
+        "2026-27": 2450000
+      }
+    },
+    "Will Richard": {
+      "team": "GSW",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Pat Spencer": {
+      "team": "GSW",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 857804,
+        "2026-27": 3409966
+      }
+    },
+    "Omer Yurtseven": {
+      "team": "GSW",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Matt Barnes": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Nemanja Bjelica": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Andrew Bogut": {
+      "team": "GSW",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Usman Garuba": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "JaMychal Green": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Andre Iguodala": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jonas Jerebko": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Kevin Knox": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2457009
+      }
+    },
+    "Anthony Lamb": {
+      "team": "GSW",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "David West": {
+      "team": "GSW",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Nico Mannion": {
+      "team": "GSW",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Taran Armstrong": {
+      "team": "GSW",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Jerome Robinson": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Kevin Durant": {
+      "team": "HOU",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 54708609,
+        "2026-27": 43902439
+      }
+    },
+    "Alperen Sengun": {
+      "team": "HOU",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 33944954,
+        "2026-27": 35642202
+      }
+    },
+    "Fred VanVleet": {
+      "team": "HOU",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 25000000,
+        "2026-27": 25000000
+      }
+    },
+    "Steven Adams": {
+      "team": "HOU",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 14130435,
+        "2026-27": 13000000
+      }
+    },
+    "Dorian Finney-Smith": {
+      "team": "HOU",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 12700000,
+        "2026-27": 13335000
+      }
+    },
+    "Jabari Smith Jr.": {
+      "team": "HOU",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 12350392,
+        "2026-27": 23643411
+      }
+    },
+    "Reed Sheppard": {
+      "team": "HOU",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 10603560,
+        "2026-27": 11108880
+      }
+    },
+    "Amen Thompson": {
+      "team": "HOU",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 9690600,
+        "2026-27": 12258609
+      }
+    },
+    "Clint Capela": {
+      "team": "HOU",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6700000,
+        "2026-27": 7035000
+      }
+    },
+    "Tari Eason": {
+      "team": "HOU",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 5675766,
+        "2026-27": 17027298
+      }
+    },
+    "Jeff Green": {
+      "team": "HOU",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Aaron Holiday": {
+      "team": "HOU",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Josh Okogie": {
+      "team": "HOU",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jae\u2019Sean Tate": {
+      "team": "HOU",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "J.D. Davison": {
+      "team": "HOU",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 82030,
+        "2026-27": 2584539
+      }
+    },
+    "Reggie Bullock": {
+      "team": "HOU",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Boban Marjanovic": {
+      "team": "HOU",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jack McVeigh": {
+      "team": "HOU",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Tyrese Haliburton": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 45550512,
+        "2026-27": 48924624
+      }
+    },
+    "Pascal Siakam": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 45550512,
+        "2026-27": 48924624
+      }
+    },
+    "Ivica Zubac": {
+      "team": "IND",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 18893980,
+        "2026-27": 20342140
+      }
+    },
+    "Andrew Nembhard": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 18102000,
+        "2026-27": 19550160
+      }
+    },
+    "Obi Toppin": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 14000000,
+        "2026-27": 15000000
+      }
+    },
+    "Aaron Nesmith": {
+      "team": "IND",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 11000000,
+        "2026-27": 11000000
+      }
+    },
+    "T.J. McConnell": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 10200000,
+        "2026-27": 11000000
+      }
+    },
+    "Jarace Walker": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 6665520,
+        "2026-27": 8478542
+      }
+    },
+    "Ben Sheppard": {
+      "team": "IND",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2790720,
+        "2026-27": 5031669
+      }
+    },
+    "Kobe Brown": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2654880,
+        "2026-27": 4792059
+      }
+    },
+    "Jay Huff": {
+      "team": "IND",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2349578,
+        "2026-27": 2667944
+      }
+    },
+    "Johnny Furphy": {
+      "team": "IND",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Micah Potter": {
+      "team": "IND",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 15000,
+        "2026-27": 2801346
+      }
+    },
+    "Kam Jones": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Quenton Jackson": {
+      "team": "IND",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 601553,
+        "2026-27": 2584539
+      }
+    },
+    "James Wiseman": {
+      "team": "IND",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Monte Morris": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 321184
+      }
+    },
+    "Garrison Mathews": {
+      "team": "IND",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Mac McClung": {
+      "team": "ORL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Cody Martin": {
+      "team": "IND",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Gabe McGlothan": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "James Johnson": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Gabe York": {
+      "team": "IND",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Kawhi Leonard": {
+      "team": "LAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 50000000,
+        "2026-27": 50300000
+      }
+    },
+    "Darius Garland": {
+      "team": "LAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 39446090,
+        "2026-27": 42166510
+      }
+    },
+    "John Collins": {
+      "team": "LAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 26580000,
+        "2026-27": 39870000
+      }
+    },
+    "Bogdan Bogdanovic": {
+      "team": "LAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 16020000,
+        "2026-27": 16020000
+      }
+    },
+    "Derrick Jones Jr.": {
+      "team": "LAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 10000000,
+        "2026-27": 10476190
+      }
+    },
+    "Bennedict Mathurin": {
+      "team": "LAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 9187573,
+        "2026-27": 27562719
+      }
+    },
+    "Brook Lopez": {
+      "team": "LAC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 8750000,
+        "2026-27": 9187500
+      }
+    },
+    "Isaiah Jackson": {
+      "team": "LAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 7600000,
+        "2026-27": 7000000
+      }
+    },
+    "Nicolas Batum": {
+      "team": "LAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 5601600,
+        "2026-27": 5881680
+      }
+    },
+    "Kris Dunn": {
+      "team": "LAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 5426400,
+        "2026-27": 5684800
+      }
+    },
+    "Bradley Beal": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 19383010,
+        "2026-27": 19383010
+      }
+    },
+    "Yanic Konan Niederhauser": {
+      "team": "LAC",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 2743800,
+        "2026-27": 2880960
+      }
+    },
+    "Cameron Christie": {
+      "team": "LAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Jordan Miller": {
+      "team": "LAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 712637,
+        "2026-27": 2497812
+      }
+    },
+    "Kobe Sanders": {
+      "team": "LAC",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 475497,
+        "2026-27": 2150917
+      }
+    },
+    "Patrick Baldwin Jr.": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2185633
+      }
+    },
+    "Rodney Hood": {
+      "team": "LAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Patty Mills": {
+      "team": "LAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Ben Simmons": {
+      "team": "LAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Xavier Moon": {
+      "team": "LAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "LeBron James": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 52627153,
+        "2026-27": 59539200
+      }
+    },
+    "Luka Doncic": {
+      "team": "LAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 45999660,
+        "2026-27": 49500000
+      }
+    },
+    "Rui Hachimura": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 18259259,
+        "2026-27": 27388889
+      }
+    },
+    "Austin Reaves": {
+      "team": "LAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 13937574,
+        "2026-27": 14898786
+      }
+    },
+    "Jarred Vanderbilt": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 11571429,
+        "2026-27": 12428571
+      }
+    },
+    "Luke Kennard": {
+      "team": "LAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11000000,
+        "2026-27": 13200000
+      }
+    },
+    "Maxi Kleber": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 11000000,
+        "2026-27": 20900000
+      }
+    },
+    "Deandre Ayton": {
+      "team": "LAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 25550814,
+        "2026-27": 8104000
+      }
+    },
+    "Jake LaRavia": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 6000000,
+        "2026-27": 6000000
+      }
+    },
+    "Marcus Smart": {
+      "team": "LAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 14786855,
+        "2026-27": 5390700
+      }
+    },
+    "Dalton Knecht": {
+      "team": "LAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 4010160,
+        "2026-27": 4201080
+      }
+    },
+    "Jaxson Hayes": {
+      "team": "LAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 3449323,
+        "2026-27": 4484120
+      }
+    },
+    "Bronny James": {
+      "team": "LAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Adou Thiero": {
+      "team": "LAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Augustas Marciulionis": {
+      "team": "LAL",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 15000
+      }
+    },
+    "Carmelo Anthony": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Avery Bradley": {
+      "team": "LAL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jared Dudley": {
+      "team": "LAL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Wayne Ellington": {
+      "team": "LAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Dwight Howard": {
+      "team": "LAL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Markieff Morris": {
+      "team": "LAL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Dion Waiters": {
+      "team": "LAL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Ja Morant": {
+      "team": "MEM",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 39446090,
+        "2026-27": 42166510
+      }
+    },
+    "Kentavious Caldwell-Pope": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 21621500,
+        "2026-27": 21621500
+      }
+    },
+    "Santi Aldama": {
+      "team": "MEM",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 18485916,
+        "2026-27": 17007043
+      }
+    },
+    "Brandon Clarke": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 12500000,
+        "2026-27": 12500000
+      }
+    },
+    "Ty Jerome": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8781000,
+        "2026-27": 9220050
+      }
+    },
+    "Taylor Hendricks": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 6127080,
+        "2026-27": 7805900
+      }
+    },
+    "Zach Edey": {
+      "team": "MEM",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6045000,
+        "2026-27": 6332760
+      }
+    },
+    "Cedric Coward": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 5715120,
+        "2026-27": 6001080
+      }
+    },
+    "Walter Clayton Jr.": {
+      "team": "MEM",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 3991320,
+        "2026-27": 4190520
+      }
+    },
+    "Cam Spencer": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2537989,
+        "2026-27": 2411090
+      }
+    },
+    "Scotty Pippen Jr.": {
+      "team": "MEM",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2270735,
+        "2026-27": 2461462
+      }
+    },
+    "G.G. Jackson": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Jaylen Wells": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Taj Gibson": {
+      "team": "MEM",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 960753,
+        "2026-27": 3815861
+      }
+    },
+    "Kyle Anderson": {
+      "team": "MIN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 567470,
+        "2026-27": 2450000
+      }
+    },
+    "Georges Niang": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 8200000
+      }
+    },
+    "Cole Anthony": {
+      "team": "MEM",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 3700000
+      }
+    },
+    "Eric Gordon": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Mamadi Diakite": {
+      "team": "MEM",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 464050,
+        "2026-27": 464050
+      }
+    },
+    "DeJon Jarreau": {
+      "team": "MEM",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Christian Koloko": {
+      "team": "ATL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2185633
+      }
+    },
+    "Rayan Rupert": {
+      "team": "POR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2976876
+      }
+    },
+    "Lawson Lovering": {
+      "team": "MEM",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 87784
+      }
+    },
+    "Tyler Burton": {
+      "team": "MEM",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Toby Okani": {
+      "team": "MEM",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Lucas Williamson": {
+      "team": "MEM",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 21946
+      }
+    },
+    "Adama Bal": {
+      "team": "NYK",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Bam Adebayo": {
+      "team": "MIA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 37096620,
+        "2026-27": 49500000
+      }
+    },
+    "Tyler Herro": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 31000000,
+        "2026-27": 33000000
+      }
+    },
+    "Andrew Wiggins": {
+      "team": "MIA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 28223215,
+        "2026-27": 30169644
+      }
+    },
+    "Norman Powell": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 20482758,
+        "2026-27": 30724137
+      }
+    },
+    "Davion Mitchell": {
+      "team": "MIA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 11600000,
+        "2026-27": 12400000
+      }
+    },
+    "Simone Fontecchio": {
+      "team": "MIA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 8307692,
+        "2026-27": 15784615
+      }
+    },
+    "Nikola Jovic": {
+      "team": "MIA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 4445417,
+        "2026-27": 16200000
+      }
+    },
+    "Kel'el Ware": {
+      "team": "MIA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4443360,
+        "2026-27": 4654920
+      }
+    },
+    "Jaime Jaquez Jr.": {
+      "team": "MIA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3861600,
+        "2026-27": 5939141
+      }
+    },
+    "Kasparas Jakucionis": {
+      "team": "MIA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 3658800,
+        "2026-27": 3841680
+      }
+    },
+    "Dru Smith": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2378870,
+        "2026-27": 2584539
+      }
+    },
+    "Keshad Johnson": {
+      "team": "MIA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2650000
+      }
+    },
+    "Pelle Larsson": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Myron Gardner": {
+      "team": "MIA",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 395029,
+        "2026-27": 2584539
+      }
+    },
+    "Jahmir Young": {
+      "team": "MIA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 23546,
+        "2026-27": 2411090
+      }
+    },
+    "Terry Rozier": {
+      "team": "MIA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 26643031
+      }
+    },
+    "Alec Burks": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2457009
+      }
+    },
+    "Josh Christopher": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Udonis Haslem": {
+      "team": "MIA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jordan Mickey": {
+      "team": "MIA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Dwyane Wade": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Giannis Antetokounmpo": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 54126450,
+        "2026-27": 58456566
+      }
+    },
+    "Myles Turner": {
+      "team": "MIL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 25318251,
+        "2026-27": 26584164
+      }
+    },
+    "Kyle Kuzma": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 22560605,
+        "2026-27": 20490152
+      }
+    },
+    "Bobby Portis": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 13445754,
+        "2026-27": 14521414
+      }
+    },
+    "Ousmane Dieng": {
+      "team": "MIL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 6670882,
+        "2026-27": 20012646
+      }
+    },
+    "Kevin Porter Jr.": {
+      "team": "MIL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 5134000,
+        "2026-27": 5390700
+      }
+    },
+    "Ryan Rollins": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4000000,
+        "2026-27": 4000000
+      }
+    },
+    "Gary Trent Jr.": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3697105,
+        "2026-27": 3881960
+      }
+    },
+    "Gary Harris": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3634153,
+        "2026-27": 3815861
+      }
+    },
+    "Taurean Prince": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3303774,
+        "2026-27": 3815861
+      }
+    },
+    "Jericho Sims": {
+      "team": "MIL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2461463,
+        "2026-27": 2801346
+      }
+    },
+    "AJ Green": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2301587,
+        "2026-27": 10044644
+      }
+    },
+    "Thanasis Antetokounmpo": {
+      "team": "MIL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Andre Jackson Jr.": {
+      "team": "MIL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Pete Nance": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 600000,
+        "2026-27": 2497812
+      }
+    },
+    "Damian Lillard": {
+      "team": "POR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 14104000,
+        "2026-27": 13398000
+      }
+    },
+    "Chris Livingston": {
+      "team": "MIL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Nigel Hayes-Davis": {
+      "team": "MIL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494
+      }
+    },
+    "Tyler Smith": {
+      "team": "MIL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1955377
+      }
+    },
+    "Vasilije Micic": {
+      "team": "MIL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 666667,
+        "2026-27": 666667
+      }
+    },
+    "Anthony Edwards": {
+      "team": "MIN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 45550512,
+        "2026-27": 48924624
+      }
+    },
+    "Rudy Gobert": {
+      "team": "MIN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 35000000,
+        "2026-27": 36500000
+      }
+    },
+    "Julius Randle": {
+      "team": "MIN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 30864198,
+        "2026-27": 33333334
+      }
+    },
+    "Jaden McDaniels": {
+      "team": "MIN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 24393103,
+        "2026-27": 26200000
+      }
+    },
+    "Naz Reid": {
+      "team": "MIN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 21551724,
+        "2026-27": 23275862
+      }
+    },
+    "Donte DiVincenzo": {
+      "team": "MIN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11990000,
+        "2026-27": 12535000
+      }
+    },
+    "Ayo Dosunmu": {
+      "team": "MIN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 7518518,
+        "2026-27": 14285184
+      }
+    },
+    "Joan Beringer": {
+      "team": "MIN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4201080,
+        "2026-27": 4411200
+      }
+    },
+    "Terrence Shannon Jr.": {
+      "team": "MIN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2674080,
+        "2026-27": 2801640
+      }
+    },
+    "Joe Ingles": {
+      "team": "MIN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Nah'Shon Hyland": {
+      "team": "MIN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Julian Phillips": {
+      "team": "MIN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Jaylen Clark": {
+      "team": "MIN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2191897,
+        "2026-27": 2959061
+      }
+    },
+    "Evan Turner": {
+      "team": "MIN",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 27909834,
+        "2026-27": 27909834
+      }
+    },
+    "Aaron Brooks": {
+      "team": "MIN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Greg Monroe": {
+      "team": "MIN",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Austin Rivers": {
+      "team": "MIN",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Zion Williamson": {
+      "team": "NOP",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 39446090,
+        "2026-27": 42166510
+      }
+    },
+    "Jordan Poole": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 31848215,
+        "2026-27": 34044642
+      }
+    },
+    "Dejounte Murray": {
+      "team": "NOP",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 30801103,
+        "2026-27": 32785071
+      }
+    },
+    "Trey Murphy III": {
+      "team": "NOP",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 25000000,
+        "2026-27": 27000000
+      }
+    },
+    "Herb Jones": {
+      "team": "NOP",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 13937574,
+        "2026-27": 14898786
+      }
+    },
+    "Kevon Looney": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 8000000,
+        "2026-27": 8000000
+      }
+    },
+    "Jeremiah Fears": {
+      "team": "NOP",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 7520040,
+        "2026-27": 7896240
+      }
+    },
+    "Saddiq Bey": {
+      "team": "NOP",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 6229755,
+        "2026-27": 6557080
+      }
+    },
+    "Derik Queen": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5157960,
+        "2026-27": 5416080
+      }
+    },
+    "Jordan Hawkins": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4741320,
+        "2026-27": 7021895
+      }
+    },
+    "Yves Missi": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 3353040,
+        "2026-27": 3512760
+      }
+    },
+    "DeAndre Jordan": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2269880,
+        "2026-27": 2450000
+      }
+    },
+    "Karlo Matkovic": {
+      "team": "NOP",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Micah Peavy": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Bryce McGowens": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 724598,
+        "2026-27": 2584539
+      }
+    },
+    "Dalen Terry": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 125931,
+        "2026-27": 2584539
+      }
+    },
+    "Jaden Springer": {
+      "team": "NOP",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 70732
+      }
+    },
+    "Willy Hernangomez": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4642804,
+        "2026-27": 4642804
+      }
+    },
+    "Brandon Boston Jr": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Elfrid Payton": {
+      "team": "NOP",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Tony Snell": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Keion Brooks Jr.": {
+      "team": "NOP",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Gary Clark": {
+      "team": "NOP",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Jared Harper": {
+      "team": "NOP",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "James Nunnally": {
+      "team": "NOP",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Karl-Anthony Towns": {
+      "team": "NYK",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 53142264,
+        "2026-27": 57078728
+      }
+    },
+    "OG Anunoby": {
+      "team": "NYK",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 39568966,
+        "2026-27": 42500000
+      }
+    },
+    "Jalen Brunson": {
+      "team": "NYK",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 34944001,
+        "2026-27": 37739521
+      }
+    },
+    "Mikal Bridges": {
+      "team": "NYK",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 24900000,
+        "2026-27": 33482145
+      }
+    },
+    "Josh Hart": {
+      "team": "NYK",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 19472240,
+        "2026-27": 20923760
+      }
+    },
+    "Mitchell Robinson": {
+      "team": "NYK",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 12954546,
+        "2026-27": 24613637
+      }
+    },
+    "Jose Alvarado": {
+      "team": "NYK",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 4500000,
+        "2026-27": 4500000
+      }
+    },
+    "Miles McBride": {
+      "team": "NYK",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 4333333,
+        "2026-27": 3956523
+      }
+    },
+    "Pacome Dadiet": {
+      "team": "NYK",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2847600,
+        "2026-27": 2983680
+      }
+    },
+    "Jordan Clarkson": {
+      "team": "NYK",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 10651561,
+        "2026-27": 2450000
+      }
+    },
+    "Landry Shamet": {
+      "team": "NYK",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Tyler Kolek": {
+      "team": "NYK",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2191897,
+        "2026-27": 2296271
+      }
+    },
+    "Ariel Hukporti": {
+      "team": "NYK",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2650000
+      }
+    },
+    "Mohamed Diawara": {
+      "team": "NYK",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2385633
+      }
+    },
+    "Jeremy Sochan": {
+      "team": "NYK",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 7096231,
+        "2026-27": 2450000
+      }
+    },
+    "P.J. Tucker": {
+      "team": "NYK",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Shai Gilgeous-Alexander": {
+      "team": "OKC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 38333050,
+        "2026-27": 40806150
+      }
+    },
+    "Isaiah Hartenstein": {
+      "team": "OKC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 28500000,
+        "2026-27": 28500000
+      }
+    },
+    "Alex Caruso": {
+      "team": "OKC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 18102000,
+        "2026-27": 19550160
+      }
+    },
+    "Luguentz Dort": {
+      "team": "OKC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 17722222,
+        "2026-27": 17722222
+      }
+    },
+    "Chet Holmgren": {
+      "team": "OKC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 13731368,
+        "2026-27": 41250000
+      }
+    },
+    "Isaiah Joe": {
+      "team": "OKC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 12362338,
+        "2026-27": 11323006
+      }
+    },
+    "Aaron Wiggins": {
+      "team": "OKC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 9887850,
+        "2026-27": 9028038
+      }
+    },
+    "Jaylin Williams": {
+      "team": "OKC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 8450704,
+        "2026-27": 7774648
+      }
+    },
+    "Kenrich Williams": {
+      "team": "OKC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 7163000,
+        "2026-27": 7163000
+      }
+    },
+    "Jalen Williams": {
+      "team": "OKC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 6580997,
+        "2026-27": 41250000
+      }
+    },
+    "Cason Wallace": {
+      "team": "OKC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 5820240,
+        "2026-27": 7420806
+      }
+    },
+    "Nikola Topic": {
+      "team": "OKC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 5182920,
+        "2026-27": 5429760
+      }
+    },
+    "Thomas Sorber": {
+      "team": "OKC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4655040,
+        "2026-27": 4887720
+      }
+    },
+    "Jared McCain": {
+      "team": "OKC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 4221360,
+        "2026-27": 4422600
+      }
+    },
+    "Ajay Mitchell": {
+      "team": "OKC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 3000000,
+        "2026-27": 2850000
+      }
+    },
+    "Mason Plumlee": {
+      "team": "SAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2450000
+      }
+    },
+    "Alex Ducas": {
+      "team": "OKC",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Franz Wagner": {
+      "team": "ORL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 38661750,
+        "2026-27": 41754690
+      }
+    },
+    "Desmond Bane": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 36725670,
+        "2026-27": 39446090
+      }
+    },
+    "Jalen Suggs": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 35000000,
+        "2026-27": 32400000
+      }
+    },
+    "Paolo Banchero": {
+      "team": "ORL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 15334769,
+        "2026-27": 41250000
+      }
+    },
+    "Jonathan Isaac": {
+      "team": "ORL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 15000000,
+        "2026-27": 14500000
+      }
+    },
+    "Wendell Carter Jr.": {
+      "team": "ORL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 10850000,
+        "2026-27": 18102000
+      }
+    },
+    "Goga Bitadze": {
+      "team": "ORL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 8333333,
+        "2026-27": 7608696
+      }
+    },
+    "Anthony Black": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 7970280,
+        "2026-27": 10106316
+      }
+    },
+    "Jett Howard": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 5529720,
+        "2026-27": 7337939
+      }
+    },
+    "Moritz Wagner": {
+      "team": "ORL",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5000000,
+        "2026-27": 9500000
+      }
+    },
+    "Tristan Da Silva": {
+      "team": "ORL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3809520,
+        "2026-27": 3991200
+      }
+    },
+    "Jase Richardson": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2983320,
+        "2026-27": 3132360
+      }
+    },
+    "Noah Penda": {
+      "team": "ORL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Jamal Cain": {
+      "team": "ORL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 328120,
+        "2026-27": 2584539
+      }
+    },
+    "Cory Joseph": {
+      "team": "ORL",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Trevelin Queen": {
+      "team": "ORL",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Joel Embiid": {
+      "team": "PHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 55224526,
+        "2026-27": 57985752
+      }
+    },
+    "Paul George": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 51666090,
+        "2026-27": 54126380
+      }
+    },
+    "Tyrese Maxey": {
+      "team": "PHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 37958760,
+        "2026-27": 40770520
+      }
+    },
+    "VJ Edgecombe": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11108880,
+        "2026-27": 11663880
+      }
+    },
+    "Quentin Grimes": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8741209,
+        "2026-27": 16608297
+      }
+    },
+    "Kelly Oubre Jr.": {
+      "team": "PHI",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 8382150,
+        "2026-27": 15926085
+      }
+    },
+    "Andre Drummond": {
+      "team": "PHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 5000000,
+        "2026-27": 6500000
+      }
+    },
+    "Dominick Barlow": {
+      "team": "PHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3415000,
+        "2026-27": 3415000
+      }
+    },
+    "Trendon Watford": {
+      "team": "PHI",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2461463,
+        "2026-27": 2801346
+      }
+    },
+    "Kyle Lowry": {
+      "team": "PHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Justin Edwards": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2411090
+      }
+    },
+    "Adem Bona": {
+      "team": "PHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Johni Broome": {
+      "team": "PHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Jabari Walker": {
+      "team": "PHI",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 724598,
+        "2026-27": 2584539
+      }
+    },
+    "Cameron Payne": {
+      "team": "PHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 712637
+      }
+    },
+    "Emoni Bates": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 15000
+      }
+    },
+    "Lonnie Walker IV": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jeff Dowtin": {
+      "team": "PHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Jalen Hood-Schifino": {
+      "team": "PHI",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Devin Booker": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 53142264,
+        "2026-27": 57078728
+      }
+    },
+    "Jalen Green": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 33584499,
+        "2026-27": 36251166
+      }
+    },
+    "Dillon Brooks": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 22124110,
+        "2026-27": 20992727
+      }
+    },
+    "Grayson Allen": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 16875000,
+        "2026-27": 18125000
+      }
+    },
+    "Royce O'Neale": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 10125000,
+        "2026-27": 10875000
+      }
+    },
+    "Mark Williams": {
+      "team": "PHX",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6276531,
+        "2026-27": 18829593
+      }
+    },
+    "Khaman Maluach": {
+      "team": "PHX",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 6016080,
+        "2026-27": 6316680
+      }
+    },
+    "Ryan Dunn": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2657760,
+        "2026-27": 2784240
+      }
+    },
+    "Jordan Goodwin": {
+      "team": "PHX",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2349578,
+        "2026-27": 2450000
+      }
+    },
+    "Amir Coffey": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Collin Gillespie": {
+      "team": "PHX",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Oso Ighodaro": {
+      "team": "PHX",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Rasheer Fleming": {
+      "team": "PHX",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150917
+      }
+    },
+    "Jamaree Bouyea": {
+      "team": "PHX",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 574210,
+        "2026-27": 2584539
+      }
+    },
+    "Nassir Little": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3107143,
+        "2026-27": 3107143
+      }
+    },
+    "E.J. Liddell": {
+      "team": "PHX",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 706898,
+        "2026-27": 706898
+      }
+    },
+    "Terrence Ross": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2303001,
+        "2026-27": 2450000
+      }
+    },
+    "Bol Bol": {
+      "team": "PHX",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Damion Lee": {
+      "team": "PHX",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Saben Lee": {
+      "team": "PHX",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Isaiah Thomas": {
+      "team": "PHX",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Thaddeus Young": {
+      "team": "PHX",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Udoka Azubuike": {
+      "team": "PHX",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Gabriel Lundberg": {
+      "team": "PHX",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Ishmail Wainright": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Jrue Holiday": {
+      "team": "POR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 32400000,
+        "2026-27": 34800000
+      }
+    },
+    "Jerami Grant": {
+      "team": "POR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 32000001,
+        "2026-27": 34206898
+      }
+    },
+    "Deni Avdija": {
+      "team": "POR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 14375000,
+        "2026-27": 13125000
+      }
+    },
+    "Robert Williams III": {
+      "team": "POR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 13285713,
+        "2026-27": 19928570
+      }
+    },
+    "Matisse Thybulle": {
+      "team": "POR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 11550000,
+        "2026-27": 21945000
+      }
+    },
+    "Scoot Henderson": {
+      "team": "POR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 10748040,
+        "2026-27": 13585523
+      }
+    },
+    "Shaedon Sharpe": {
+      "team": "POR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8399983,
+        "2026-27": 20089287
+      }
+    },
+    "Donovan Clingan": {
+      "team": "POR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 7178400,
+        "2026-27": 7519920
+      }
+    },
+    "Yang Hansen": {
+      "team": "POR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4422360,
+        "2026-27": 4643520
+      }
+    },
+    "Kris Murray": {
+      "team": "POR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3132000,
+        "2026-27": 5315004
+      }
+    },
+    "Vit Krejci": {
+      "team": "POR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2349578,
+        "2026-27": 2667944
+      }
+    },
+    "Blake Wesley": {
+      "team": "POR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3347458,
+        "2026-27": 2450000
+      }
+    },
+    "Toumani Camara": {
+      "team": "POR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 18080358
+      }
+    },
+    "Sidy Cissoko": {
+      "team": "POR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 686243,
+        "2026-27": 2497812
+      }
+    },
+    "Didi Louzada": {
+      "team": "POR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 268032,
+        "2026-27": 268032
+      }
+    },
+    "Rondae Hollis-Jefferson": {
+      "team": "POR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Ben McLemore": {
+      "team": "POR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Keljin Blevins": {
+      "team": "POR",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Ashton Hagans": {
+      "team": "POR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "TJ Leaf": {
+      "team": "POR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Zach LaVine": {
+      "team": "SAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 47499660,
+        "2026-27": 48967380
+      }
+    },
+    "Domantas Sabonis": {
+      "team": "SAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 42336000,
+        "2026-27": 45472000
+      }
+    },
+    "DeMar DeRozan": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 24570000,
+        "2026-27": 25740000
+      }
+    },
+    "De'Andre Hunter": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 23303571,
+        "2026-27": 24910714
+      }
+    },
+    "Malik Monk": {
+      "team": "SAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 18797619,
+        "2026-27": 20190035
+      }
+    },
+    "Keegan Murray": {
+      "team": "SAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 11144093,
+        "2026-27": 24137936
+      }
+    },
+    "Devin Carter": {
+      "team": "SAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 4923720,
+        "2026-27": 5158080
+      }
+    },
+    "Nique Clifford": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3108120,
+        "2026-27": 3263400
+      }
+    },
+    "Doug McDermott": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Russell Westbrook": {
+      "team": "DEN",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Drew Eubanks": {
+      "team": "SAC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Precious Achiuwa": {
+      "team": "SAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2111516,
+        "2026-27": 2450000
+      }
+    },
+    "Maxime Raynaud": {
+      "team": "SAC",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1272870,
+        "2026-27": 2150918
+      }
+    },
+    "Dylan Cardwell": {
+      "team": "SAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 871000,
+        "2026-27": 2150917
+      }
+    },
+    "Killian Hayes": {
+      "team": "SAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 3018158
+      }
+    },
+    "DaQuan Jeffries": {
+      "team": "SAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Trey Lyles": {
+      "team": "SAC",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 15200000,
+        "2026-27": 15200000
+      }
+    },
+    "Jae Crowder": {
+      "team": "SAC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Markelle Fultz": {
+      "team": "SAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 131970,
+        "2026-27": 2450000
+      }
+    },
+    "Jordan Ford": {
+      "team": "SAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Mason Jones": {
+      "team": "SAC",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "De'Aaron Fox": {
+      "team": "SAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 37096620,
+        "2026-27": 49500000
+      }
+    },
+    "Devin Vassell": {
+      "team": "SAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 27500000,
+        "2026-27": 27500000
+      }
+    },
+    "Harrison Barnes": {
+      "team": "SAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 19000000,
+        "2026-27": 28500000
+      }
+    },
+    "Keldon Johnson": {
+      "team": "SAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 18000000,
+        "2026-27": 18000000
+      }
+    },
+    "Kelly Olynyk": {
+      "team": "SAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 13445122,
+        "2026-27": 25545732
+      }
+    },
+    "Victor Wembanyama": {
+      "team": "SAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 13376880,
+        "2026-27": 16868246
+      }
+    },
+    "Dylan Harper": {
+      "team": "SAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 12370320,
+        "2026-27": 12989040
+      }
+    },
+    "Luke Kornet": {
+      "team": "SAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 11000000,
+        "2026-27": 10450000
+      }
+    },
+    "Stephon Castle": {
+      "team": "SAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 9560520,
+        "2026-27": 10015920
+      }
+    },
+    "Carter Bryant": {
+      "team": "SAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 4900320,
+        "2026-27": 5145360
+      }
+    },
+    "Julian Champagnie": {
+      "team": "SAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3000000,
+        "2026-27": 3000000
+      }
+    },
+    "Bismack Biyombo": {
+      "team": "SAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jordan McLaughlin": {
+      "team": "SAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Lindy Waters III": {
+      "team": "SAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Adam Flagler": {
+      "team": "SAS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 15000
+      }
+    },
+    "Scottie Barnes": {
+      "team": "TOR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 38661750,
+        "2026-27": 41754690
+      }
+    },
+    "Brandon Ingram": {
+      "team": "TOR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 38095238,
+        "2026-27": 40000000
+      }
+    },
+    "Immanuel Quickley": {
+      "team": "TOR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 32500000,
+        "2026-27": 32500000
+      }
+    },
+    "R.J. Barrett": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 27705357,
+        "2026-27": 29616071
+      }
+    },
+    "Jakob Poeltl": {
+      "team": "TOR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 19500000,
+        "2026-27": 19500000
+      }
+    },
+    "Collin Murray-Boyles": {
+      "team": "TOR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 6332520,
+        "2026-27": 6649560
+      }
+    },
+    "Gradey Dick": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4990560,
+        "2026-27": 7131511
+      }
+    },
+    "Ja'Kobe Walter": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3638160,
+        "2026-27": 3811800
+      }
+    },
+    "Sandro Mamukelashvili": {
+      "team": "TOR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2461463,
+        "2026-27": 2801346
+      }
+    },
+    "Garrett Temple": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Trayce Jackson-Davis": {
+      "team": "TOR",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2221677,
+        "2026-27": 2406205
+      }
+    },
+    "Jamison Battle": {
+      "team": "TOR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Jonathan Mogbo": {
+      "team": "TOR",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "Jamal Shead": {
+      "team": "TOR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 1955377,
+        "2026-27": 2296271
+      }
+    },
+    "A.J. Lawson": {
+      "team": "TOR",
+      "pos": "F",
+      "salary_by_season": {
+        "2025-26": 26394,
+        "2026-27": 2450000
+      }
+    },
+    "Chris Paul": {
+      "team": "TOR",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Mohamed Bamba": {
+      "team": "UTA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Tyreke Key": {
+      "team": "TOR",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 51207,
+        "2026-27": 2385633
+      }
+    },
+    "Jordan Nwora": {
+      "team": "TOR",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 5700000,
+        "2026-27": 5700000
+      }
+    },
+    "Will Barton": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Lauri Markkanen": {
+      "team": "UTA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 46113154
+      }
+    },
+    "Jaren Jackson Jr.": {
+      "team": "UTA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 35000000,
+        "2026-27": 49000000
+      }
+    },
+    "Jusuf Nurkic": {
+      "team": "UTA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 19375000,
+        "2026-27": 29062500
+      }
+    },
+    "Ace Bailey": {
+      "team": "UTA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 9069840,
+        "2026-27": 9523080
+      }
+    },
+    "John Konchar": {
+      "team": "UTA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 6165000,
+        "2026-27": 6165000
+      }
+    },
+    "Cody Williams": {
+      "team": "UTA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 5742480,
+        "2026-27": 6015600
+      }
+    },
+    "Walker Kessler": {
+      "team": "UTA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4878938,
+        "2026-27": 14636814
+      }
+    },
+    "Keyonte George": {
+      "team": "UTA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 4278960,
+        "2026-27": 6563925
+      }
+    },
+    "Kevin Love": {
+      "team": "UTA",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 4150000,
+        "2026-27": 7885000
+      }
+    },
+    "Sviatoslav Mykhailiuk": {
+      "team": "UTA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 3675000,
+        "2026-27": 3850000
+      }
+    },
+    "Kyle Filipowski": {
+      "team": "UTA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 3000000,
+        "2026-27": 3000000
+      }
+    },
+    "Brice Sensabaugh": {
+      "team": "UTA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2693760,
+        "2026-27": 4862237
+      }
+    },
+    "Isaiah Collier": {
+      "team": "UTA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2638200,
+        "2026-27": 2763960
+      }
+    },
+    "Bez Mbeng": {
+      "team": "UTA",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 73153,
+        "2026-27": 2150917
+      }
+    },
+    "Hayden Gray": {
+      "team": "UTA",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 14631,
+        "2026-27": 2150917
+      }
+    },
+    "Lonzo Ball": {
+      "team": "UTA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 10000000
+      }
+    },
+    "Vincent Williams Jr.": {
+      "team": "UTA",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2301587
+      }
+    },
+    "Chris Boucher": {
+      "team": "UTA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Kennedy Chandler": {
+      "team": "UTA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 117730
+      }
+    },
+    "Andersson Garcia": {
+      "team": "UTA",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Anthony Davis": {
+      "team": "WAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 54126450,
+        "2026-27": 58456566
+      }
+    },
+    "Trae Young": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 46394100,
+        "2026-27": 48967380
+      }
+    },
+    "Alex Sarr": {
+      "team": "WAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 11808240,
+        "2026-27": 12370680
+      }
+    },
+    "Tre Johnson": {
+      "team": "WAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 8237640,
+        "2026-27": 8649600
+      }
+    },
+    "Bilal Coulibaly": {
+      "team": "WAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 7275600,
+        "2026-27": 9240012
+      }
+    },
+    "Jaden Hardy": {
+      "team": "WAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 6000000,
+        "2026-27": 6000000
+      }
+    },
+    "D'Angelo Russell": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 5685000,
+        "2026-27": 5969250
+      }
+    },
+    "Bub Carrington": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 4677600,
+        "2026-27": 4900560
+      }
+    },
+    "Cam Whitmore": {
+      "team": "WAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3539760,
+        "2026-27": 5458310
+      }
+    },
+    "Will Riley": {
+      "team": "WAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 3512520,
+        "2026-27": 3688320
+      }
+    },
+    "Kyshawn George": {
+      "team": "WAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2966760,
+        "2026-27": 3108000
+      }
+    },
+    "Tristan Vukcevic": {
+      "team": "WAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 2857143,
+        "2026-27": 3000000
+      }
+    },
+    "Justin Champagnie": {
+      "team": "WAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2349578,
+        "2026-27": 2667944
+      }
+    },
+    "Anthony Gill": {
+      "team": "WAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Jamir Watkins": {
+      "team": "WAS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 1131970,
+        "2026-27": 2150917
+      }
+    },
+    "Dillon Jones": {
+      "team": "NYK",
+      "pos": "SF",
+      "salary_by_season": {
+        "2025-26": 2753280,
+        "2026-27": 2185633
+      }
+    },
+    "Dante Exum": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274
+      }
+    },
+    "Richaun Holmes": {
+      "team": "WAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 250000
+      }
+    },
+    "Skal Labissiere": {
+      "team": "WAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Alondes Williams": {
+      "team": "WAS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 131970
+      }
+    },
+    "Keshon Gilbert": {
+      "team": "WAS",
+      "pos": "G",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Kadary Richmond": {
+      "team": "WAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 73153
+      }
+    },
+    "Ian Mahinmi": {
+      "team": "WAS",
+      "pos": "C",
+      "salary_by_season": {
+        "2025-26": 23175077,
+        "2026-27": 23175077
+      }
+    },
+    "Kendrick Nunn": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 6825000,
+        "2026-27": 6825000
+      }
+    },
+    "Shabazz Napier": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Tomas Satoransky": {
+      "team": "WAS",
+      "pos": "SG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Ramon Sessions": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296274,
+        "2026-27": 2450000
+      }
+    },
+    "Ty Lawson": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2296271,
+        "2026-27": 2450000
+      }
+    },
+    "JT Thor": {
+      "team": "WAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Johnathan Williams": {
+      "team": "WAS",
+      "pos": "PF",
+      "salary_by_season": {
+        "2025-26": 2048494,
+        "2026-27": 2185633
+      }
+    },
+    "Cassius Winston": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2025-26": 2048491,
+        "2026-27": 2185633
+      }
+    },
+    "Nikola Milutinov": {
+      "team": "BKN",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 3173040
+      }
+    },
+    "Tyson Etienne": {
+      "team": "BKN",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Chaney Johnson": {
+      "team": "BKN",
+      "pos": "F",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Antonio Reeves": {
+      "team": "CHA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Yuki Kawamura": {
+      "team": "CHI",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Lachlan Olbrich": {
+      "team": "CHI",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Olivier Sarr": {
+      "team": "CLE",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Moussa Cisse": {
+      "team": "DAL",
+      "pos": "F",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Curtis Jones": {
+      "team": "DEN",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "David Roddy": {
+      "team": "DEN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Wendell Moore Jr.": {
+      "team": "DET",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Jeenathan Williams": {
+      "team": "GSW",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Isaiah Crawford": {
+      "team": "HOU",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Jalen Slawson": {
+      "team": "IND",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Norchad Omier": {
+      "team": "LAC",
+      "pos": "F",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Sean Pedulla": {
+      "team": "LAC",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "TyTy Washington Jr.": {
+      "team": "LAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Chris Manon": {
+      "team": "LAL",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Drew Timme": {
+      "team": "LAL",
+      "pos": "F",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Trevor Keels": {
+      "team": "MIA",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Vladislav Goldin": {
+      "team": "MIA",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": -11
+      }
+    },
+    "Alex Antetokounmpo": {
+      "team": "MIL",
+      "pos": "SF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Enrique Freeman": {
+      "team": "MIN",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Trey Alexander": {
+      "team": "NOP",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Hunter Dickinson": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Josh Oduro": {
+      "team": "NOP",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Petteri Koponen": {
+      "team": "NYK",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 3173040
+      }
+    },
+    "Trey Jemison": {
+      "team": "NYK",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Kevin McCullar Jr.": {
+      "team": "NYK",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Brooks Barnhizer": {
+      "team": "OKC",
+      "pos": "SF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Branden Carlson": {
+      "team": "OKC",
+      "pos": "C",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Colin Castleton": {
+      "team": "ORL",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "MarJon Beauchamp": {
+      "team": "PHI",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2450000
+      }
+    },
+    "Koby Brea": {
+      "team": "PHX",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Isaiah Livers": {
+      "team": "PHX",
+      "pos": "SF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Caleb Love": {
+      "team": "POR",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Daeqwon Plowden": {
+      "team": "SAC",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Isaiah Stevens": {
+      "team": "SAC",
+      "pos": "PG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Harrison Ingram": {
+      "team": "SAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "David Jones-Garcia": {
+      "team": "SAS",
+      "pos": "SF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Chucky Hepburn": {
+      "team": "TOR",
+      "pos": "G",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Alijah Martin": {
+      "team": "TOR",
+      "pos": "SG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Elijah Harkless": {
+      "team": "UTA",
+      "pos": "PG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Oscar Tshiebwe": {
+      "team": "UTA",
+      "pos": "PF",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    },
+    "Sharife Cooper": {
+      "team": "WAS",
+      "pos": "PG",
+      "salary_by_season": {
+        "2026-27": 2185633
+      }
+    }
+  }
+}

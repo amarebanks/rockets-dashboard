@@ -1,0 +1,158 @@
+{
+  "season": "2026-27",
+  "cap_year": 2026,
+  "cap_line": 165000000,
+  "scraped_at": "2026-06-03",
+  "teams": {
+    "MEM": {
+      "committed": 166168147,
+      "active": 142734064,
+      "dead_cap": 4164050
+    },
+    "BKN": {
+      "committed": 166337530,
+      "active": 123022698,
+      "dead_cap": null
+    },
+    "CHA": {
+      "committed": 187307380,
+      "active": 148402018,
+      "dead_cap": null
+    },
+    "UTA": {
+      "committed": 211721770,
+      "active": 142158790,
+      "dead_cap": null
+    },
+    "IND": {
+      "committed": 212366101,
+      "active": 200752776,
+      "dead_cap": null
+    },
+    "MIL": {
+      "committed": 215605874,
+      "active": 158706685,
+      "dead_cap": 23183270
+    },
+    "TOR": {
+      "committed": 217059575,
+      "active": 193059996,
+      "dead_cap": null
+    },
+    "NOP": {
+      "committed": 226073026,
+      "active": 196330791,
+      "dead_cap": null
+    },
+    "HOU": {
+      "committed": 226324812,
+      "active": 187510080,
+      "dead_cap": null
+    },
+    "SAS": {
+      "committed": 229784496,
+      "active": 153468566,
+      "dead_cap": null
+    },
+    "BOS": {
+      "committed": 230082806,
+      "active": 187730180,
+      "dead_cap": null
+    },
+    "POR": {
+      "committed": 231140276,
+      "active": 169929266,
+      "dead_cap": 268032
+    },
+    "MIA": {
+      "committed": 234856927,
+      "active": 165581824,
+      "dead_cap": null
+    },
+    "PHX": {
+      "committed": 238836319,
+      "active": 162473426,
+      "dead_cap": 23197051
+    },
+    "DET": {
+      "committed": 238903724,
+      "active": 135458989,
+      "dead_cap": null
+    },
+    "CHI": {
+      "committed": 239178568,
+      "active": 95366560,
+      "dead_cap": null
+    },
+    "PHI": {
+      "committed": 240799039,
+      "active": 182790234,
+      "dead_cap": null
+    },
+    "WAS": {
+      "committed": 240828708,
+      "active": 174627539,
+      "dead_cap": null
+    },
+    "ORL": {
+      "committed": 245321646,
+      "active": 217026808,
+      "dead_cap": null
+    },
+    "DAL": {
+      "committed": 249466415,
+      "active": 148888654,
+      "dead_cap": 3211216
+    },
+    "ATL": {
+      "committed": 252355730,
+      "active": 153068971,
+      "dead_cap": null
+    },
+    "SAC": {
+      "committed": 255617867,
+      "active": 205159538,
+      "dead_cap": null
+    },
+    "LAC": {
+      "committed": 255666391,
+      "active": 162164340,
+      "dead_cap": null
+    },
+    "LAL": {
+      "committed": 260499420,
+      "active": 107468137,
+      "dead_cap": null
+    },
+    "MIN": {
+      "committed": 262014109,
+      "active": 190387865,
+      "dead_cap": null
+    },
+    "NYK": {
+      "committed": 262133009,
+      "active": 205460628,
+      "dead_cap": null
+    },
+    "CLE": {
+      "committed": 263429361,
+      "active": 221786086,
+      "dead_cap": 424672
+    },
+    "DEN": {
+      "committed": 264018463,
+      "active": 213802928,
+      "dead_cap": null
+    },
+    "OKC": {
+      "committed": 266528729,
+      "active": 249378110,
+      "dead_cap": null
+    },
+    "GSW": {
+      "committed": 284597537,
+      "active": 181479537,
+      "dead_cap": null
+    }
+  }
+}

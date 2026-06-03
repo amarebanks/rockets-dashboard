@@ -1,11 +1,12 @@
 """
-contracts.py — curated NBA salary / contract data + cap math.
+contracts.py — NBA salary / contract data + cap math.
 
-nba_api exposes NO salary data, so the tables here are hand-maintained and
-APPROXIMATE (same philosophy as draft.py's pick inventory — edit them as deals
-happen). Contracts are modeled as the CURRENT-SEASON cap hit plus a forward
-outlook (years remaining, option, projected future salaries, when it expires) —
-not a per-historical-season salary map.
+Primary source is a SCRAPED snapshot from Spotrac (run spotrac_scraper.py to
+refresh spotrac_cap_*.json / spotrac_players_*.json / spotrac_contracts.json):
+real per-player cap hits across seasons + real team payrolls. nba_api has no
+salary data, so anything the snapshot is missing falls back to a small hand-
+CURATED table, and anything still missing falls back to a value-based ESTIMATE —
+so the trade engine always has a number to match against.
 
 The module does three jobs:
 
@@ -18,15 +19,20 @@ The module does three jobs:
                  only proposes cap-legal packages (and adds salary filler when a
                  high-paid target needs matching money).
 
-Salaries are whole dollars. Curated coverage is deepest for Houston, league
-stars, and notable bad contracts; anyone uncurated falls back to a value-based
-salary ESTIMATE so the trade engine always has a number to match against.
+Contracts are modeled as the CURRENT-SEASON cap hit plus a forward outlook
+(future cap hits, years remaining). Roster membership for trade logic comes from
+nba_api (who actually played), NOT the Spotrac cap sheet — that page carries dead
+money (e.g. a waived/stretched player still on his old team's books), which must
+not be treated as a tradeable asset. Salaries are whole dollars.
 """
 
+import json
+import os
 import recognition
 
-# ── Cap landscape (real published figures) ───────────────────────────────────
+# ── Cap landscape (real published figures; 2026-27 cap is scraped, lines scaled) ─
 CAP_BY_SEASON = {
+    "2026-27": {"cap": 165_000_000, "tax": 200_500_000, "apron1": 209_100_000, "apron2": 222_900_000},
     "2025-26": {"cap": 154_647_000, "tax": 187_895_000, "apron1": 195_945_000, "apron2": 207_824_000},
     "2024-25": {"cap": 140_588_000, "tax": 170_814_000, "apron1": 178_132_000, "apron2": 188_931_000},
 }
@@ -147,6 +153,67 @@ def _fmt_m(dollars):
     return round(dollars / 1_000_000, 1)
 
 
+# ── Scraped Spotrac snapshot (primary source — see spotrac_scraper.py) ────────
+_DIR = os.path.dirname(__file__)
+_SCRAPED_SAL = {}        # season -> {norm_name: amount}
+_SCRAPED_CAP = {}        # season -> {team: committed}
+_SCRAPED_OUTLOOK = {}    # norm_name -> {name, team, pos, salary_by_season}
+
+
+def _load_json(name):
+    try:
+        with open(os.path.join(_DIR, name), encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def _load_snapshots():
+    try:
+        files = os.listdir(_DIR)
+    except OSError:
+        files = []
+    for f in files:
+        if f.startswith("spotrac_cap_") and f.endswith(".json"):
+            d = _load_json(f)
+            if d and d.get("season"):
+                _SCRAPED_CAP[d["season"]] = {t: v["committed"] for t, v in d.get("teams", {}).items()
+                                             if v.get("committed") is not None}
+    merged = _load_json("spotrac_contracts.json")
+    if merged:
+        for name, p in merged.get("players", {}).items():
+            nn = recognition.norm_name(name)
+            sbs = {s: a for s, a in p.get("salary_by_season", {}).items() if a}
+            _SCRAPED_OUTLOOK[nn] = {"name": name, "team": p.get("team"),
+                                    "pos": p.get("pos"), "salary_by_season": sbs}
+            for season, amt in sbs.items():
+                _SCRAPED_SAL.setdefault(season, {})[nn] = amt
+
+
+_load_snapshots()
+HAS_SCRAPE = bool(_SCRAPED_OUTLOOK)
+
+
+def _scraped_salary(name, season):
+    return _SCRAPED_SAL.get(season, {}).get(recognition.norm_name(name))
+
+
+def team_committed(team, season=DEFAULT_SEASON):
+    """A team's committed payroll for the season — scraped if available, else the
+    curated 2025-26 estimate, else None."""
+    cap = _SCRAPED_CAP.get(season)
+    if cap and team in cap:
+        return cap[team]
+    if season == "2025-26":
+        return TEAM_COMMITTED.get(team)
+    return None
+
+
+def _all_teams(season=DEFAULT_SEASON):
+    cap = _SCRAPED_CAP.get(season)
+    return sorted(cap.keys()) if cap else sorted(TEAM_COMMITTED.keys())
+
+
 # ── Salary lookup + estimate fallback ────────────────────────────────────────
 
 def _expected_salary(value):
@@ -167,9 +234,11 @@ def _expected_salary(value):
 
 
 def get_salary(name, season=DEFAULT_SEASON, value=None):
-    """Player's current-season cap hit. Curated if known, else estimated from
-    `value` (0–100). Contracts are forward-looking, so the curated figure is used
-    regardless of `season`; only the estimate fallback needs a value."""
+    """Player's cap hit for the season: scraped Spotrac figure first, then the
+    curated table, then a value-based estimate (so there's always a number)."""
+    s = _scraped_salary(name, season)
+    if s:
+        return s
     c = _CONTRACTS_NORM.get(recognition.norm_name(name))
     if c and c.get("salary"):
         return c["salary"]
@@ -191,26 +260,46 @@ def _future_salaries(salary, years_left, season=DEFAULT_SEASON):
 
 
 def contract_outlook(name, season=DEFAULT_SEASON):
-    """Current + future view of a contract for display: salary now, projected
-    future cap hits, total remaining value, years left, option, expiry. None if
-    the player isn't in the curated table."""
-    c = _CONTRACTS_NORM.get(recognition.norm_name(name))
-    if not c or not c.get("salary"):
+    """Current + future view of a contract for display: salary now, real future
+    cap hits (scraped) or projected ones, total remaining, years left, option,
+    expiry. None if the player isn't known at all."""
+    nn = recognition.norm_name(name)
+    cc = _CONTRACTS_NORM.get(nn, {})
+    o = _SCRAPED_OUTLOOK.get(nn)
+    if o and o["salary_by_season"].get(season):
+        sbs = o["salary_by_season"]
+        cur = sbs[season]
+        future = [{"season": s, "amount": sbs[s], "amount_m": _fmt_m(sbs[s])}
+                  for s in sorted(sbs) if s > season]
+        total = cur + sum(f["amount"] for f in future)
+        return {
+            "salary": cur, "salary_m": _fmt_m(cur),
+            "years_left": 1 + len(future),            # known years within scraped range
+            "option": cc.get("option"), "expires": cc.get("expires"),
+            "future": future,
+            "total_remaining": total, "total_remaining_m": _fmt_m(total),
+        }
+    if not cc or not cc.get("salary"):
         return None
-    yl = c.get("years_left", 1)
-    future = _future_salaries(c["salary"], yl, season)
-    total = c["salary"] + sum(f["amount"] for f in future)
+    yl = cc.get("years_left", 1)
+    future = _future_salaries(cc["salary"], yl, season)
+    total = cc["salary"] + sum(f["amount"] for f in future)
     return {
-        "salary": c["salary"], "salary_m": _fmt_m(c["salary"]),
-        "years_left": yl, "option": c.get("option"), "expires": c.get("expires"),
+        "salary": cc["salary"], "salary_m": _fmt_m(cc["salary"]),
+        "years_left": yl, "option": cc.get("option"), "expires": cc.get("expires"),
         "future": future,
         "total_remaining": total, "total_remaining_m": _fmt_m(total),
     }
 
 
 def get_contract(name):
-    """Raw curated contract record (team, salary, years_left, option, expires)."""
-    return _CONTRACTS_NORM.get(recognition.norm_name(name))
+    """Raw contract record (scraped outlook merged with curated option/expiry)."""
+    nn = recognition.norm_name(name)
+    o = _SCRAPED_OUTLOOK.get(nn)
+    cc = _CONTRACTS_NORM.get(nn)
+    if o:
+        return {**(cc or {}), "team": o["team"], "salary_by_season": o["salary_by_season"]}
+    return cc
 
 
 # ── Contract → trade-value modifier ──────────────────────────────────────────
@@ -257,7 +346,7 @@ def team_apron_status(team, season=DEFAULT_SEASON):
     """Where a team sits vs the cap lines: room | over_cap | taxpayer |
     first_apron | second_apron. Governs how much salary it can take back."""
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
-    committed = TEAM_COMMITTED.get(team)
+    committed = team_committed(team, season)
     if committed is None:
         return "over_cap"
     if committed >= lines["apron2"]:  return "second_apron"
@@ -300,7 +389,10 @@ def get_cap_sheet(season=DEFAULT_SEASON):
     sorted by payroll (biggest spenders first)."""
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
     teams = []
-    for team, total in TEAM_COMMITTED.items():
+    for team in _all_teams(season):
+        total = team_committed(team, season)
+        if total is None:
+            continue
         status = team_apron_status(team, season)
         teams.append({
             "team": team,
@@ -320,23 +412,25 @@ def get_cap_sheet(season=DEFAULT_SEASON):
     }
 
 
-def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
+def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None):
     """For a team over the tax/apron, the most likely moves to get back under —
     the real front-office calculus, especially for teams 'well above the second
     apron'.
 
-    Targets the highest line the team is over. Candidates are the team's curated
-    contracts, shed worst-first (bad/overpaid deals, then overpaid vets), assuming
-    each is moved for a minimum-salary replacement (net saving = salary − minimum).
-    A team will NOT shed its best player or any star/cornerstone for cap relief —
-    those are protected (they'd only move by request, and then via trade, not a
-    salary dump). Returns None for teams already in line.
+    Targets the highest line the team is over. Candidates are the team's ACTUAL
+    roster (passed in `roster` from nba_api — who really plays there, so dead money
+    / waived players on the cap sheet are excluded), shed worst-first (bad/overpaid
+    deals, then vets), assuming each is moved for a minimum-salary replacement (net
+    saving = salary − minimum). A team will NOT shed its best player or any
+    star/cornerstone for cap relief — those are protected (they'd only move by
+    request, and then via trade, not a salary dump). Returns None for teams in line.
 
-    `value_lookup(name) -> 0–100 value` (optional) lets the planner grade each
-    contract and identify the team's best player to protect him.
+    `value_lookup(name) -> 0–100 value` grades each contract and finds the team's
+    best player to protect. `roster` is the list of player names actually on the
+    team; if omitted, falls back to scraped/curated contracts filed under the team.
     """
     lines = CAP_BY_SEASON.get(season, CAP_BY_SEASON[DEFAULT_SEASON])
-    committed = TEAM_COMMITTED.get(team)
+    committed = team_committed(team, season)
     if committed is None:
         return None
     status = team_apron_status(team, season)
@@ -348,25 +442,31 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
     else:                              target_name, target = "luxury tax", lines["tax"]
     overage = committed - target
 
+    # Candidate pool = the real roster (nba_api) if given, else contracts on file.
+    if roster:
+        names = list(dict.fromkeys(roster))
+    else:
+        names = [o["name"] for o in _SCRAPED_OUTLOOK.values()
+                 if o.get("team") == team and o["salary_by_season"].get(season)] \
+                or [n for n, c in CONTRACTS.items() if c.get("team") == team and c.get("salary")]
+
     # Identify the team's best player (by value) so we never recommend moving him.
-    team_players = [(n, c) for n, c in CONTRACTS.items() if c["team"] == team and c.get("salary")]
     best_name = None
     if value_lookup:
-        graded = [(n, value_lookup(n)) for n, _ in team_players]
+        graded = [(n, value_lookup(n)) for n in names]
         graded = [(n, v) for n, v in graded if v is not None]
         if graded:
             best_name = max(graded, key=lambda x: x[1])[0]
 
     cands = []
-    for name, c in team_players:
-        sal = c["salary"]
+    for name in names:
+        val = value_lookup(name) if value_lookup else None
+        sal = get_salary(name, season, val)
         if sal <= _MIN_SALARY * 1.5:
             continue  # minimum deals don't create meaningful relief
-        val = value_lookup(name) if value_lookup else None
         grade = contract_grade(name, val, season) if val is not None else {"label": "—", "dumpable": False, "ratio": None}
         # Protected: the team's best player, plus any star/cornerstone. A team
-        # doesn't dump its franchise talent for cap relief — those are never
-        # candidates here (only the rest of the roster is).
+        # doesn't dump its franchise talent for cap relief.
         protected = (name == best_name) or recognition.is_cornerstone(name) \
             or recognition.star_floor(name, season) >= 76
         if protected:
@@ -377,7 +477,7 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
         elif grade.get("dumpable"):          tier = 0
         else:                                tier = 1
         cands.append({"name": name, "salary": sal, "salary_m": _fmt_m(sal),
-                      "label": label, "option": c.get("option"),
+                      "label": label, "option": grade.get("option"),
                       "rank": (tier, -(grade.get("ratio") or 0), -sal)})
     cands.sort(key=lambda x: x["rank"])
 
@@ -418,18 +518,31 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None):
 
 
 def get_team_contracts(team, season=DEFAULT_SEASON):
-    """Curated contracts for one team, with the forward outlook on each. APPROXIMATE
-    — only players in the CONTRACTS table appear."""
+    """One team's contracts for the season with the forward outlook on each.
+    Scraped roster (real cap sheet, incl. dead money) when available, else curated."""
     rows = []
-    for name, c in CONTRACTS.items():
-        if c["team"] != team or not c.get("salary"):
-            continue
-        o = contract_outlook(name, season)
-        rows.append({
-            "name": name, "salary": c["salary"], "salary_m": _fmt_m(c["salary"]),
-            "years_left": c.get("years_left"), "option": c.get("option"),
-            "expires": c.get("expires"),
-            "total_remaining_m": o["total_remaining_m"] if o else _fmt_m(c["salary"]),
-        })
+    scraped = [o["name"] for o in _SCRAPED_OUTLOOK.values()
+               if o.get("team") == team and o["salary_by_season"].get(season)]
+    if scraped:
+        for name in scraped:
+            o = contract_outlook(name, season)
+            if not o:
+                continue
+            rows.append({
+                "name": name, "salary": o["salary"], "salary_m": o["salary_m"],
+                "years_left": o.get("years_left"), "option": o.get("option"),
+                "expires": o.get("expires"), "total_remaining_m": o.get("total_remaining_m"),
+            })
+    else:
+        for name, c in CONTRACTS.items():
+            if c["team"] != team or not c.get("salary"):
+                continue
+            o = contract_outlook(name, season)
+            rows.append({
+                "name": name, "salary": c["salary"], "salary_m": _fmt_m(c["salary"]),
+                "years_left": c.get("years_left"), "option": c.get("option"),
+                "expires": c.get("expires"),
+                "total_remaining_m": o["total_remaining_m"] if o else _fmt_m(c["salary"]),
+            })
     rows.sort(key=lambda r: r["salary"], reverse=True)
     return rows
