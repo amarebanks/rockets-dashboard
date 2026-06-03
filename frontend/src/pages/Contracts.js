@@ -61,6 +61,8 @@ const CLABEL = {
   "Fair":         { bg:"rgba(150,150,150,0.14)", c:"var(--muted)" },
   "Overpaid":     { bg:"rgba(255,140,60,0.16)", c:"#ff8c3c" },
   "Bad contract": { bg:"rgba(206,17,65,0.18)", c:"var(--red)" },
+  "Fringe":        { bg:"rgba(150,150,150,0.16)", c:"var(--muted)" },
+  "Rotation piece":{ bg:"rgba(74,158,255,0.13)", c:"#4a9eff" },
 };
 
 const MAX_SCALE = 235; // $M, right edge of the payroll bar
@@ -77,8 +79,7 @@ export default function Contracts() {
       .catch(() => setLoading(false));
   }, []);
 
-  const toggle = (abbr, overLine) => {
-    if (!overLine) return;
+  const toggle = (abbr) => {
     if (open === abbr) { setOpen(null); return; }
     setOpen(abbr);
     if (!details[abbr]) {
@@ -113,11 +114,10 @@ export default function Contracts() {
 
       {data.teams.map(t => {
         const st = STATUS[t.status] || STATUS.over_cap;
-        const overLine = t.status === "taxpayer" || t.status === "first_apron" || t.status === "second_apron";
         const d = details[t.team];
         return (
           <div key={t.team}>
-            <div className={"ct-row" + (overLine ? " clickable" : "")} onClick={() => toggle(t.team, overLine)}>
+            <div className="ct-row clickable" onClick={() => toggle(t.team)}>
               <div className="ct-abbr">{t.team}</div>
               <div className="ct-bar-wrap">
                 <div className="ct-bar" style={{ width:`${tickPct(t.committed_m)}%`, background: st.c }} />
@@ -127,7 +127,7 @@ export default function Contracts() {
               </div>
               <div className="ct-pill" style={{ background: st.bg, color: st.c }}>{st.label}</div>
               <div className="ct-pay">${t.committed_m}M<br/><small>{t.tax_m > 0 ? `+$${t.tax_m}M tax` : `$${Math.abs(t.room_m)}M ${t.room_m >= 0 ? "room" : "over"}`}</small></div>
-              <div className="ct-caret">{overLine ? (open === t.team ? "▲" : "▼") : ""}</div>
+              <div className="ct-caret">{open === t.team ? "▲" : "▼"}</div>
             </div>
 
             {open === t.team && (

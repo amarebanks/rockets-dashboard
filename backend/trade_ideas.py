@@ -164,11 +164,14 @@ def _proxy_value(s, season=None):
     # by scoring so a 24-ppg lead guard outvalues an 18-ppg one (avoids flattening).
     if s["pts"] >= 18 and s["usg_pct"] >= 0.22 and s["ts_pct"] >= 0.55 and s["gp"] >= 55:
         raw = max(raw, min(72, 52 + (s["pts"] - 18) * 2.0))
-    # Floors for elite defenders who may not be All-Stars (recognition-driven).
+    # Floors for elite defenders who may not be All-Stars (recognition-driven) — so a
+    # high-end 3&D wing isn't mis-graded as an "overpaid" contract (e.g. J. McDaniels).
     if def_recog >= 100:
         raw = max(raw, 70)   # All-Defensive 1st team
     elif def_recog >= 78:
         raw = max(raw, 64)   # All-Defensive 2nd team
+    elif def_recog >= 50:
+        raw = max(raw, 62)   # received All-Defensive / DPOY votes
     return round(min(raw, 100), 1), corner, star
 
 

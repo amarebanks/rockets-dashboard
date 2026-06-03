@@ -185,9 +185,21 @@ def _load_snapshots():
             nn = recognition.norm_name(name)
             sbs = {s: a for s, a in p.get("salary_by_season", {}).items() if a}
             _SCRAPED_OUTLOOK[nn] = {"name": name, "team": p.get("team"),
-                                    "pos": p.get("pos"), "salary_by_season": sbs}
+                                    "pos": p.get("pos"), "type": p.get("type"),
+                                    "salary_by_season": sbs}
             for season, amt in sbs.items():
                 _SCRAPED_SAL.setdefault(season, {})[nn] = amt
+
+
+# Slotted rookie-scale deals are non-negotiated (set by draft position) and team-
+# friendly — they're never "bad contracts" no matter how a rookie's early
+# production grades out. (Rookie EXTENSIONS, RK-EXT, ARE negotiated, so not here.)
+_ROOKIE_TYPES = {"RK-1ST", "RK-2ND", "RK-3RD", "RK-4TH", "RK"}
+
+
+def is_rookie_scale(name):
+    o = _SCRAPED_OUTLOOK.get(recognition.norm_name(name))
+    return bool(o and (o.get("type") or "").upper() in _ROOKIE_TYPES)
 
 
 _load_snapshots()
@@ -313,6 +325,16 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
     salary = get_salary(name, season, value)
     expected = _expected_salary(value)
     ratio = salary / expected if expected else 1.0
+
+    # Rookie-scale deals are slotted by draft position, not negotiated — never bad.
+    if is_rookie_scale(name):
+        out = {"salary": salary, "expected": expected, "ratio": round(ratio, 2),
+               "label": "Rookie scale", "value_delta": 0.0, "dumpable": False}
+        outlook = contract_outlook(name, season)
+        if outlook:
+            out.update({k: outlook[k] for k in
+                        ("years_left", "option", "expires", "total_remaining_m", "future")})
+        return out
 
     if ratio <= 0.55:
         label, delta = "Bargain", min(7.0, (0.55 - ratio) * 22)
@@ -496,45 +518,64 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
         if graded:
             best_name = max(graded, key=lambda x: x[1])[0]
 
+    # Who a team actually sheds is a function of IMPORTANCE (on-court value) and
+    # SALARY, in this order of expendability:
+    #   0  Overpaid / Bad contract — genuinely poor money (shed first, worst first)
+    #   1  Fringe — low-importance depth players (rotation filler), biggest salary first
+    #   2  Rotation piece — fair-value contributors, only as a last resort
+    # Stars, the team's best player, and slotted rookie deals are never shed.
+    FRINGE_VALUE = 46
     cands = []
     for name in names:
         val = value_lookup(name) if value_lookup else None
         sal = get_salary(name, season, val)
         if sal <= _MIN_SALARY * 1.5:
             continue  # minimum deals don't create meaningful relief
-        grade = contract_grade(name, val, season) if val is not None else {"label": "—", "dumpable": False, "ratio": None}
-        # Protected: the team's best player, plus any star/cornerstone. A team
-        # doesn't dump its franchise talent for cap relief.
-        protected = (name == best_name) or recognition.is_cornerstone(name) \
-            or recognition.star_floor(name, season) >= 76
-        if protected:
-            continue
+        if (name == best_name or recognition.is_cornerstone(name)
+                or recognition.star_floor(name, season) >= 76 or is_rookie_scale(name)):
+            continue  # protected — franchise talent / rookie scale isn't dumped
+        grade = contract_grade(name, val, season) if val is not None else {"label": "—", "ratio": None}
         label = grade.get("label")
-        # Shed order: 0 bad contracts → 1 overpaid/fair vets → 2 bargains (kept last).
-        if label in ("Bargain", "Value"):   tier = 2
-        elif grade.get("dumpable"):          tier = 0
-        else:                                tier = 1
+        if label in ("Overpaid", "Bad contract"):
+            tier, shed_label = 0, label
+        elif val is not None and val < FRINGE_VALUE:
+            tier, shed_label = 1, "Fringe"
+        else:
+            tier, shed_label = 2, "Rotation piece"
         cands.append({"name": name, "salary": sal, "salary_m": _fmt_m(sal),
-                      "label": label, "option": grade.get("option"),
-                      "rank": (tier, -(grade.get("ratio") or 0), -sal)})
+                      "label": shed_label, "option": grade.get("option"),
+                      "rank": (tier, -(grade.get("ratio") or 0) if tier == 0 else 0, -sal)})
     cands.sort(key=lambda x: x["rank"])
 
-    moves, saved = [], 0
+    moves, saved, max_tier = [], 0, -1
     for c in cands:
         if saved >= overage:
             break
         net = c["salary"] - _MIN_SALARY
-        # Cap relief is almost always a trade; a team option expiring this summer
-        # is the one case a team simply lets the salary come off the books.
         expiring_team_option = c["option"] == "TO" and (
             get_contract(c["name"]) or {}).get("years_left", 9) <= 1
         action = "Decline team option" if expiring_team_option else "Trade away"
         moves.append({"name": c["name"], "salary_m": c["salary_m"],
                       "label": c["label"], "action": action, "saves_m": _fmt_m(net)})
         saved += net
+        max_tier = max(max_tier, c["rank"][0])
 
     reachable = saved >= overage
-    names = ", ".join(m["name"] for m in moves)
+    movable = ", ".join(m["name"] for m in moves)
+    if not moves:
+        note = (f"No bad or expendable contracts to shed — this payroll is efficient "
+                f"(stars + rookie-scale deals). Getting under the {target_name} would take a star trade.")
+    elif not reachable:
+        note = (f"Even moving {movable} (~${_fmt_m(saved)}M) leaves them over the {target_name}; "
+                f"the rest is core salary, so a star trade would be required.")
+    elif max_tier == 0:
+        note = f"Shedding the overpaid deal(s) — {movable} — clears ${_fmt_m(saved)}M, enough to dip under the {target_name}."
+    elif max_tier == 1:
+        note = (f"No clearly bad contract; moving fringe/depth salary ({movable}) frees "
+                f"${_fmt_m(saved)}M to get under the {target_name}.")
+    else:
+        note = (f"No bad contracts here — getting under the {target_name} means trading a rotation "
+                f"contributor ({movable}), not a salary dump.")
     return {
         "team": team,
         "status": status,
@@ -546,12 +587,7 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
         "moves": moves,
         "projected_saving_m": _fmt_m(saved),
         "gets_under": reachable,
-        "note": (
-            f"Moving {names} clears about ${_fmt_m(saved)}M — enough to dip under the {target_name}."
-            if reachable and moves else
-            f"Even moving {names or 'their movable deals'} (~${_fmt_m(saved)}M) leaves them over the "
-            f"{target_name}; only a bigger salary dump or a star trade gets them under."
-        ),
+        "note": note,
     }
 
 

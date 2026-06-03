@@ -92,6 +92,7 @@ ALL_DEFENSIVE_BY_SEASON = {
             "Kris Dunn", "Evan Mobley", "Luguentz Dort", "Jalen Duren",
             "Neemias Queta", "Jaylen Brown", "Kawhi Leonard", "Jaden McDaniels",
             "Donovan Clingan", "Shai Gilgeous-Alexander", "Jabari Smith Jr.",
+            "Alex Caruso",   # perennial All-Defensive guard — elite point-of-attack D
         },
     },
 }

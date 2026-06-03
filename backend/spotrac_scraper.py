@@ -234,6 +234,7 @@ def main():
         for name, p in players.items():
             m = merged.setdefault(name, {"team": p["team"], "pos": p["pos"], "salary_by_season": {}})
             m["team"] = p["team"]              # latest scraped year wins for current team
+            m["type"] = p.get("type")          # contract type (RK-1ST/RK-2ND = rookie scale, etc.)
             m["salary_by_season"][season] = p["salary"]
 
     f3 = _write("spotrac_contracts.json", {
