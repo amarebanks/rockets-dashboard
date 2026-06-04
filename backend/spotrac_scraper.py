@@ -77,7 +77,7 @@ def _dollars(s):
         return None
 
 
-# ── Cover-page team cap table ────────────────────────────────────────────────
+# Cover-page team cap table
 # Columns (verified): 0 Rank · 1 Team · 2 Record · 3 Players · 4 AvgAge ·
 # 5 Total Cap Allocations · 6 Cap Space · 7 Active · 8 Active Top3 · 9 Dead Cap
 class _CapTable(HTMLParser):
@@ -125,7 +125,7 @@ def fetch_cap_totals(year):
     return teams, cap_line
 
 
-# ── Per-team player contracts ────────────────────────────────────────────────
+# Per-team player contracts
 # Each player cell: <span class="d-none">Surname</span><a href=".../player/_/id/..">Full Name</a>
 # Columns: 0 Player · 1 Pos · 2 Age · 3 Type · 4 Cap Hit · … · 10 Guaranteed
 class _PlayerTable(HTMLParser):

@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
+import { ChevronUp, ChevronDown, Star } from "lucide-react";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
@@ -132,7 +133,7 @@ export default function Contracts() {
               </div>
               <div className="ct-pill" style={{ background: st.bg, color: st.c }}>{st.label}</div>
               <div className="ct-pay">${t.committed_m}M<br/><small>{t.tax_m > 0 ? `+$${t.tax_m}M tax` : `$${Math.abs(t.room_m)}M ${t.room_m >= 0 ? "room" : "over"}`}</small></div>
-              <div className="ct-caret">{open === t.team ? "▲" : "▼"}</div>
+              <div className="ct-caret">{open === t.team ? <ChevronUp size={16}/> : <ChevronDown size={16}/>}</div>
             </div>
 
             {open === t.team && (
@@ -184,7 +185,7 @@ export default function Contracts() {
                             <div className="rn">
                               {c.name}
                               {d.relief_plan && d.relief_plan.best_player === c.name && (
-                                <span style={{ color:"var(--gold)", fontSize:10, marginLeft:6 }}>★ keep</span>
+                                <span style={{ color:"var(--gold)", fontSize:10, marginLeft:6 }}><Star size={10} fill="currentColor"/> keep</span>
                               )}
                             </div>
                             <div className="rt">
@@ -208,7 +209,7 @@ export default function Contracts() {
       <div className="legend">
         <b>Tap any taxpayer/apron team</b> to see the most likely moves it would make to get back under the line -
         teams shed <b>bad contracts</b> first, then overpaid vets, and never move their best player or stars for cap
-        relief (marked <span style={{ color:"var(--gold)" }}>★ keep</span>). The two <b>aprons</b> are
+        relief (marked <span style={{ color:"var(--gold)" }}><Star size={10} fill="currentColor"/> keep</span>). The two <b>aprons</b> are
         hard spending limits that restrict how a team can build (trades, exceptions, draft picks), so front offices work
         hard to duck under them. Salaries are curated approximations - edit <b>backend/contracts.py</b> to refine them.
       </div>

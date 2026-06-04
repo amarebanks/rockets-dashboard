@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import axios from "axios";
+import { ChevronDown, Star } from "lucide-react";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
 import ShotChart from "../components/ShotChart";
 import { seasonLabel } from "../season";
@@ -124,8 +125,8 @@ function Badge({ player }) {
       </div>
     );
   }
-  if (player.is_cornerstone) return <span className="vs-badge cornerstone">★ {player.accolade}</span>;
-  if (player.is_allstar)     return <span className="vs-badge allstar">★ {player.accolade}</span>;
+  if (player.is_cornerstone) return <span className="vs-badge cornerstone"><Star size={11} fill="currentColor"/> {player.accolade}</span>;
+  if (player.is_allstar)     return <span className="vs-badge allstar"><Star size={11} fill="currentColor"/> {player.accolade}</span>;
   return null;
 }
 
@@ -358,7 +359,7 @@ export default function Compare() {
                       <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{v1 ?? "-"}</div>
                       <div>
                         <div className="stat-bar-label" style={{ marginBottom: 4 }}>
-                          {s.label}{s.lowerBetter ? " ▼" : ""}
+                          {s.label}{s.lowerBetter ? <ChevronDown size={11} style={{verticalAlign:"-1px",marginLeft:2}}/> : null}
                         </div>
                         <div className="stat-bar-track">
                           <div className="stat-bar-fill-left" style={{ width: `${pct1}%` }} />
@@ -370,7 +371,7 @@ export default function Compare() {
                   );
                 })}
                 <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, marginTop:6 }}>
-                  Production normalized to 36 minutes - levels the field for players with different roles ·  ▼ lower is better
+                  Production normalized to 36 minutes - levels the field for players with different roles · <ChevronDown size={11} style={{verticalAlign:"-1px"}}/> lower is better
                 </div>
               </div>
             ) : (
@@ -406,7 +407,7 @@ export default function Compare() {
                       <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{fmtAdv(v1, s.suffix)}</div>
                       <div>
                         <div className="stat-bar-label" style={{ marginBottom: 4 }}>
-                          {s.label}{s.lowerBetter ? " ▼" : ""}
+                          {s.label}{s.lowerBetter ? <ChevronDown size={11} style={{verticalAlign:"-1px",marginLeft:2}}/> : null}
                         </div>
                         <div className="stat-bar-track">
                           <div className="stat-bar-fill-left" style={{ width: `${pct1}%` }} />
@@ -418,7 +419,7 @@ export default function Compare() {
                   );
                 })}
                 <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, marginTop:6 }}>
-                  ▼ lower is better · bar width reflects the stronger side
+                  <ChevronDown size={11} style={{verticalAlign:"-1px"}}/> lower is better · bar width reflects the stronger side
                 </div>
               </div>
             ) : (

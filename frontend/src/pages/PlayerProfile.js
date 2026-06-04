@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ArrowLeft, Download } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis } from "recharts";
 import ShotChart from "../components/ShotChart";
 import { accTier, accoladeCSS } from "../accoladeStyle";
@@ -177,7 +178,7 @@ export default function PlayerProfile() {
   return (
     <div className="page">
       <style>{css}</style>
-      <button className="back-btn" onClick={() => navigate("/")}>← Back to Roster</button>
+      <button className="back-btn" onClick={() => navigate("/")}><ArrowLeft size={14}/> Back to Roster</button>
 
       {/* Header */}
       <div className="profile-header">
@@ -448,7 +449,7 @@ export default function PlayerProfile() {
       <div className="section-header">
         <div className="section-title">Full Game Log</div>
         <div className="section-line" />
-        <button className="export-btn" onClick={exportCSV}>↓ Export CSV</button>
+        <button className="export-btn" onClick={exportCSV}><Download size={14}/> Export CSV</button>
       </div>
       <div className="gl-table-wrap">
         <table className="gl-table">

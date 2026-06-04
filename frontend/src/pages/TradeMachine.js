@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
+import { X, CircleDot } from "lucide-react";
 import { getSeason, seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
@@ -141,14 +142,14 @@ function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks,
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span className="tv">{p.value}</span>
-                  <button className="tm-x" onClick={() => setDeal(deal.filter((_, j) => j !== i))}>✕</button>
+                  <button className="tm-x" onClick={() => setDeal(deal.filter((_, j) => j !== i))}><X size={14}/></button>
                 </div>
               </div>
             ))}
             {picks.map((p, i) => (
               <div className="tm-chip" key={"k" + i}>
-                <div><div className="nm">🏀 {p.name}</div><div className="meta">Draft pick</div></div>
-                <button className="tm-x" onClick={() => setPicks(picks.filter((_, j) => j !== i))}>✕</button>
+                <div><div className="nm"><CircleDot size={13}/> {p.name}</div><div className="meta">Draft pick</div></div>
+                <button className="tm-x" onClick={() => setPicks(picks.filter((_, j) => j !== i))}><X size={14}/></button>
               </div>
             ))}
           </>
@@ -177,7 +178,7 @@ function TeamPanel({ side, teams, team, setTeam, deal, setDeal, picks, setPicks,
           <div className="tm-roster" style={{ maxHeight: 170 }}>
             {availPicks.map((p, i) => (
               <div key={p.name + i} className="tm-rrow" onClick={() => setPicks([...picks, p])}>
-                <span>🏀 {p.name}</span>
+                <span><CircleDot size={13}/> {p.name}</span>
               </div>
             ))}
             {availPicks.length === 0 && <div style={{ padding: 10, color: "var(--muted)", fontSize: 12 }}>No picks available.</div>}

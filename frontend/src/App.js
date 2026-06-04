@@ -43,6 +43,7 @@ const navStyles = `
   body { background: var(--bg); color: var(--text); font-family: var(--body);
     min-height: 100vh; -webkit-font-smoothing: antialiased; letter-spacing: -0.005em; }
   ::selection { background: var(--accent); color: #fff; }
+  .lucide { vertical-align: -0.14em; flex-shrink: 0; }
 
   .navbar { display: flex; align-items: center; background: rgba(12,13,15,0.85);
     backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);

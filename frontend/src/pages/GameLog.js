@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Download, X } from "lucide-react";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
@@ -148,7 +149,7 @@ export default function GameLog() {
             <button className={`filter-btn ${filter.home_away==="A"?"active-gold":""}`} onClick={() => setF("home_away","A")}>Away</button>
             <div style={{ color:"var(--muted)", fontSize:12, letterSpacing:1 }}>{games.length} games · {wins}W–{games.length-wins}L</div>
             {streak && <div className={`streak-info ${streak.type}`} style={{ marginLeft:"auto" }}>Streak: {streak.type}{streak.count}</div>}
-            <button className="export-btn" onClick={exportCSV}>↓ CSV</button>
+            <button className="export-btn" onClick={exportCSV}><Download size={14}/> CSV</button>
           </div>
         </>
       )}
@@ -205,7 +206,7 @@ export default function GameLog() {
                 <div className="modal-score" style={{ color:selected.outcome==="W"?"var(--green)":"var(--red)" }}>
                   {selected.pts}{selected.opp_pts&&<span style={{color:"var(--border)",fontSize:28}}> – {selected.opp_pts}</span>}
                 </div>
-                <button className="modal-close" onClick={() => { setSelected(null); setBoxScore(null); }}>✕</button>
+                <button className="modal-close" onClick={() => { setSelected(null); setBoxScore(null); }}><X size={16}/></button>
               </div>
             </div>
             <div style={{ padding:"0 0 8px" }}>

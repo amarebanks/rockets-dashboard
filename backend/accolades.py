@@ -13,14 +13,14 @@ import recognition
 # season -> {player name: [honor labels, most prestigious first]}
 ACCOLADES_BY_SEASON = {
     "2025-26": {
-        # ── Award winners ───────────────────────────────────────────────
+        # Award winners
         "Shai Gilgeous-Alexander": ["MVP", "Clutch POY", "All-NBA 1st Team"],
         "Cooper Flagg":            ["Rookie of the Year", "All-Rookie 1st Team"],
         "Victor Wembanyama":       ["Defensive POY", "All-NBA 1st Team", "All-Defensive 1st Team"],
         "Keldon Johnson":          ["Sixth Man of the Year"],
         "Nickeil Alexander-Walker":["Most Improved Player"],
 
-        # ── All-NBA (remaining) ─────────────────────────────────────────
+        # All-NBA (remaining)
         "Nikola Jokic":     ["All-NBA 1st Team"],
         "Luka Doncic":      ["All-NBA 1st Team"],
         "Cade Cunningham":  ["All-NBA 1st Team"],
@@ -35,7 +35,7 @@ ACCOLADES_BY_SEASON = {
         "Jalen Duren":      ["All-NBA 3rd Team", "Most Improved (2nd)"],
         "Chet Holmgren":    ["All-NBA 3rd Team", "All-Defensive 1st Team"],
 
-        # ── All-Defensive (remaining) ───────────────────────────────────
+        # All-Defensive (remaining)
         "Ausar Thompson": ["All-Defensive 1st Team"],
         "Rudy Gobert":    ["All-Defensive 1st Team"],
         "Derrick White":  ["All-Defensive 1st Team"],
@@ -45,7 +45,7 @@ ACCOLADES_BY_SEASON = {
         "OG Anunoby":     ["All-Defensive 2nd Team"],
         "Dyson Daniels":  ["All-Defensive 2nd Team", "Most Improved (Votes)"],
 
-        # ── All-Rookie (remaining) ──────────────────────────────────────
+        # All-Rookie (remaining)
         "VJ Edgecombe":        ["All-Rookie 1st Team"],
         "Kon Knueppel":        ["All-Rookie 1st Team", "ROY (2nd)"],
         "Dylan Harper":        ["All-Rookie 1st Team"],
@@ -56,7 +56,7 @@ ACCOLADES_BY_SEASON = {
         "Ace Bailey":          ["All-Rookie 2nd Team"],
         "Collin Murray-Boyles":["All-Rookie 2nd Team"],
 
-        # ── Notable vote-getters (incl. all Rockets who placed) ─────────
+        # Notable vote-getters (incl. all Rockets who placed)
         "Amen Thompson":     ["All-Defensive (Votes)", "Defensive POY (8th)"],
         "Reed Sheppard":     ["Sixth Man (6th)", "Most Improved (Votes)"],
         "Alperen Sengun":    ["All-NBA (Votes)"],

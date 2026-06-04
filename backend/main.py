@@ -55,7 +55,7 @@ def get_db():
         cursor_factory=psycopg2.extras.RealDictCursor,
     )
 
-# ── Health ────────────────────────────────────────────────────────────────────
+# Health
 
 @app.get("/")
 def health_check():
@@ -108,7 +108,7 @@ def get_seasons():
     """Seasons the dashboard can display; powers the navbar season selector."""
     return {"seasons": SEASONS, "default": DEFAULT_SEASON}
 
-# ── Players ───────────────────────────────────────────────────────────────────
+# Players
 
 @app.get("/players")
 def get_players(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
@@ -297,7 +297,7 @@ def get_player_stats(player_id: int, season_type: str = Query("Regular Season"),
     finally:
         conn.close()
 
-# ── Games ─────────────────────────────────────────────────────────────────────
+# Games
 
 @app.get("/games")
 def get_games(
@@ -364,7 +364,7 @@ def get_game(game_id: str):
     finally:
         conn.close()
 
-# ── Game Predictor (Elo) ────────────────────────────────────────────────────────
+# Game Predictor (Elo)
 
 @app.get("/predict/teams")
 def get_predict_teams(season: str = Query(DEFAULT_SEASON)):
@@ -413,7 +413,7 @@ def predict_game(opponent: str = Query(..., description="Opponent team abbreviat
         "favorite": "HOU" if result["favorite"] == ROCKETS_ABV else opp["abbr"],
     }
 
-# ── Season summary ────────────────────────────────────────────────────────────
+# Season summary
 
 @app.get("/season/summary")
 def get_season_summary(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
@@ -458,7 +458,7 @@ def get_stat_leaders(season_type: str = Query("Regular Season"), season: str = Q
     finally:
         conn.close()
 
-# ── Team Stats ────────────────────────────────────────────────────────────────
+# Team Stats
 
 @app.get("/team/stats")
 def get_team_stats(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
@@ -652,7 +652,7 @@ def get_team_rankings(season_type: str = Query("Regular Season"), season: str = 
     except Exception as e:
         return {"rankings": {}, "error": str(e)}
 
-# ── Shot Chart ────────────────────────────────────────────────────────────────
+# Shot Chart
 
 @app.get("/shots/team/summary")
 def get_team_shot_summary(season_type: str = Query("Regular Season"), season: str = Query(DEFAULT_SEASON)):
@@ -710,7 +710,7 @@ def get_player_shots(
     finally:
         conn.close()
 
-# ── NBA Player Search & Compare ───────────────────────────────────────────────
+# NBA Player Search & Compare
 
 @app.get("/nba/search")
 def search_nba_players(q: str = Query(..., min_length=2)):
@@ -813,7 +813,7 @@ def get_nba_player_shots(player_id: int, season_type: str = Query("Regular Seaso
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# ── Live Scores ───────────────────────────────────────────────────────────────
+# Live Scores
 
 @app.get("/live/scores")
 def get_live_scores():
@@ -837,7 +837,7 @@ def get_live_scores():
     except Exception as e:
         return {"games": [], "game_count": 0, "error": str(e)}
 
-# ── Draft Capital ─────────────────────────────────────────────────────────────
+# Draft Capital
 
 @app.get("/draft/assets")
 def get_draft_assets():
@@ -856,7 +856,7 @@ def get_draft_picks(team: str = Query("HOU")):
         raise HTTPException(status_code=404, detail="No scraped picks for that team - run draft_scraper.py")
     return data
 
-# ── Betting Edge Finder ───────────────────────────────────────────────────────
+# Betting Edge Finder
 
 @app.get("/betting/edges")
 def get_betting_edges(season: str = Query(DEFAULT_SEASON)):
@@ -882,7 +882,7 @@ def evaluate_bet(
         raise HTTPException(status_code=404, detail="Unknown team abbreviation")
     return res
 
-# ── Trade Idea Engine ─────────────────────────────────────────────────────────
+# Trade Idea Engine
 
 @app.get("/trade/ideas")
 def get_trade_ideas(season: str = Query(DEFAULT_SEASON)):
@@ -1024,7 +1024,7 @@ def get_team_lineups(size: int = Query(5, ge=2, le=5), season: str = Query(DEFAU
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lineup engine failed: {e}")
 
-# ── Trade Value Algorithm ─────────────────────────────────────────────────────
+# Trade Value Algorithm
 
 POSITION_VALUE = {
     "PG":1.10,"SG":1.00,"SF":1.00,"PF":1.05,"C":1.10,
@@ -1118,7 +1118,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
         except Exception:
             pass
 
-        # ── Component scores 0–100 ────────────────────────────────────────────
+        # Component scores 0–100
         pts_score  = min(pts / 28.0 * 100, 100)
         reb_score  = min(reb / 12.0 * 100, 100)
         ast_score  = min(ast / 9.0  * 100, 100)
@@ -1148,7 +1148,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
         pos_mult       = POSITION_VALUE.get(position.upper().strip(), 1.0)
         recognition_s  = 100 if is_corner else (75 if is_star else 0)
 
-        # ── Weighted composite (weights sum to 1.0) ───────────────────────────
+        # Weighted composite (weights sum to 1.0)
         # def_score now includes DRtg - weight raised from 0.03 to 0.07,
         # the freed 0.04 from the removed standalone drtg term.
         raw = (
@@ -1202,7 +1202,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# ── Player Advanced Stats ─────────────────────────────────────────────────────
+# Player Advanced Stats
 
 @app.get("/players/{player_id}/advanced")
 def get_player_advanced(player_id: int, season_type: str = Query("Regular Season"),

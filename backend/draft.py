@@ -54,7 +54,7 @@ def _pick_value(p):
     return round(val, 1)
 
 
-# ── Curated inventory (EDIT to match real ownership) ─────────────────────────
+# Curated inventory (EDIT to match real ownership)
 # direction: "incoming" = Rockets control it, "outgoing" = Rockets owe it.
 # proj_slot: estimated draft range based on the source team's expected strength.
 ROCKETS_PICKS = [
@@ -109,7 +109,7 @@ def get_draft_assets():
     }
 
 
-# ── Real per-team pick ownership (scraped from Fanspo - see draft_scraper.py) ──
+# Real per-team pick ownership (scraped from Fanspo - see draft_scraper.py)
 
 def _load_snapshot():
     try:

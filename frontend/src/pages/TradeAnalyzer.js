@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import axios from "axios";
+import { CircleDot, X, Star } from "lucide-react";
 
 const API = "http://127.0.0.1:8000";
 
@@ -228,12 +229,12 @@ function PlayerCard({ item, onRemove }) {
     return (
       <div className="pick-card">
         <div>
-          <div className="pick-name">🏀 {item.name}</div>
+          <div className="pick-name"><CircleDot size={14}/> {item.name}</div>
           <div style={{ fontSize:10, color:"var(--muted)", marginTop:2, letterSpacing:1 }}>DRAFT PICK</div>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <div className="pick-score">{item.value}</div>
-          <button className="remove-btn" onClick={onRemove}>✕</button>
+          <button className="remove-btn" onClick={onRemove}><X size={14}/></button>
         </div>
       </div>
     );
@@ -250,8 +251,8 @@ function PlayerCard({ item, onRemove }) {
         <div style={{ flex:1 }}>
           <div className="player-card-name">
             {playerData.full_name}
-            {tradeValue.is_cornerstone && <span className="cornerstone-badge">★ Elite Cornerstone</span>}
-            {!tradeValue.is_cornerstone && tradeValue.is_allstar && <span className="allstar-badge">★ All-Star</span>}
+            {tradeValue.is_cornerstone && <span className="cornerstone-badge"><Star size={11} fill="currentColor"/> Elite Cornerstone</span>}
+            {!tradeValue.is_cornerstone && tradeValue.is_allstar && <span className="allstar-badge"><Star size={11} fill="currentColor"/> All-Star</span>}
           </div>
           <div className="player-card-team">{playerData.team} · {playerData.position}</div>
           <div style={{ display:"flex", gap:10, marginTop:6, fontSize:12 }}>
@@ -271,7 +272,7 @@ function PlayerCard({ item, onRemove }) {
           <div style={{ fontSize:11, color:getScoreColor(tradeValue.score), letterSpacing:1, fontFamily:"var(--display)", fontWeight:700 }}>
             TV {tradeValue.score} · {tradeValue.tier}
           </div>
-          <button className="remove-btn" style={{ marginTop:8 }} onClick={onRemove}>✕</button>
+          <button className="remove-btn" style={{ marginTop:8 }} onClick={onRemove}><X size={14}/></button>
         </div>
       </div>
       <div className="score-bar-wrap">

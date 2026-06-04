@@ -18,7 +18,7 @@ ODDS_API_URL = "https://api.the-odds-api.com/v4/sports/basketball_nba/odds"
 EDGE_THRESHOLD = 0.03  # model must beat the fair price by 3%+ to flag a value bet
 
 
-# ── Odds math ────────────────────────────────────────────────────────────────
+# Odds math
 def american_to_implied(odds):
     """American moneyline → implied win probability (includes the vig)."""
     odds = float(odds)
@@ -81,7 +81,7 @@ def evaluate(model_p_home, model_p_away, home_odds, away_odds):
     return {"home": home, "away": away, "vig_pct": vig_pct, "value_side": best}
 
 
-# ── Manual mode ──────────────────────────────────────────────────────────────
+# Manual mode
 def evaluate_matchup(season, home_abbr, away_abbr, home_odds, away_odds):
     ratings = elo.get_ratings(season)
     th, ta = ratings.get(home_abbr.upper()), ratings.get(away_abbr.upper())
@@ -94,7 +94,7 @@ def evaluate_matchup(season, home_abbr, away_abbr, home_odds, away_odds):
     return res
 
 
-# ── Live mode ────────────────────────────────────────────────────────────────
+# Live mode
 def live_edges(season):
     key = os.getenv("ODDS_API_KEY")
     if not key:

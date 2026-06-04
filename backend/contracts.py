@@ -41,12 +41,12 @@ RAISE = 1.05            # assumed annual raise when projecting future cap hits
 _MIN_SALARY = 2_300_000
 
 
-# ── Curated contracts ────────────────────────────────────────────────────────
+# Curated contracts
 # name → {team, salary (current-season cap hit), years_left (incl. current),
 #         option ("PO"|"TO"|None on the final year), expires (FA summer, year str)}
 # Future salaries are projected from `salary` with RAISE. APPROXIMATE - edit freely.
 CONTRACTS = {
-    # ── Houston Rockets ──
+    # Houston Rockets
     "Kevin Durant":        {"team": "HOU", "salary": 54_708_608, "years_left": 1, "option": None, "expires": "2026"},
     "Alperen Sengun":      {"team": "HOU", "salary": 33_935_000, "years_left": 5, "option": None, "expires": "2030"},
     "Fred VanVleet":       {"team": "HOU", "salary": 25_000_000, "years_left": 2, "option": "TO", "expires": "2027"},
@@ -62,7 +62,7 @@ CONTRACTS = {
     "Jock Landale":        {"team": "HOU", "salary":  8_000_000, "years_left": 1, "option": None, "expires": "2026"},
     "Josh Okogie":         {"team": "HOU", "salary":  7_750_000, "years_left": 1, "option": "TO", "expires": "2026"},
 
-    # ── League stars / max & near-max deals ──
+    # League stars / max & near-max deals
     "Shai Gilgeous-Alexander": {"team": "OKC", "salary": 38_333_000, "years_left": 5, "option": None, "expires": "2031"},
     "Nikola Jokic":        {"team": "DEN", "salary": 55_224_000, "years_left": 3, "option": "PO", "expires": "2028"},
     "Luka Doncic":         {"team": "LAL", "salary": 45_999_000, "years_left": 3, "option": "PO", "expires": "2028"},
@@ -95,7 +95,7 @@ CONTRACTS = {
     "Scottie Barnes":      {"team": "TOR", "salary": 38_333_000, "years_left": 5, "option": None, "expires": "2030"},
     "Austin Reaves":       {"team": "LAL", "salary": 13_945_000, "years_left": 1, "option": "PO", "expires": "2026"},
 
-    # ── Notable heavy / "bad" contracts (overpaid vs production - dump candidates) ──
+    # Notable heavy / "bad" contracts (overpaid vs production - dump candidates)
     "Bradley Beal":        {"team": "LAC", "salary":  5_400_000, "years_left": 2, "option": "PO", "expires": "2027"},  # waived by PHX, signed LAC
     "Zach LaVine":         {"team": "SAC", "salary": 47_499_000, "years_left": 2, "option": "PO", "expires": "2027"},
     "Andrew Wiggins":      {"team": "MIA", "salary": 28_222_000, "years_left": 2, "option": "PO", "expires": "2027"},
@@ -113,7 +113,7 @@ CONTRACTS = {
     "Dillon Brooks":       {"team": "PHX", "salary": 21_000_000, "years_left": 2, "option": None, "expires": "2027"},
     "Jalen Green":         {"team": "PHX", "salary": 33_333_000, "years_left": 4, "option": None, "expires": "2029"},
 
-    # ── Common mid-tier trade targets / quality starters ──
+    # Common mid-tier trade targets / quality starters
     "Mikal Bridges":       {"team": "NYK", "salary": 24_900_000, "years_left": 1, "option": None, "expires": "2026"},
     "OG Anunoby":          {"team": "NYK", "salary": 39_000_000, "years_left": 4, "option": None, "expires": "2029"},
     "Desmond Bane":        {"team": "ORL", "salary": 36_725_000, "years_left": 4, "option": None, "expires": "2029"},
@@ -153,7 +153,7 @@ def _fmt_m(dollars):
     return round(dollars / 1_000_000, 1)
 
 
-# ── Scraped Spotrac snapshot (primary source - see spotrac_scraper.py) ────────
+# Scraped Spotrac snapshot (primary source - see spotrac_scraper.py)
 _DIR = os.path.dirname(__file__)
 _SCRAPED_SAL = {}        # season -> {norm_name: amount}
 _SCRAPED_CAP = {}        # season -> {team: committed}
@@ -238,7 +238,7 @@ def _all_teams(season=DEFAULT_SEASON):
     return sorted(cap.keys()) if cap else sorted(TEAM_COMMITTED.keys())
 
 
-# ── Salary lookup + estimate fallback ────────────────────────────────────────
+# Salary lookup + estimate fallback
 
 def _expected_salary(value):
     """The salary a player's 0–100 trade value 'should' command (a fair-market
@@ -326,7 +326,7 @@ def get_contract(name):
     return cc
 
 
-# ── Contract → trade-value modifier ──────────────────────────────────────────
+# Contract → trade-value modifier
 
 def contract_grade(name, value, season=DEFAULT_SEASON):
     """Judge a contract relative to production. Returns salary, expected, ratio,
@@ -380,7 +380,7 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
     return out
 
 
-# ── CBA salary-matching / legality ───────────────────────────────────────────
+# CBA salary-matching / legality
 
 def team_apron_status(team, season=DEFAULT_SEASON):
     """Where a team sits vs the cap lines: room | over_cap | taxpayer |
@@ -460,7 +460,7 @@ def apply_trade(team, out_salary, in_salary, season=DEFAULT_SEASON):
     }
 
 
-# ── Cap view payload ─────────────────────────────────────────────────────────
+# Cap view payload
 
 def get_cap_sheet(season=DEFAULT_SEASON):
     """Per-team cap summary: committed payroll vs the cap / tax / apron lines,

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Download } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
 import { seasonLabel } from "../season";
 
@@ -369,7 +370,7 @@ export default function TeamStats() {
                     <div className="section-title">Shot Zones</div>
                     <div className="section-line" />
                     <button onClick={exportCSV} style={{ fontFamily:"var(--display)", fontSize:10, letterSpacing:2, textTransform:"uppercase", background:"transparent", border:"1px solid var(--border)", color:"var(--muted)", padding:"4px 10px", borderRadius:2, cursor:"pointer", whiteSpace:"nowrap" }}>
-                      ↓ CSV
+                      <Download size={13}/> CSV
                     </button>
                   </div>
                   <div className="chart-card">

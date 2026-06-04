@@ -14,7 +14,7 @@ import time
 import math
 from nba_api.stats.endpoints import leaguegamelog
 
-# ── Model constants ─────────────────────────────────────────────────────────
+# Model constants
 START_ELO   = 1500.0   # every team begins the season here
 K_FACTOR    = 20.0     # how fast ratings move per game
 HOME_ADV    = 100.0    # home-court advantage, in Elo points (~3.5 pts of spread)

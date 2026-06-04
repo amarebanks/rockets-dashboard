@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { CircleDot, Star, Check, X, ArrowLeftRight } from "lucide-react";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
@@ -160,7 +161,7 @@ export default function TradeIdeas() {
                     <div>
                       <div className="idea-name">
                         {t.name}
-                        {t.is_allstar && <span className="ti-allstar">★ All-Star</span>}
+                        {t.is_allstar && <span className="ti-allstar"><Star size={11} fill="currentColor"/> All-Star</span>}
                       </div>
                       <div className="idea-team">{t.team}</div>
                       <div className="idea-meta">
@@ -191,7 +192,7 @@ export default function TradeIdeas() {
                     </div>
                   </div>
 
-                  <div className="idea-arrow">⇄</div>
+                  <div className="idea-arrow"><ArrowLeftRight size={18}/></div>
 
                   {/* Package */}
                   <div>
@@ -199,7 +200,7 @@ export default function TradeIdeas() {
                     {idea.gives.map((g, i) => (
                       <div className="give-row" key={i}>
                         <span className={g.type === "pick" ? "give-pick" : ""}>
-                          {g.type === "pick" ? "🏀 " : ""}{g.name}
+                          {g.type === "pick" ? <CircleDot size={12} style={{verticalAlign:"-2px",marginRight:4}}/> : null}{g.name}
                           {g.salary_m != null && g.salary_m > 0 && <span className="give-salary">${g.salary_m}M</span>}
                           {g.filler && <span className="give-filler">salary filler</span>}
                         </span>
@@ -211,7 +212,7 @@ export default function TradeIdeas() {
                         <span className="legal-pill" style={idea.salary.legal
                           ? { background:"rgba(74,222,128,0.16)", color:"var(--green)" }
                           : { background:"rgba(206,17,65,0.16)", color:"var(--red)" }}>
-                          {idea.salary.legal ? "✓ Cap-legal" : "✕ Needs filler"}
+                          {idea.salary.legal ? <><Check size={12}/> Cap-legal</> : <><X size={12}/> Needs filler</>}
                         </span>
                         <span>out <b>${idea.salary.out_m}M</b> · in <b>${idea.salary.in_m}M</b> · max take-back ${idea.salary.allowed_m}M</span>
                       </div>

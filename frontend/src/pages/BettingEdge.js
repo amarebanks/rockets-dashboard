@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Star, Check } from "lucide-react";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
@@ -56,7 +57,7 @@ const edgeColor = (e) => e >= 3 ? "var(--green)" : e <= -3 ? "var(--red)" : "var
 function TeamPanel({ side, abbr, elo, name }) {
   return (
     <div className={`team-panel ${side.value ? "value" : ""}`}>
-      {side.value && <div className="value-badge">★ Value Bet</div>}
+      {side.value && <div className="value-badge"><Star size={11} fill="currentColor"/> Value Bet</div>}
       <div className="tp-abbr">{abbr}</div>
       <div className="tp-elo">Elo {elo}</div>
       <div className="edge-big" style={{ color: edgeColor(side.edge) }}>
@@ -152,7 +153,7 @@ export default function BettingEdge() {
             </div>
             <div className="vig" style={{ marginTop:12 }}>
               Book vig: {result.vig_pct}% · {result.value_side
-                ? <span className="pos">✓ Value on {result[result.value_side + "_team"].abbr}</span>
+                ? <span className="pos"><Check size={13}/> Value on {result[result.value_side + "_team"].abbr}</span>
                 : <span>No edge ≥ 3% - pass</span>}
             </div>
           </>
@@ -190,7 +191,7 @@ export default function BettingEdge() {
                 </div>
                 {g.value_side ? (
                   <div className="edge-tag" style={{ background:"rgba(74,222,128,0.15)", color:"var(--green)", border:"1px solid rgba(74,222,128,0.4)" }}>
-                    ★ {g[g.value_side + "_team"].abbr} {fmtOdds(v.odds)} · +{v.edge}% edge · {v.kelly_pct}% Kelly
+                    <Star size={11} fill="currentColor"/> {g[g.value_side + "_team"].abbr} {fmtOdds(v.odds)} · +{v.edge}% edge · {v.kelly_pct}% Kelly
                   </div>
                 ) : (
                   <div className="edge-tag" style={{ color:"var(--muted)", border:"1px solid var(--border)" }}>No edge</div>

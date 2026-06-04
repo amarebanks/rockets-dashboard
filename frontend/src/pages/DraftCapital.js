@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { ArrowRight } from "lucide-react";
 
 const API = "http://127.0.0.1:8000";
 
@@ -56,7 +57,7 @@ function PickCard({ p, outgoing }) {
         {p.pick_number && <span className="pick-num">No. {p.pick_number}</span>}
         <span className="pick-label">{p.label}</span>
         {isProtected(p.details) && <span className="badge prot">Protected</span>}
-        {outgoing && p.to && <span className="pick-to">→ {p.to}</span>}
+        {outgoing && p.to && <span className="pick-to"><ArrowRight size={12}/> {p.to}</span>}
       </div>
       {p.details && p.details.toLowerCase() !== "no protections" && (
         <div className="pick-details">{p.details}</div>

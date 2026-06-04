@@ -41,7 +41,7 @@ DB_CONFIG = {
     "password": os.getenv("DB_PASSWORD", ""),
 }
 
-# ── Database ──────────────────────────────────────────────────────────────────
+# Database
 
 def get_connection():
     return psycopg2.connect(**DB_CONFIG)
@@ -115,7 +115,7 @@ def create_tables(conn):
     print("Tables ready.")
 
 
-# ── Scrapers ──────────────────────────────────────────────────────────────────
+# Scrapers
 
 def fetch_roster():
     print("Fetching current roster...")
@@ -165,7 +165,7 @@ def fetch_all_from_boxscores(conn, games_df, season_type="Regular Season"):
             player_df  = box.get_data_frames()[0]   # all players both teams
             team_df    = box.get_data_frames()[1]    # team totals
 
-            # ── Opponent score ─────────────────────────────────────────────────
+            # Opponent score
             opp = team_df[team_df["TEAM_ABBREVIATION"] != ROCKETS_ABV]
             if not opp.empty:
                 opp_pts = int(opp["PTS"].iloc[0])
@@ -174,7 +174,7 @@ def fetch_all_from_boxscores(conn, games_df, season_type="Regular Season"):
                                 (opp_pts, row["game_id"]))
                 conn.commit()
 
-            # ── Houston players ────────────────────────────────────────────────
+            # Houston players
             hou = player_df[player_df["TEAM_ABBREVIATION"] == ROCKETS_ABV].copy()
 
             # Ensure all players exist in the players table before inserting stats
@@ -191,7 +191,7 @@ def fetch_all_from_boxscores(conn, games_df, season_type="Regular Season"):
             print(f"  [!] {row.get('matchup', row['game_id'])}: {e}")
 
 
-# ── Database helpers ──────────────────────────────────────────────────────────
+# Database helpers
 
 def _ensure_player(conn, player_id, full_name, position=None, jersey_num=None, how_acquired=None):
     """Insert player if new; update name/position only if those fields aren't already set."""
@@ -305,7 +305,7 @@ def upsert_games(conn, df, season_type):
     print(f"  Upserted {len(rows)} {season_type} games.")
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
+# Main
 
 def cleanup_orphaned_stats(conn):
     """

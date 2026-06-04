@@ -195,9 +195,9 @@ def _category_strengths(s):
     }
 
 
-# ---------------------------------------------------------------------------
+# -
 # Trade-availability model - the heart of the realism fix.
-# ---------------------------------------------------------------------------
+# -
 
 def _team_tier(w_pct):
     """Classify a team as a seller, middle, or contender from win pct."""
@@ -244,9 +244,9 @@ def _avail_label(a):
     return "Long shot"
 
 
-# ---------------------------------------------------------------------------
+# -
 # Package construction - now tailored to what the SELLING team wants back.
-# ---------------------------------------------------------------------------
+# -
 
 def _return_pref(tier):
     """What the selling team values most in a return package."""
@@ -380,7 +380,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
     elif diff_pct <= -12: verdict = "Package falls short"
     else:                 verdict = "Fair value"
 
-    # ── Cap-legal salary matching ────────────────────────────────────────────
+    # Cap-legal salary matching
     # Houston must send enough salary to legally take the target back. If the
     # value-matched package is short on salary, add filler contracts (bad/dumpable
     # deals first, then largest) until it's legal - exactly how real deals attach
