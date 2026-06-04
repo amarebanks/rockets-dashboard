@@ -17,9 +17,29 @@ references each one, so the moment a file exists it renders automatically.
 | `forecast.png` | Game predictor / betting edge | `/forecast` |
 | `live.png` | Live NBA scoreboard | `/live` |
 
-## How to capture (Windows)
+## Automated capture (recommended)
 
-1. Start the backend (`uvicorn main:app --reload`) and frontend (`npm start`).
-2. Open each page in the browser at a 1440px-wide window for consistent shots.
+A Playwright script captures all of these in one run at a consistent width.
+
+1. Start the backend (`uvicorn main:app --reload`) and frontend (`npm start`),
+   with the database populated.
+2. Run:
+
+   ```bash
+   cd scripts
+   npm install        # installs Playwright + a headless Chromium
+   npm run capture
+   ```
+
+The script writes every file above into this folder at 1440px wide (2x scale for
+crisp, retina-quality PNGs), above-the-fold. Re-run it any time the UI changes.
+
+Overrides via environment variables: `BASE_URL`, `API_URL`, `WIDTH`, `HEIGHT`,
+`SCALE`, `SETTLE` (see `scripts/capture-screenshots.js`).
+
+## Manual capture (alternative)
+
+1. Start the backend and frontend.
+2. Open each page at a 1440px-wide window for consistent shots.
 3. Press `Win + Shift + S`, capture the page, and save with the filename above.
 4. Recommended: 1600x1000 or larger, PNG, so the images stay crisp in the README.

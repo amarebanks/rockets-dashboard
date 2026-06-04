@@ -1,0 +1,13 @@
+{
+  "name": "rockets-dashboard-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tooling scripts for the Rockets dashboard (screenshot capture, etc.)",
+  "scripts": {
+    "postinstall": "playwright install chromium",
+    "capture": "node capture-screenshots.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
