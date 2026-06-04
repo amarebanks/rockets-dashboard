@@ -113,7 +113,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <NavLink to="/" className="nav-brand">HOU <span>Rockets</span></NavLink>
+      <NavLink to="/" className="nav-brand">Space<span>Red</span></NavLink>
       <div className="nav-links">
         <NavLink to="/" end className="nav-link">Dashboard</NavLink>
         <NavLink to="/live" className="nav-link"><span className="live-dot"/>Live</NavLink>

@@ -7,8 +7,8 @@ import { accTier, accoladeCSS } from "../accoladeStyle";
 
 const API = "http://127.0.0.1:8000";
 
-// NBA official headshot CDN
-const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
+// Headshots are proxied through the backend (NBA's CDN blocks cross-origin browser loads)
+const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .profile-header { display:flex; align-items:flex-start; gap:28px; margin-bottom:36px; padding-bottom:32px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
@@ -156,11 +156,11 @@ export default function PlayerProfile() {
     { stat:"FG%", value: Math.min((averages.avg_fg_pct/0.65)*100, 100) },
   ];
 
-  // Comparison helpers — defined here to avoid IIFE in JSX
-  const cmpFmt = (v, pct) => v == null ? "—" : pct ? (v * 100).toFixed(1) + "%" : String(v);
+  // Comparison helpers - defined here to avoid IIFE in JSX
+  const cmpFmt = (v, pct) => v == null ? "-" : pct ? (v * 100).toFixed(1) + "%" : String(v);
   const cmpDelta = (r, p, pct) => (r == null || p == null) ? null : pct ? (p - r) * 100 : p - r;
   const cmpDeltaColor = (d) => d == null ? "var(--muted)" : d > 0 ? "#4ade80" : d < 0 ? "var(--red)" : "var(--muted)";
-  const cmpFmtDelta = (d, pct) => d == null ? "—" : (d > 0 ? "+" : "") + (pct ? d.toFixed(1) + "%" : d.toFixed(1));
+  const cmpFmtDelta = (d, pct) => d == null ? "-" : (d > 0 ? "+" : "") + (pct ? d.toFixed(1) + "%" : d.toFixed(1));
   const CMP_STATS = [
     { label:"Points",   rsKey:"avg_pts",        poKey:"avg_pts",        pct:false },
     { label:"Rebounds", rsKey:"avg_reb",        poKey:"avg_reb",        pct:false },
@@ -224,17 +224,17 @@ export default function PlayerProfile() {
           {label:"AST", value:averages.avg_ast, cls:"gold", sub:`High: ${averages.max_ast}`, rk:"ast"},
           {label:"STL", value:averages.avg_stl, cls:"", rk:"stl"},
           {label:"BLK", value:averages.avg_blk, cls:"", rk:"blk"},
-          {label:"FG%", value:averages.avg_fg_pct?(averages.avg_fg_pct*100).toFixed(1)+"%":"—", cls:"green", rk:"fg_pct"},
-          {label:"3P%", value:averages.avg_fg3_pct?(averages.avg_fg3_pct*100).toFixed(1)+"%":"—", cls:"", rk:"fg3_pct"},
-          {label:"FT%", value:averages.avg_ft_pct?(averages.avg_ft_pct*100).toFixed(1)+"%":"—", cls:"", rk:"ft_pct"},
-          {label:"+/-", value:averages.avg_plus_minus!=null?(averages.avg_plus_minus>0?"+":"")+averages.avg_plus_minus:"—", cls:averages.avg_plus_minus>0?"green":averages.avg_plus_minus<0?"red":"", rk:"plus_minus"},
+          {label:"FG%", value:averages.avg_fg_pct?(averages.avg_fg_pct*100).toFixed(1)+"%":"-", cls:"green", rk:"fg_pct"},
+          {label:"3P%", value:averages.avg_fg3_pct?(averages.avg_fg3_pct*100).toFixed(1)+"%":"-", cls:"", rk:"fg3_pct"},
+          {label:"FT%", value:averages.avg_ft_pct?(averages.avg_ft_pct*100).toFixed(1)+"%":"-", cls:"", rk:"ft_pct"},
+          {label:"+/-", value:averages.avg_plus_minus!=null?(averages.avg_plus_minus>0?"+":"")+averages.avg_plus_minus:"-", cls:averages.avg_plus_minus>0?"green":averages.avg_plus_minus<0?"red":"", rk:"plus_minus"},
         ].map(({label,value,cls,sub,rk}) => {
           const rank = advanced?.rankings?.[rk];
           const rankColor = rank <= 10 ? "var(--gold)" : rank <= 25 ? "#4ade80" : "var(--muted)";
           return (
             <div className="avg-card" key={label}>
               <div className="avg-label">{label}</div>
-              <div className={`avg-value ${cls}`}>{value??"|—"}</div>
+              <div className={`avg-value ${cls}`}>{value??"|-"}</div>
               {sub && <div className="avg-career">{sub}</div>}
               {rank && (
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",marginTop:3,fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,color:rankColor}}>
@@ -276,7 +276,7 @@ export default function PlayerProfile() {
                   : null
               );
               const rtgColor = (val, goodFn) => val != null ? (goodFn(val) ? "var(--green)" : "var(--red)") : "var(--text)";
-              const netDisplay = netRtg != null ? (netRtg > 0 ? "+" : "") + netRtg : "—";
+              const netDisplay = netRtg != null ? (netRtg > 0 ? "+" : "") + netRtg : "-";
               const ratings = [
                 { label:"Off Rtg", value:advanced.off_rtg, sub:"Offensive Rating", color: rtgColor(advanced.off_rtg, v => v > 110) },
                 { label:"Def Rtg", value:advanced.def_rtg, sub:"Defensive Rating", color: rtgColor(advanced.def_rtg, v => v < 110) },
@@ -301,7 +301,7 @@ export default function PlayerProfile() {
                   {ratings.map(({label, value, sub, color}) => (
                     <div className="avg-card" key={label}>
                       <div className="avg-label">{label}</div>
-                      <div className="avg-value" style={{color, fontSize:28}}>{value ?? "—"}</div>
+                      <div className="avg-value" style={{color, fontSize:28}}>{value ?? "-"}</div>
                       <div className="avg-career">{sub}</div>
                     </div>
                   ))}
@@ -343,7 +343,7 @@ export default function PlayerProfile() {
       )}
 
       {/* Trend chart */}
-      <div className="section-header"><div className="section-title">Last 20 Games — Pts / Reb / Ast</div><div className="section-line" /></div>
+      <div className="section-header"><div className="section-title">Last 20 Games - Pts / Reb / Ast</div><div className="section-line" /></div>
       <div className="chart-card">
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={chartData}>
@@ -365,7 +365,7 @@ export default function PlayerProfile() {
         </div>
       </div>
 
-      {/* Shot Chart — only available for Regular Season */}
+      {/* Shot Chart - only available for Regular Season */}
       {seasonType !== "Playoffs" && (
         <>
           <div className="section-header"><div className="section-title">Shot Chart</div><div className="section-line" /></div>
@@ -403,10 +403,10 @@ export default function PlayerProfile() {
                       <td>{label}</td>
                       <td style={{color:"var(--text)"}}>{cmpFmt(rsVal, pct)}</td>
                       <td style={{color: hasPoData ? "var(--gold)" : "var(--muted)"}}>
-                        {hasPoData ? cmpFmt(poVal, pct) : "—"}
+                        {hasPoData ? cmpFmt(poVal, pct) : "-"}
                       </td>
                       <td style={{color: hasPoData ? cmpDeltaColor(d) : "var(--muted)"}}>
-                        {hasPoData ? cmpFmtDelta(d, pct) : "—"}
+                        {hasPoData ? cmpFmtDelta(d, pct) : "-"}
                       </td>
                     </tr>
                   );
@@ -462,15 +462,15 @@ export default function PlayerProfile() {
           <tbody>
             {game_log.map((g,i) => (
               <tr key={i}>
-                <td>{g.game_date?new Date(g.game_date).toLocaleDateString("en-US",{month:"short",day:"numeric"}):"—"}</td>
-                <td>{g.matchup||"—"}</td>
+                <td>{g.game_date?new Date(g.game_date).toLocaleDateString("en-US",{month:"short",day:"numeric"}):"-"}</td>
+                <td>{g.matchup||"-"}</td>
                 <td style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:g.outcome==="W"?"var(--green)":"var(--red)",textAlign:"right"}}>{g.outcome}</td>
                 <td>{g.min}</td>
                 <td style={{color:"var(--red)"}}>{g.pts}</td>
                 <td>{g.reb}</td><td>{g.ast}</td><td>{g.stl}</td><td>{g.blk}</td>
-                <td>{g.fg_pct!=null?(g.fg_pct*100).toFixed(1)+"%":"—"}</td>
+                <td>{g.fg_pct!=null?(g.fg_pct*100).toFixed(1)+"%":"-"}</td>
                 <td style={{color:g.plus_minus>0?"var(--green)":g.plus_minus<0?"var(--red)":"var(--muted)"}}>
-                  {g.plus_minus!=null?(g.plus_minus>0?"+":"")+g.plus_minus:"—"}
+                  {g.plus_minus!=null?(g.plus_minus>0?"+":"")+g.plus_minus:"-"}
                 </td>
               </tr>
             ))}

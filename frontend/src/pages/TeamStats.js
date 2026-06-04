@@ -90,7 +90,7 @@ function RadialStat({ pct, label, size = 96, stroke = 9 }) {
             strokeDashoffset={circ * (1 - value / 100)} style={{ transition: "stroke-dashoffset 0.5s" }} />
         </svg>
         <div className="ring-center" style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, color }}>
-          {pct == null ? "—" : `${value.toFixed(1)}%`}
+          {pct == null ? "-" : `${value.toFixed(1)}%`}
         </div>
       </div>
       <div className="ring-label">{label}</div>
@@ -98,7 +98,7 @@ function RadialStat({ pct, label, size = 96, stroke = 9 }) {
   );
 }
 
-// Shooting-splits panel — shown when shot-zone data is unavailable (e.g. playoffs,
+// Shooting-splits panel - shown when shot-zone data is unavailable (e.g. playoffs,
 // where the shots table has no rows but box-score shooting still exists).
 function ShootingSplits({ shooting, game_stats }) {
   const toPct = (v) => (v == null ? null : v * 100);
@@ -111,19 +111,19 @@ function ShootingSplits({ shooting, game_stats }) {
       </div>
       <div className="splits-foot">
         <div className="splits-foot-item">
-          <div className="splits-foot-val" style={{ color:"var(--green)" }}>{game_stats.avg_pts ?? "—"}</div>
+          <div className="splits-foot-val" style={{ color:"var(--green)" }}>{game_stats.avg_pts ?? "-"}</div>
           <div className="splits-foot-lbl">PPG For</div>
         </div>
         <div className="splits-foot-item">
-          <div className="splits-foot-val" style={{ color:"var(--red)" }}>{game_stats.avg_opp_pts ?? "—"}</div>
+          <div className="splits-foot-val" style={{ color:"var(--red)" }}>{game_stats.avg_opp_pts ?? "-"}</div>
           <div className="splits-foot-lbl">PPG Against</div>
         </div>
         <div className="splits-foot-item">
-          <div className="splits-foot-val" style={{ color:"var(--gold)" }}>{shooting.avg_ast ?? "—"}</div>
+          <div className="splits-foot-val" style={{ color:"var(--gold)" }}>{shooting.avg_ast ?? "-"}</div>
           <div className="splits-foot-lbl">APG</div>
         </div>
         <div className="splits-foot-item">
-          <div className="splits-foot-val">{shooting.avg_reb ?? "—"}</div>
+          <div className="splits-foot-val">{shooting.avg_reb ?? "-"}</div>
           <div className="splits-foot-lbl">RPG</div>
         </div>
       </div>
@@ -153,7 +153,7 @@ function ShotTypeComparison({ data }) {
   return (
     <>
       <div className="section-header">
-        <div className="section-title">Shot Selection — Regular Season vs Playoffs</div>
+        <div className="section-title">Shot Selection - Regular Season vs Playoffs</div>
         <div className="section-line" />
       </div>
       <div className="chart-card">
@@ -286,7 +286,7 @@ export default function TeamStats() {
             <div className="ts-card gold">
               <div className="ts-label">Win %</div>
               <div className="ts-value gold">
-                {data.game_stats.gp > 0 ? ((data.game_stats.wins / data.game_stats.gp) * 100).toFixed(1) : "—"}%
+                {data.game_stats.gp > 0 ? ((data.game_stats.wins / data.game_stats.gp) * 100).toFixed(1) : "-"}%
               </div>
               <div className="ts-sub">{data.game_stats.gp} games</div>
             </div>
@@ -302,11 +302,11 @@ export default function TeamStats() {
             </div>
             <div className="ts-card">
               <div className="ts-label">Home PPG</div>
-              <div className="ts-value">{data.game_stats.home_ppg ?? "—"}</div>
+              <div className="ts-value">{data.game_stats.home_ppg ?? "-"}</div>
             </div>
             <div className="ts-card">
               <div className="ts-label">Away PPG</div>
-              <div className="ts-value">{data.game_stats.away_ppg ?? "—"}</div>
+              <div className="ts-value">{data.game_stats.away_ppg ?? "-"}</div>
             </div>
             <div className="ts-card">
               <div className="ts-label">Season High</div>
@@ -324,9 +324,9 @@ export default function TeamStats() {
           </div>
           <div className="ts-grid" style={{ marginBottom: 36 }}>
             {[
-              { label: "FG%",  value: data.shooting.team_fg_pct  ? (data.shooting.team_fg_pct * 100).toFixed(1) + "%" : "—", cls: "red",   rk: rankings.fg_pct },
-              { label: "3P%",  value: data.shooting.team_fg3_pct ? (data.shooting.team_fg3_pct * 100).toFixed(1) + "%" : "—", cls: "",      rk: rankings.fg3_pct },
-              { label: "FT%",  value: data.shooting.team_ft_pct  ? (data.shooting.team_ft_pct * 100).toFixed(1) + "%" : "—", cls: "gold",  rk: rankings.ft_pct },
+              { label: "FG%",  value: data.shooting.team_fg_pct  ? (data.shooting.team_fg_pct * 100).toFixed(1) + "%" : "-", cls: "red",   rk: rankings.fg_pct },
+              { label: "3P%",  value: data.shooting.team_fg3_pct ? (data.shooting.team_fg3_pct * 100).toFixed(1) + "%" : "-", cls: "",      rk: rankings.fg3_pct },
+              { label: "FT%",  value: data.shooting.team_ft_pct  ? (data.shooting.team_ft_pct * 100).toFixed(1) + "%" : "-", cls: "gold",  rk: rankings.ft_pct },
               { label: "APG",  value: data.shooting.avg_ast,  cls: "",      rk: rankings.ast },
               { label: "RPG",  value: data.shooting.avg_reb,  cls: "",      rk: rankings.reb },
               { label: "SPG",  value: data.shooting.avg_stl,  cls: "green", rk: rankings.stl },
@@ -336,7 +336,7 @@ export default function TeamStats() {
             ].map(({ label, value, cls, rk }) => (
               <div className="ts-card" key={label}>
                 <div className="ts-label">{label}</div>
-                <div className={`ts-value ${cls}`}>{value ?? "—"}</div>
+                <div className={`ts-value ${cls}`}>{value ?? "-"}</div>
                 {rk && (
                   <div style={{marginTop:6,display:"flex",alignItems:"center",gap:6}}>
                     <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:700,color:rankColor(rk)}}>#{rk}</span>
@@ -400,7 +400,7 @@ export default function TeamStats() {
             </div>
           </div>
 
-          {/* Shot-type comparison spans both seasons — shown once playoff data exists */}
+          {/* Shot-type comparison spans both seasons - shown once playoff data exists */}
           {shotCompare && shotCompare.po_games > 0 && <ShotTypeComparison data={shotCompare} />}
         </>
       )}

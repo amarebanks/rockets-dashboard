@@ -152,7 +152,7 @@ def fetch_all_from_boxscores(conn, games_df, season_type="Regular Season"):
       - Opponent final score
       - Stats for EVERY Rockets player who appeared (not just current roster)
 
-    This is the complete, accurate approach — individual player game logs would
+    This is the complete, accurate approach - individual player game logs would
     miss anyone traded away mid-season.
     """
     total = len(games_df)
@@ -325,7 +325,7 @@ def cleanup_orphaned_stats(conn):
 
 
 def main():
-    print("Houston Rockets Data Scraper — 2024-25")
+    print("Houston Rockets Data Scraper - 2024-25")
     print("=" * 45)
     print("Strategy: box scores capture ALL players, including traded/waived players.")
     print()

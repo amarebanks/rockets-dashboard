@@ -1,27 +1,27 @@
 """
-contracts.py — NBA salary / contract data + cap math.
+contracts.py - NBA salary / contract data + cap math.
 
 Primary source is a SCRAPED snapshot from Spotrac (run spotrac_scraper.py to
 refresh spotrac_cap_*.json / spotrac_players_*.json / spotrac_contracts.json):
 real per-player cap hits across seasons + real team payrolls. nba_api has no
 salary data, so anything the snapshot is missing falls back to a small hand-
-CURATED table, and anything still missing falls back to a value-based ESTIMATE —
+CURATED table, and anything still missing falls back to a value-based ESTIMATE -
 so the trade engine always has a number to match against.
 
 The module does three jobs:
 
-  • CAP VIEW   — each team's committed salary vs the cap / luxury-tax / apron
+  • CAP VIEW   - each team's committed salary vs the cap / luxury-tax / apron
                  lines, so you can see who's a taxpayer and who has room.
-  • VALUE      — a contract nudges a player's 0–100 trade value: a bargain
+  • VALUE      - a contract nudges a player's 0–100 trade value: a bargain
                  (underpaid vs production) is a positive asset, a "bad contract"
                  (overpaid) is a drag teams want off their books.
-  • LEGALITY   — CBA salary-matching + apron rules, so the Championship Builder
+  • LEGALITY   - CBA salary-matching + apron rules, so the Championship Builder
                  only proposes cap-legal packages (and adds salary filler when a
                  high-paid target needs matching money).
 
 Contracts are modeled as the CURRENT-SEASON cap hit plus a forward outlook
 (future cap hits, years remaining). Roster membership for trade logic comes from
-nba_api (who actually played), NOT the Spotrac cap sheet — that page carries dead
+nba_api (who actually played), NOT the Spotrac cap sheet - that page carries dead
 money (e.g. a waived/stretched player still on his old team's books), which must
 not be treated as a tradeable asset. Salaries are whole dollars.
 """
@@ -44,7 +44,7 @@ _MIN_SALARY = 2_300_000
 # ── Curated contracts ────────────────────────────────────────────────────────
 # name → {team, salary (current-season cap hit), years_left (incl. current),
 #         option ("PO"|"TO"|None on the final year), expires (FA summer, year str)}
-# Future salaries are projected from `salary` with RAISE. APPROXIMATE — edit freely.
+# Future salaries are projected from `salary` with RAISE. APPROXIMATE - edit freely.
 CONTRACTS = {
     # ── Houston Rockets ──
     "Kevin Durant":        {"team": "HOU", "salary": 54_708_608, "years_left": 1, "option": None, "expires": "2026"},
@@ -95,7 +95,7 @@ CONTRACTS = {
     "Scottie Barnes":      {"team": "TOR", "salary": 38_333_000, "years_left": 5, "option": None, "expires": "2030"},
     "Austin Reaves":       {"team": "LAL", "salary": 13_945_000, "years_left": 1, "option": "PO", "expires": "2026"},
 
-    # ── Notable heavy / "bad" contracts (overpaid vs production — dump candidates) ──
+    # ── Notable heavy / "bad" contracts (overpaid vs production - dump candidates) ──
     "Bradley Beal":        {"team": "LAC", "salary":  5_400_000, "years_left": 2, "option": "PO", "expires": "2027"},  # waived by PHX, signed LAC
     "Zach LaVine":         {"team": "SAC", "salary": 47_499_000, "years_left": 2, "option": "PO", "expires": "2027"},
     "Andrew Wiggins":      {"team": "MIA", "salary": 28_222_000, "years_left": 2, "option": "PO", "expires": "2027"},
@@ -153,7 +153,7 @@ def _fmt_m(dollars):
     return round(dollars / 1_000_000, 1)
 
 
-# ── Scraped Spotrac snapshot (primary source — see spotrac_scraper.py) ────────
+# ── Scraped Spotrac snapshot (primary source - see spotrac_scraper.py) ────────
 _DIR = os.path.dirname(__file__)
 _SCRAPED_SAL = {}        # season -> {norm_name: amount}
 _SCRAPED_CAP = {}        # season -> {team: committed}
@@ -192,7 +192,7 @@ def _load_snapshots():
 
 
 # Slotted rookie-scale deals are non-negotiated (set by draft position) and team-
-# friendly — they're never "bad contracts" no matter how a rookie's early
+# friendly - they're never "bad contracts" no matter how a rookie's early
 # production grades out. (Rookie EXTENSIONS, RK-EXT, ARE negotiated, so not here.)
 _ROOKIE_TYPES = {"RK-1ST", "RK-2ND", "RK-3RD", "RK-4TH", "RK"}
 # Rookie-scale + rookie extensions = young building blocks a team controls cheaply
@@ -223,7 +223,7 @@ def _scraped_salary(name, season):
 
 
 def team_committed(team, season=DEFAULT_SEASON):
-    """A team's committed payroll for the season — scraped if available, else the
+    """A team's committed payroll for the season - scraped if available, else the
     curated 2025-26 estimate, else None."""
     cap = _SCRAPED_CAP.get(season)
     if cap and team in cap:
@@ -340,7 +340,7 @@ def contract_grade(name, value, season=DEFAULT_SEASON):
     expected = _expected_salary(value)
     ratio = salary / expected if expected else 1.0
 
-    # Rookie-scale deals are slotted by draft position, not negotiated — never bad.
+    # Rookie-scale deals are slotted by draft position, not negotiated - never bad.
     if is_rookie_scale(name):
         out = {"salary": salary, "expected": expected, "ratio": round(ratio, 2),
                "label": "Rookie scale", "value_delta": 0.0, "dumpable": False}
@@ -491,16 +491,16 @@ def get_cap_sheet(season=DEFAULT_SEASON):
 
 
 def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None):
-    """For a team over the tax/apron, the most likely moves to get back under —
+    """For a team over the tax/apron, the most likely moves to get back under -
     the real front-office calculus, especially for teams 'well above the second
     apron'.
 
     Targets the highest line the team is over. Candidates are the team's ACTUAL
-    roster (passed in `roster` from nba_api — who really plays there, so dead money
+    roster (passed in `roster` from nba_api - who really plays there, so dead money
     / waived players on the cap sheet are excluded), shed worst-first (bad/overpaid
     deals, then vets), assuming each is moved for a minimum-salary replacement (net
     saving = salary − minimum). A team will NOT shed its best player or any
-    star/cornerstone for cap relief — those are protected (they'd only move by
+    star/cornerstone for cap relief - those are protected (they'd only move by
     request, and then via trade, not a salary dump). Returns None for teams in line.
 
     `value_lookup(name) -> 0–100 value` grades each contract and finds the team's
@@ -538,16 +538,16 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
 
     # Who a team sheds is a function of IMPORTANCE (on-court value) and SALARY.
     # Two distinct groups:
-    #   • TRADES — meaningful salary (>= CUT_MAX) the team would trade, tiered:
+    #   • TRADES - meaningful salary (>= CUT_MAX) the team would trade, tiered:
     #       0 Overpaid / Bad contract (worst first) → 1 Fringe (low value) → 2 Rotation piece
-    #   • POTENTIAL CUTS — small, low-importance deals (< CUT_MAX) a team could just
+    #   • POTENTIAL CUTS - small, low-importance deals (< CUT_MAX) a team could just
     #       waive for minor relief (not real trade chips, not big concerns).
     # Protected (never shed): the team's best player, stars by recognition
     # (star_floor>=76) OR by production (value>=STAR_VALUE, e.g. a multi-time
     # All-Star like Trae Young), and slotted rookie deals.
     FRINGE_VALUE = 46
     STAR_VALUE = 72
-    STAR_SALARY = 40_000_000   # near-max money only goes to stars — never a cap dump
+    STAR_SALARY = 40_000_000   # near-max money only goes to stars - never a cap dump
     CUT_MAX = 8_000_000
     cands, cuts = [], []
     for name in names:
@@ -559,10 +559,10 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
                 or recognition.star_floor(name, season) >= 76
                 or (val is not None and val >= STAR_VALUE) or sal >= STAR_SALARY
                 or is_young_core(name)):
-            continue  # protected — franchise / star-caliber / max-salary / young core
-        grade = contract_grade(name, val, season) if val is not None else {"label": "—", "ratio": None}
+            continue  # protected - franchise / star-caliber / max-salary / young core
+        grade = contract_grade(name, val, season) if val is not None else {"label": "-", "ratio": None}
         if sal < CUT_MAX:
-            # Small deals are "potential cuts" — but only genuine non-stars. A cheap
+            # Small deals are "potential cuts" - but only genuine non-stars. A cheap
             # deal alone doesn't make someone cuttable (e.g. a young stud on his rookie
             # scale); and skip unknown-value players so we never suggest waiving a star.
             if val is not None and val < STAR_VALUE:
@@ -598,19 +598,19 @@ def cap_relief_plan(team, season=DEFAULT_SEASON, value_lookup=None, roster=None)
     reachable = saved >= overage
     movable = ", ".join(m["name"] for m in moves)
     if not moves:
-        note = (f"No bad or movable contracts big enough to trade — this payroll is efficient "
+        note = (f"No bad or movable contracts big enough to trade - this payroll is efficient "
                 f"(stars + rookie-scale deals). Getting under the {target_name} would take a star trade."
                 + (" Minor relief is possible by waiving the fringe deals below." if cuts else ""))
     elif not reachable:
         note = (f"Even trading {movable} (~${_fmt_m(saved)}M) leaves them over the {target_name}; "
                 f"the rest is core salary, so a star trade would be required.")
     elif max_tier == 0:
-        note = f"Trading the overpaid deal(s) — {movable} — clears ${_fmt_m(saved)}M, enough to dip under the {target_name}."
+        note = f"Trading the overpaid deal(s) - {movable} - clears ${_fmt_m(saved)}M, enough to dip under the {target_name}."
     elif max_tier == 1:
         note = (f"No clearly bad contract; trading fringe/depth salary ({movable}) frees "
                 f"${_fmt_m(saved)}M to get under the {target_name}.")
     else:
-        note = (f"No bad contracts here — getting under the {target_name} means trading a rotation "
+        note = (f"No bad contracts here - getting under the {target_name} means trading a rotation "
                 f"contributor ({movable}), not a salary dump.")
     return {
         "team": team,

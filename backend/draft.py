@@ -1,13 +1,13 @@
 """
-draft.py — NBA draft-capital inventory and pick valuation.
+draft.py - NBA draft-capital inventory and pick valuation.
 
 Primary source is a SCRAPED snapshot of every team's future pick ownership from
 Fanspo (run draft_scraper.py to refresh draft_picks.json). The old hand-curated,
 Houston-only ROCKETS_PICKS remains as a fallback for the legacy /draft/assets view.
 
-  • INVENTORY — real per-team incoming (held) / outgoing picks with protections &
+  • INVENTORY - real per-team incoming (held) / outgoing picks with protections &
     swap rights, loaded from draft_picks.json.
-  • VALUATION — scores each pick 0–100 on the Trade-Analyzer scale (1st ≈ 28, 2nd
+  • VALUATION - scores each pick 0–100 on the Trade-Analyzer scale (1st ≈ 28, 2nd
     ≈ 8) adjusted for protection, swap status, and how many years out it is.
 """
 
@@ -50,7 +50,7 @@ def _pick_value(p):
     if p.get("protection"):
         val *= 0.78                       # protection lowers value to the receiver
     years_out = max(0, p["year"] - CURRENT_DRAFT_YEAR)
-    val *= 0.93 ** years_out              # time discount — distant picks are less certain
+    val *= 0.93 ** years_out              # time discount - distant picks are less certain
     return round(val, 1)
 
 
@@ -109,7 +109,7 @@ def get_draft_assets():
     }
 
 
-# ── Real per-team pick ownership (scraped from Fanspo — see draft_scraper.py) ──
+# ── Real per-team pick ownership (scraped from Fanspo - see draft_scraper.py) ──
 
 def _load_snapshot():
     try:
@@ -123,7 +123,7 @@ _SNAP = _load_snapshot()
 HAS_PICKS = bool(_SNAP and _SNAP.get("teams"))
 _VALID_TRIS = set(_SNAP["teams"]) if HAS_PICKS else set()
 
-# Only the NEXT draft's order is "confirmed" — it's set by the just-completed
+# Only the NEXT draft's order is "confirmed" - it's set by the just-completed
 # season's standings. Future drafts have no order yet (no number shown).
 CONFIRMED_DRAFT_YEAR = CURRENT_DRAFT_YEAR_FANSPO   # 2026, set by the 2025-26 season
 _ORDER_CACHE = {}

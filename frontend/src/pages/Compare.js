@@ -7,8 +7,8 @@ import { accTier } from "../accoladeStyle";
 
 const API = "http://127.0.0.1:8000";
 
-// NBA official headshot CDN
-const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
+// Headshots are proxied through the backend (NBA's CDN blocks cross-origin browser loads)
+const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; }
@@ -186,7 +186,7 @@ function PlayerSearchCard({ color, label, onSelect, selected, loading }) {
   );
 }
 
-// Tooltip for the normalized bar chart — shows real per-game values, not the
+// Tooltip for the normalized bar chart - shows real per-game values, not the
 // 0–100 scaled bar heights.
 const BarTooltip = ({ active, payload, label }) => {
   if (!active || !payload || !payload.length) return null;
@@ -204,7 +204,7 @@ const BarTooltip = ({ active, payload, label }) => {
   );
 };
 
-const fmtAdv = (v, suffix) => (v === null || v === undefined) ? "—" : `${v}${suffix || ""}`;
+const fmtAdv = (v, suffix) => (v === null || v === undefined) ? "-" : `${v}${suffix || ""}`;
 const advWinner = (v1, v2, lowerBetter) => {
   if (v1 == null || v2 == null || v1 === v2) return 0;
   const oneBetter = lowerBetter ? v1 < v2 : v1 > v2;
@@ -319,7 +319,7 @@ export default function Compare() {
                 const win = advWinner(v1, v2, false);
                 return (
                   <div className="stat-bar-row" key={s.key}>
-                    <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{s.pct ? ((v1||0)*100).toFixed(1)+"%" : v1 ?? "—"}</div>
+                    <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{s.pct ? ((v1||0)*100).toFixed(1)+"%" : v1 ?? "-"}</div>
                     <div>
                       <div className="stat-bar-label" style={{ marginBottom: 4 }}>{s.label}</div>
                       <div className="stat-bar-track">
@@ -327,7 +327,7 @@ export default function Compare() {
                         <div className="stat-bar-fill-right" style={{ width: `${100-pct1}%` }} />
                       </div>
                     </div>
-                    <div className={`stat-bar-val right ${win===2?"win-right":""}`}>{s.pct ? ((v2||0)*100).toFixed(1)+"%" : v2 ?? "—"}</div>
+                    <div className={`stat-bar-val right ${win===2?"win-right":""}`}>{s.pct ? ((v2||0)*100).toFixed(1)+"%" : v2 ?? "-"}</div>
                   </div>
                 );
               })}
@@ -355,7 +355,7 @@ export default function Compare() {
                   const win = advWinner(v1, v2, s.lowerBetter);
                   return (
                     <div className="stat-bar-row" key={s.key}>
-                      <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{v1 ?? "—"}</div>
+                      <div className={`stat-bar-val left ${win===1?"win-left":""}`}>{v1 ?? "-"}</div>
                       <div>
                         <div className="stat-bar-label" style={{ marginBottom: 4 }}>
                           {s.label}{s.lowerBetter ? " ▼" : ""}
@@ -365,12 +365,12 @@ export default function Compare() {
                           <div className="stat-bar-fill-right" style={{ width: `${100-pct1}%` }} />
                         </div>
                       </div>
-                      <div className={`stat-bar-val right ${win===2?"win-right":""}`}>{v2 ?? "—"}</div>
+                      <div className={`stat-bar-val right ${win===2?"win-right":""}`}>{v2 ?? "-"}</div>
                     </div>
                   );
                 })}
                 <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, marginTop:6 }}>
-                  Production normalized to 36 minutes — levels the field for players with different roles ·  ▼ lower is better
+                  Production normalized to 36 minutes - levels the field for players with different roles ·  ▼ lower is better
                 </div>
               </div>
             ) : (

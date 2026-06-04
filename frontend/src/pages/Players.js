@@ -4,7 +4,7 @@ import axios from "axios";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
-const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
+const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .rp-header { margin-bottom: 32px; }
@@ -86,7 +86,7 @@ function PlayerCard({ player: p, ovr, onClick }) {
   const pmColor = p.avg_plus_minus > 0 ? "green" : p.avg_plus_minus < 0 ? "red" : "";
   const pmDisplay = p.avg_plus_minus != null
     ? (p.avg_plus_minus > 0 ? "+" : "") + p.avg_plus_minus
-    : "—";
+    : "-";
 
   return (
     <div className="pc-card" onClick={onClick}>
@@ -115,18 +115,18 @@ function PlayerCard({ player: p, ovr, onClick }) {
       </div>
       <div className="pc-body">
         <div className="pc-name">{p.full_name}</div>
-        <div className="pc-pos">{p.position || "—"}</div>
+        <div className="pc-pos">{p.position || "-"}</div>
         <div className="pc-stats">
           <div className="pc-stat">
-            <div className="pc-stat-val red">{p.avg_pts ?? "—"}</div>
+            <div className="pc-stat-val red">{p.avg_pts ?? "-"}</div>
             <div className="pc-stat-lbl">PTS</div>
           </div>
           <div className="pc-stat">
-            <div className="pc-stat-val">{p.avg_reb ?? "—"}</div>
+            <div className="pc-stat-val">{p.avg_reb ?? "-"}</div>
             <div className="pc-stat-lbl">REB</div>
           </div>
           <div className="pc-stat">
-            <div className="pc-stat-val gold">{p.avg_ast ?? "—"}</div>
+            <div className="pc-stat-val gold">{p.avg_ast ?? "-"}</div>
             <div className="pc-stat-lbl">AST</div>
           </div>
           <div className="pc-stat">

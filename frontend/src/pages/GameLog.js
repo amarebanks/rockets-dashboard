@@ -139,7 +139,7 @@ export default function GameLog() {
       {!loading && (
         <>
           <div className="wl-bar">
-            {wl.map((g,i) => <div key={i} className={`wl-segment ${g.outcome}`} title={`${g.matchup} — ${g.outcome}`} />)}
+            {wl.map((g,i) => <div key={i} className={`wl-segment ${g.outcome}`} title={`${g.matchup} - ${g.outcome}`} />)}
           </div>
           <div className="gamelog-controls">
             <button className={`filter-btn ${filter.outcome==="W"?"active":""}`} onClick={() => setF("outcome","W")}>Wins</button>
@@ -175,10 +175,10 @@ export default function GameLog() {
                       {g.season_type==="Playoffs" && <span className="playoff-badge">PO</span>}
                     </td>
                     <td className="r"><span className="score-cell" style={{ color:"var(--red)" }}>{g.pts}</span></td>
-                    <td className="r"><span className="score-cell">{g.opp_pts??"|—"}</span></td>
+                    <td className="r"><span className="score-cell">{g.opp_pts??"|-"}</span></td>
                     <td className="r">
                       <span style={{ color:diff>0?"var(--green)":diff<0?"var(--red)":"var(--muted)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:16 }}>
-                        {diff!=null?(diff>0?"+":"")+diff:"—"}
+                        {diff!=null?(diff>0?"+":"")+diff:"-"}
                       </span>
                     </td>
                   </tr>
@@ -225,10 +225,10 @@ export default function GameLog() {
                         <td>{row.min}</td>
                         <td className={i===0?"pts-leader":""}>{row.pts}</td>
                         <td>{row.reb}</td><td>{row.ast}</td><td>{row.stl}</td><td>{row.blk}</td>
-                        <td>{row.fg_pct!=null?(row.fg_pct*100).toFixed(1)+"%":"—"}</td>
-                        <td>{row.fg3_pct!=null?(row.fg3_pct*100).toFixed(1)+"%":"—"}</td>
+                        <td>{row.fg_pct!=null?(row.fg_pct*100).toFixed(1)+"%":"-"}</td>
+                        <td>{row.fg3_pct!=null?(row.fg3_pct*100).toFixed(1)+"%":"-"}</td>
                         <td style={{ color:row.plus_minus>0?"var(--green)":row.plus_minus<0?"var(--red)":"var(--muted)" }}>
-                          {row.plus_minus!=null?(row.plus_minus>0?"+":"")+row.plus_minus:"—"}
+                          {row.plus_minus!=null?(row.plus_minus>0?"+":"")+row.plus_minus:"-"}
                         </td>
                       </tr>
                     ))}

@@ -1,13 +1,15 @@
 """
-main.py — Houston Rockets Dashboard API (v3)
+main.py - Houston Rockets Dashboard API (v3)
 Endpoints: players, games, shots, season summary, stat leaders,
            NBA search, live scores, team stats, playoffs
 """
 
 import os
 import time
+import urllib.request
+import urllib.error
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query, Body
+from fastapi import FastAPI, HTTPException, Query, Body, Response
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 import psycopg2.extras
@@ -57,7 +59,48 @@ def get_db():
 
 @app.get("/")
 def health_check():
-    return {"status": "ok", "message": "Rockets Dashboard API v3 🚀"}
+    return {"status": "ok", "message": "Rockets Dashboard API v3"}
+
+
+# Headshot proxy. NBA's CDN (behind Akamai) blocks browser <img> loads from other
+# origins, so headshots fail when requested directly from the frontend. We fetch
+# them server-side (where they resolve) and serve them from our own origin.
+_HEADSHOT_CACHE = {}          # player_id -> PNG bytes (in-memory, process lifetime)
+_HEADSHOT_SOURCES = (
+    "https://cdn.nba.com/headshots/nba/latest/260x190/{id}.png",
+    "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{id}.png",
+)
+
+
+@app.get("/headshot/{player_id}")
+def get_headshot(player_id: int):
+    """Proxy an NBA player headshot so the browser can load it cross-origin."""
+    if player_id in _HEADSHOT_CACHE:
+        data = _HEADSHOT_CACHE[player_id]
+    else:
+        data = None
+        for src in _HEADSHOT_SOURCES:
+            try:
+                req = urllib.request.Request(
+                    src.format(id=player_id),
+                    headers={"User-Agent": "Mozilla/5.0", "Accept": "image/png,image/*"},
+                )
+                with urllib.request.urlopen(req, timeout=8) as resp:
+                    if resp.status == 200:
+                        data = resp.read()
+                        break
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError):
+                continue
+        if data:
+            _HEADSHOT_CACHE[player_id] = data
+    if not data:
+        # 1x1 transparent PNG so the <img> resolves instead of showing a broken icon.
+        data = bytes.fromhex(
+            "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4"
+            "890000000a49444154789c6360000002000154a24f6f0000000049454e44ae426082"
+        )
+        return Response(content=data, media_type="image/png", headers={"Cache-Control": "public, max-age=3600"})
+    return Response(content=data, media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
 
 
 @app.get("/seasons")
@@ -326,7 +369,7 @@ def get_game(game_id: str):
 @app.get("/predict/teams")
 def get_predict_teams(season: str = Query(DEFAULT_SEASON)):
     """List every team with its current Elo rating and record, sorted strongest
-    first — used to populate the opponent picker and a power-ranking view."""
+    first - used to populate the opponent picker and a power-ranking view."""
     ratings = elo.get_ratings(valid_season(season))
     teams = sorted(ratings.values(), key=lambda t: t["elo"], reverse=True)
     for rank, t in enumerate(teams, start=1):
@@ -441,7 +484,7 @@ def get_team_stats(season_type: str = Query("Regular Season"), season: str = Que
             game_stats = cur.fetchone()
 
             # True team per-game stats:
-            # Percentages use SUM(makes)/SUM(attempts) — the only correct formula.
+            # Percentages use SUM(makes)/SUM(attempts) - the only correct formula.
             # Counting stats (AST/REB/STL/BLK) use SUM / distinct game count.
             cur.execute("""
                 SELECT
@@ -504,7 +547,7 @@ def get_team_stats(season_type: str = Query("Regular Season"), season: str = Que
 
 @app.get("/team/shot-comparison")
 def get_team_shot_comparison(season: str = Query(DEFAULT_SEASON)):
-    """Compare shot selection & efficiency by shot type — Regular Season vs Playoffs.
+    """Compare shot selection & efficiency by shot type - Regular Season vs Playoffs.
     Per-game frequency is included so the 82-game RS and short playoff run are
     actually comparable (raw attempt counts are not)."""
     season = valid_season(season)
@@ -556,7 +599,7 @@ def get_team_shot_comparison(season: str = Query(DEFAULT_SEASON)):
                 "att": att, "makes": makes, "misses": att - makes,
                 "pct": round(makes / att * 100, 1) if att else 0,
                 "per_game": round(att / g, 1),
-                "freq": round(att / tot * 100, 1),  # share of all shots — reveals selection
+                "freq": round(att / tot * 100, 1),  # share of all shots - reveals selection
             }
 
         categories = [
@@ -733,7 +776,7 @@ def get_nba_player_stats(player_id: int, season: str = Query(DEFAULT_SEASON)):
 @app.get("/nba/player/{player_id}/shots")
 def get_nba_player_shots(player_id: int, season_type: str = Query("Regular Season"),
                          season: str = Query(DEFAULT_SEASON)):
-    """Live shot chart for ANY NBA player — pulls from nba_api rather than the
+    """Live shot chart for ANY NBA player - pulls from nba_api rather than the
     local Rockets-only shots table, so the Compare page works league-wide.
     Returns the same shape as /shots/{id}."""
     season = valid_season(season)
@@ -805,19 +848,19 @@ def get_draft_assets():
 
 @app.get("/draft/picks")
 def get_draft_picks(team: str = Query("HOU")):
-    """Real scraped pick ownership (incoming/outgoing, valued) for one team — from
+    """Real scraped pick ownership (incoming/outgoing, valued) for one team - from
     the Fanspo snapshot (draft_scraper.py). Powers the team-by-team draft view."""
     import draft
     data = draft.get_team_picks(team.upper())
     if not data:
-        raise HTTPException(status_code=404, detail="No scraped picks for that team — run draft_scraper.py")
+        raise HTTPException(status_code=404, detail="No scraped picks for that team - run draft_scraper.py")
     return data
 
 # ── Betting Edge Finder ───────────────────────────────────────────────────────
 
 @app.get("/betting/edges")
 def get_betting_edges(season: str = Query(DEFAULT_SEASON)):
-    """Live value bets — model win prob vs de-vigged sportsbook moneylines."""
+    """Live value bets - model win prob vs de-vigged sportsbook moneylines."""
     import betting
     try:
         return betting.live_edges(valid_season(season))
@@ -832,7 +875,7 @@ def evaluate_bet(
     away_odds: int = Query(..., description="Away moneyline (American), e.g. +130"),
     season: str = Query(DEFAULT_SEASON),
 ):
-    """Manual mode — supply moneylines, get the model's edge. No API key needed."""
+    """Manual mode - supply moneylines, get the model's edge. No API key needed."""
     import betting
     res = betting.evaluate_matchup(valid_season(season), home, away, home_odds, away_odds)
     if res is None:
@@ -860,7 +903,7 @@ def get_contracts_cap(season: str = Query(DEFAULT_SEASON)):
 
 @app.get("/trade/rosters")
 def trade_rosters(season: str = Query(DEFAULT_SEASON)):
-    """Every team's roster (value + salary + contract grade) plus its cap status —
+    """Every team's roster (value + salary + contract grade) plus its cap status -
     powers the Trade Machine's team pickers."""
     import trade_ideas, contracts, draft
     season = valid_season(season)
@@ -883,7 +926,7 @@ def trade_rosters(season: str = Query(DEFAULT_SEASON)):
 @app.post("/trade/evaluate")
 def evaluate_trade(payload: dict = Body(...)):
     """Evaluate a 2-team trade: salary in/out, cap-legality + apron impact for each
-    team, and the value balance — the Trade Machine's verdict engine."""
+    team, and the value balance - the Trade Machine's verdict engine."""
     import trade_ideas, contracts
     season = valid_season(payload.get("season") or DEFAULT_SEASON)
     meta = trade_ideas.get_player_meta(season)
@@ -921,7 +964,7 @@ def evaluate_trade(payload: dict = Body(...)):
         verdict, winner = "Fair trade", None
     else:
         winner = team_b if give_a > give_b else team_a   # whoever GIVES less, wins
-        verdict = f"{'Slight edge' if pct < 18 else 'Lopsided'} — {winner}"
+        verdict = f"{'Slight edge' if pct < 18 else 'Lopsided'} - {winner}"
 
     legal = all(i["legal"] for i in (imp_a, imp_b) if i)
     return {
@@ -964,7 +1007,7 @@ def get_contracts_team(team: str, season: str = Query(DEFAULT_SEASON)):
 
 @app.get("/team/clutch")
 def get_team_clutch(season: str = Query(DEFAULT_SEASON)):
-    """Houston's clutch performance — last 5 min, score within 5 (NBA's definition)."""
+    """Houston's clutch performance - last 5 min, score within 5 (NBA's definition)."""
     import clutch
     try:
         return clutch.get_clutch(valid_season(season))
@@ -1007,7 +1050,7 @@ def _age_score(age, is_allstar=False):
     elif age == 36: raw = 37
     elif age == 37: raw = 30
     else: raw = max(20, 30 - (age - 37) * 3)
-    # Proven All-Stars have demonstrated longevity — don't punish age as harshly
+    # Proven All-Stars have demonstrated longevity - don't punish age as harshly
     if is_allstar:
         return max(raw, 55)
     return raw
@@ -1057,7 +1100,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
             pts = reb = ast = stl = blk = pm = fga = fta = 0
             efg_pct = 0.46; ts_pct = 0.55; gp = 0
 
-        # Advanced dashboard: ORtg, DRtg, USG% — fall back to league averages on error
+        # Advanced dashboard: ORtg, DRtg, USG% - fall back to league averages on error
         off_rtg = 108.0; def_rtg = 112.0; usg_pct = 0.20
         try:
             import time as _t2; _t2.sleep(0.4)
@@ -1106,7 +1149,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
         recognition_s  = 100 if is_corner else (75 if is_star else 0)
 
         # ── Weighted composite (weights sum to 1.0) ───────────────────────────
-        # def_score now includes DRtg — weight raised from 0.03 to 0.07,
+        # def_score now includes DRtg - weight raised from 0.03 to 0.07,
         # the freed 0.04 from the removed standalone drtg term.
         raw = (
             pts_score  * 0.11 + reb_score  * 0.04 + ast_score  * 0.04 +
@@ -1122,7 +1165,7 @@ def get_trade_value(player_id: int, season: str = Query(DEFAULT_SEASON)):
 
         final = raw * pos_mult
 
-        # Cornerstones guaranteed ≥ 97 post-mult — always "Untradable"
+        # Cornerstones guaranteed ≥ 97 post-mult - always "Untradable"
         if is_corner:
             final = max(final, 97)
 

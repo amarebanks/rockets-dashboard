@@ -1,5 +1,5 @@
 /**
- * capture-screenshots.js — auto-capture above-the-fold screenshots of every page
+ * capture-screenshots.js - auto-capture above-the-fold screenshots of every page
  * for the README gallery.
  *
  * Prerequisites: the backend (http://127.0.0.1:8000) and frontend
@@ -15,8 +15,8 @@
  *   API_URL    backend origin    (default http://127.0.0.1:8000)
  *   WIDTH      viewport width    (default 1440)
  *   HEIGHT     viewport height   (default 900)
- *   SCALE      device scale      (default 2 — retina-crisp PNGs)
- *   SETTLE     ms to wait after  (default 3000 — lets charts/live stats render)
+ *   SCALE      device scale      (default 2 - retina-crisp PNGs)
+ *   SETTLE     ms to wait after  (default 3000 - lets charts/live stats render)
  *              network goes idle
  */
 
@@ -59,7 +59,7 @@ async function resolvePlayerRoute() {
       players[0];
     if (star && star.player_id) return `/player/${star.player_id}`;
   } catch (err) {
-    console.warn(`  ! could not reach ${API_URL}/players — skipping player profile`);
+    console.warn(`  ! could not reach ${API_URL}/players - skipping player profile`);
   }
   return null;
 }

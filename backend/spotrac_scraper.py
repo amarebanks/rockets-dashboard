@@ -1,5 +1,5 @@
 """
-spotrac_scraper.py — snapshot NBA salary data from Spotrac into JSON files that
+spotrac_scraper.py - snapshot NBA salary data from Spotrac into JSON files that
 contracts.py loads (replacing the hand-curated cap/contract estimates).
 
 Scrapes two things per cap year (Spotrac keys by START year: 2026 == 2026-27):
@@ -9,9 +9,9 @@ and merges multiple years into a forward-looking per-player view → spotrac_con
 (salary_by_season, so contracts.py can show current + future cap hits).
 
 Why this design:
-  • Spotrac blocks bots — a real-browser User-Agent is REQUIRED (a default fetcher
+  • Spotrac blocks bots - a real-browser User-Agent is REQUIRED (a default fetcher
     gets HTTP 403). With the UA below it returns 200 + full HTML tables.
-  • Built-in html.parser only — runs on a clean install (no lxml/bs4 needed).
+  • Built-in html.parser only - runs on a clean install (no lxml/bs4 needed).
   • Snapshot, don't fetch live: contract data moves slowly, so scrape occasionally,
     commit the JSON, and keep request volume low (faster + ToS-friendlier).
 
@@ -32,7 +32,7 @@ from datetime import date
 from html.parser import HTMLParser
 
 DEFAULT_YEARS = [2025, 2026]          # 2025-26 (current app season) + 2026-27 (future)
-REQUEST_DELAY = 1.0                   # seconds between team requests — be polite
+REQUEST_DELAY = 1.0                   # seconds between team requests - be polite
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")

@@ -1,5 +1,5 @@
 """
-elo.py — League-wide Elo ratings for game prediction.
+elo.py - League-wide Elo ratings for game prediction.
 
 Pulls every team's regular-season game results for the season from the NBA
 stats API (one LeagueGameLog call returns all 30 teams' games), then runs a
@@ -31,7 +31,7 @@ def _expected(rating_a, rating_b):
 
 
 def _mov_multiplier(margin, winner_elo_diff):
-    """538 margin-of-victory multiplier — bigger wins move Elo more, with an
+    """538 margin-of-victory multiplier - bigger wins move Elo more, with an
     autocorrelation correction so favorites don't get over-rewarded."""
     return ((abs(margin) + 3.0) ** 0.8) / (7.5 + 0.006 * winner_elo_diff)
 

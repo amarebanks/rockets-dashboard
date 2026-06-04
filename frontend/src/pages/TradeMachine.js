@@ -88,7 +88,7 @@ function StatusArrow({ before, after }) {
 
 function CapCard({ side, color }) {
   const c = side.cap;
-  if (!c) return <div className="tm-capcard"><div className="t" style={{ color }}>{side.team || "—"}</div><div className="tm-capline">Pick a team</div></div>;
+  if (!c) return <div className="tm-capcard"><div className="t" style={{ color }}>{side.team || "-"}</div><div className="tm-capline">Pick a team</div></div>;
   return (
     <div className="tm-capcard">
       <div className="t" style={{ color }}>{c.team}</div>
@@ -262,7 +262,7 @@ export default function TradeMachine() {
                 <div className="tm-fair-b" style={{ width: `${100 - barA}%` }} />
               </div>
               <div style={{ textAlign: "center", fontSize: 11, color: "var(--muted)", letterSpacing: 1 }}>
-                Premium-adjusted value · Δ {Math.abs(ga - gb).toFixed(1)} ({f.diff_pct}%) — the team giving less value comes out ahead
+                Premium-adjusted value · Δ {Math.abs(ga - gb).toFixed(1)} ({f.diff_pct}%) - the team giving less value comes out ahead
               </div>
             </div>
           )}

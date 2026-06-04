@@ -1,5 +1,5 @@
 """
-recognition.py — player recognition tiers (All-Star / Franchise Cornerstone)
+recognition.py - player recognition tiers (All-Star / Franchise Cornerstone)
 and accent-safe name matching, shared by the trade value algorithm and the
 trade-idea engine.
 
@@ -45,7 +45,7 @@ ALL_STARS_BY_SEASON = {
 ALL_STARS_2025 = ALL_STARS_BY_SEASON["2024-25"]
 _ALL_ALLSTARS  = set().union(*ALL_STARS_BY_SEASON.values())
 
-# Genuinely untradable — would require 4-5 first-rounders + multiple quality players.
+# Genuinely untradable - would require 4-5 first-rounders + multiple quality players.
 # Anchored to All-NBA First Team (the top-5 by season), the truest "can't be had" tier.
 CORNERSTONES_BY_SEASON = {
     "2024-25": {
@@ -70,7 +70,7 @@ ALL_NBA_BY_SEASON = {
     },
 }
 # Name-brand superstars who command a superstar haul even when they miss an All-NBA
-# team in a given year (injury / down season) — recent MVPs & perennial stars.
+# team in a given year (injury / down season) - recent MVPs & perennial stars.
 LEGACY_SUPERSTARS_BY_SEASON = {
     "2025-26": {"Giannis Antetokounmpo", "Joel Embiid", "Anthony Davis", "Devin Booker"},
 }
@@ -92,7 +92,7 @@ ALL_DEFENSIVE_BY_SEASON = {
             "Kris Dunn", "Evan Mobley", "Luguentz Dort", "Jalen Duren",
             "Neemias Queta", "Jaylen Brown", "Kawhi Leonard", "Jaden McDaniels",
             "Donovan Clingan", "Shai Gilgeous-Alexander", "Jabari Smith Jr.",
-            "Alex Caruso",   # perennial All-Defensive guard — elite point-of-attack D
+            "Alex Caruso",   # perennial All-Defensive guard - elite point-of-attack D
         },
     },
 }

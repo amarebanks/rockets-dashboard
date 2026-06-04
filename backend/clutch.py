@@ -1,5 +1,5 @@
 """
-clutch.py — Houston's clutch performance (NBA's official clutch definition:
+clutch.py - Houston's clutch performance (NBA's official clutch definition:
 last 5 minutes, score within 5 points).
 
 Pulls team + player clutch box scores once from nba_api and derives accurate
@@ -86,7 +86,7 @@ def _fetch_players(season):
             "ts_pct": _ts_pct(pts, fga, fta),
             "plus_minus": int(_f(r, "PLUS_MINUS")),
         })
-    # Most clutch minutes first — the players the team actually trusts late.
+    # Most clutch minutes first - the players the team actually trusts late.
     players.sort(key=lambda p: p["min"], reverse=True)
     return players
 

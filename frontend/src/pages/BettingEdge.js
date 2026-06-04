@@ -153,13 +153,13 @@ export default function BettingEdge() {
             <div className="vig" style={{ marginTop:12 }}>
               Book vig: {result.vig_pct}% · {result.value_side
                 ? <span className="pos">✓ Value on {result[result.value_side + "_team"].abbr}</span>
-                : <span>No edge ≥ 3% — pass</span>}
+                : <span>No edge ≥ 3% - pass</span>}
             </div>
           </>
         )}
         <div className="disclaimer">
           Model uses {seasonLabel()} Elo ratings (incl. home court). "Fair price" removes the book's vig. Edge = model probability − fair probability.
-          Positive EV / Kelly &gt; 0 indicate a mathematically favorable bet. For entertainment & research — bet responsibly.
+          Positive EV / Kelly &gt; 0 indicate a mathematically favorable bet. For entertainment & research - bet responsibly.
         </div>
       </div>
 

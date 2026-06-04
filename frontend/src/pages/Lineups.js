@@ -108,7 +108,7 @@ export default function Lineups() {
           <div className="note">
             <b>Net rating</b> = points scored minus allowed per 100 possessions while that exact group is on the floor
             (<b>off</b> − <b>def</b>). Only combinations with a meaningful sample are shown
-            ({size === 2 ? "80+" : size === 3 ? "50+" : "30+"} minutes together). Pair this with the Championship Builder —
+            ({size === 2 ? "80+" : size === 3 ? "50+" : "30+"} minutes together). Pair this with the Championship Builder -
             before trading for a need, check which groups already produce.
           </div>
         </>

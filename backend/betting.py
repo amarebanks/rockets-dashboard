@@ -1,10 +1,10 @@
 """
-betting.py — value-bet finder built on the Elo predictor.
+betting.py - value-bet finder built on the Elo predictor.
 
 Compares the model's win probability against sportsbook moneyline odds (de-vigged
 to a fair price) and surfaces the edge. Two modes:
-  • live  — pulls current NBA moneylines from The Odds API (free tier, needs a key)
-  • manual — caller supplies the odds; always works, no key required
+  • live  - pulls current NBA moneylines from The Odds API (free tier, needs a key)
+  • manual - caller supplies the odds; always works, no key required
 
 Set ODDS_API_KEY in the environment (.env) to enable live mode. Get a free key at
 https://the-odds-api.com (500 requests/month).

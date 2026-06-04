@@ -33,7 +33,7 @@ const HISTORICAL_TRADES = [
     headline: "Kevin Durant → Phoenix Suns",
     sideA: ["Kevin Durant (age 35)"],
     sideB: ["Mikal Bridges", "Cameron Johnson", "Jae Crowder", "4 First-Round Picks"],
-    takeaway: "BKN in full rebuild — rare case where a team accepted massive asset haul for a still-elite 35-year-old.",
+    takeaway: "BKN in full rebuild - rare case where a team accepted massive asset haul for a still-elite 35-year-old.",
   },
   {
     year: "Sep 2022",
@@ -47,21 +47,21 @@ const HISTORICAL_TRADES = [
     headline: "Kyrie Irving → Dallas Mavericks",
     sideA: ["Kyrie Irving (age 31)"],
     sideB: ["Dorian Finney-Smith", "Spencer Dinwiddie"],
-    takeaway: "DAL won significantly — expiring contract (1.5 years left) heavily deflated Kyrie's return.",
+    takeaway: "DAL won significantly - expiring contract (1.5 years left) heavily deflated Kyrie's return.",
   },
   {
     year: "Jul 2019",
     headline: "Anthony Davis → Los Angeles Lakers",
     sideA: ["Anthony Davis (age 26)"],
     sideB: ["Lonzo Ball", "Brandon Ingram", "Josh Hart", "Kyle Kuzma", "3 First-Round Picks"],
-    takeaway: "Prime AD (score ~90) commanded a franchise-altering return — the gold standard for star trades.",
+    takeaway: "Prime AD (score ~90) commanded a franchise-altering return - the gold standard for star trades.",
   },
   {
     year: "Jul 2024",
     headline: "Paul George → Philadelphia 76ers",
     sideA: ["Paul George (age 34)"],
     sideB: ["5 Draft Picks", "Caleb Martin", "Eric Gordon rights"],
-    takeaway: "PHI overpaid for an aging max-contract player — a reminder that salary and contract years matter.",
+    takeaway: "PHI overpaid for an aging max-contract player - a reminder that salary and contract years matter.",
   },
 ];
 
@@ -140,9 +140,9 @@ const getOvrColor = (ovr) => {
 
 // ── Trade fairness model ────────────────────────────────────────────────────
 // Two real-world dynamics that a plain sum of values misses:
-//  1. Star scarcity premium — elite players cost far more than their sticker
+//  1. Star scarcity premium - elite players cost far more than their sticker
 //     value to acquire. You don't get a top-5 player without a big overpay.
-//  2. Diminishing returns — roster spots are finite, so a pile of role players
+//  2. Diminishing returns - roster spots are finite, so a pile of role players
 //     and picks is worth less than the same raw total in one star.
 const DECAY = 0.85; // each asset past the centerpiece is taxed by this factor
 
@@ -336,19 +336,19 @@ export default function TradeAnalyzer() {
     const pct  = (diff/Math.max(effA, effB))*100;
     const winner = effA > effB ? "Team A" : "Team B";
     if (pct < 8)  return { text:"✓ Fair Trade", color:"var(--green)", pct };
-    if (pct < 18) return { text:`Slight Advantage — ${winner}`, color:"var(--gold)", pct };
-    return { text:`Lopsided — ${winner} wins`, color:"var(--red)", pct };
+    if (pct < 18) return { text:`Slight Advantage - ${winner}`, color:"var(--gold)", pct };
+    return { text:`Lopsided - ${winner} wins`, color:"var(--red)", pct };
   };
 
   const verdict = getVerdict();
 
   // If a real star is involved and the trade is lopsided, explain what the
-  // package realistically needs — the model's whole point.
+  // package realistically needs - the model's whole point.
   const bigStar = [...sideA, ...sideB]
     .filter(i => i.type === "player" && premiumMult(i) >= 1.30)
     .sort((a, b) => (b.tradeValue?.score||0) - (a.tradeValue?.score||0))[0];
   const starNote = (verdict && verdict.pct >= 18 && bigStar)
-    ? `Prying loose a ${bigStar.tradeValue.tier} like ${bigStar.playerData?.full_name} usually takes a young star plus multiple first-round picks — not role players and late picks.`
+    ? `Prying loose a ${bigStar.tradeValue.tier} like ${bigStar.playerData?.full_name} usually takes a young star plus multiple first-round picks - not role players and late picks.`
     : null;
 
   return (
@@ -360,9 +360,9 @@ export default function TradeAnalyzer() {
       {(sideA.length > 0 || sideB.length > 0) && (
         <div className="fairness-wrap">
           <div className="fairness-labels">
-            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team A — {effA.toFixed(1)}</span>
+            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team A - {effA.toFixed(1)}</span>
             {verdict && <span style={{ color:verdict.color, fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700 }}>{verdict.text}</span>}
-            <span style={{ color:"#4a9eff", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team B — {effB.toFixed(1)}</span>
+            <span style={{ color:"#4a9eff", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team B - {effB.toFixed(1)}</span>
           </div>
           <div className="fairness-bar-wrap">
             <div className="fairness-bar-a" style={{ width:`${barA}%` }} />
@@ -370,7 +370,7 @@ export default function TradeAnalyzer() {
           </div>
           {verdict && (
             <div style={{ textAlign:"center", fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
-              Adjusted value — incl. star premium &amp; roster-depth discount · Δ {Math.abs(effA-effB).toFixed(1)} ({verdict.pct.toFixed(1)}%)
+              Adjusted value - incl. star premium &amp; roster-depth discount · Δ {Math.abs(effA-effB).toFixed(1)} ({verdict.pct.toFixed(1)}%)
               <span style={{ marginLeft:8, color:"#444" }}>sticker: {totalA.toFixed(0)} vs {totalB.toFixed(0)}</span>
             </div>
           )}
@@ -423,7 +423,7 @@ export default function TradeAnalyzer() {
 
       <div className="section-header"><div className="section-title">Draft Pick Values</div><div className="section-line" /></div>
       <div style={{ marginBottom:8, fontSize:11, color:"var(--muted)", letterSpacing:1 }}>
-        Picks represent upside potential, not guaranteed production — uncertainty is priced in.
+        Picks represent upside potential, not guaranteed production - uncertainty is priced in.
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:8, marginBottom:40 }}>
         {DRAFT_PICKS.map(p=>(

@@ -1,6 +1,6 @@
 # Screenshots
 
-Drop PNG screenshots here using the exact filenames below — the root `README.md`
+Drop PNG screenshots here using the exact filenames below. The root `README.md`
 references each one, so the moment a file exists it renders automatically.
 
 | Filename | Page to capture | Route |

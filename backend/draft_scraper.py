@@ -1,16 +1,16 @@
 """
-draft_scraper.py — snapshot every NBA team's future draft-pick ownership from
+draft_scraper.py - snapshot every NBA team's future draft-pick ownership from
 Fanspo into a JSON file that draft.py loads (replacing the old hand-curated,
 Houston-only ROCKETS_PICKS).
 
 Why Fanspo: it's a Next.js app that ships the full pick ledger as clean embedded
-JSON (`__NEXT_DATA__` → Apollo cache), including protections and swap rights — far
+JSON (`__NEXT_DATA__` → Apollo cache), including protections and swap rights - far
 cleaner than RealGM (Cloudflare-blocked) or Spotrac (no future-pick data). Pages
 are keyed by a numeric teamId 1–30 and are slug-agnostic, so we just iterate ids.
 
 KEY FACTS (verified live):
   • Full browser headers REQUIRED (Sec-Fetch-* + Upgrade-Insecure-Requests), else
-    some requests are refused. Built-in json/urllib only — no extra deps.
+    some requests are refused. Built-in json/urllib only - no extra deps.
   • Each DraftPick: {year, round, from, to, details}. `to == ""` → the team keeps
     the pick (incoming asset); `to` naming the team itself → a swap right it holds;
     `to` naming other teams → outgoing. `from` names where an acquired pick came from.
@@ -62,7 +62,7 @@ def _fetch_team(team_id):
     for k, v in apollo.items():
         if not k.startswith("nba_DraftPick:") or not v.get("isActive", True):
             continue
-        # Strip Fanspo's trade-citation brackets (e.g. "[…from HOU]") everywhere —
+        # Strip Fanspo's trade-citation brackets (e.g. "[…from HOU]") everywhere -
         # they can contain a team code that would confuse direction classification.
         _debracket = lambda s: re.sub(r"\s*\[[^\]]*\]", "", (s or "")).strip()
         frm = _debracket(v.get("from"))
@@ -97,7 +97,7 @@ def main():
         time.sleep(REQUEST_DELAY)
 
     if not teams:
-        print("No teams parsed — Fanspo may have changed its markup or blocked the request.")
+        print("No teams parsed - Fanspo may have changed its markup or blocked the request.")
         sys.exit(1)
     if failed:
         print(f"  ! failed ids: {failed}")

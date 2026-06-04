@@ -3,7 +3,7 @@ import axios from "axios";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
-const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
+const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .ti-head { margin-bottom: 28px; }
@@ -116,7 +116,7 @@ export default function TradeIdeas() {
       {loading ? (
         <div className="loading">Analyzing roster & scanning the league…</div>
       ) : error || !data ? (
-        <div className="loading">Could not load trade ideas — is the backend running?</div>
+        <div className="loading">Could not load trade ideas - is the backend running?</div>
       ) : (
         <>
           {/* Team needs */}
@@ -239,13 +239,13 @@ export default function TradeIdeas() {
           })}
 
           <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1, marginTop:8, lineHeight:1.6 }}>
-            Targets are filtered by trade availability — a player's team record (seller vs. contender), his role on that team, age,
+            Targets are filtered by trade availability - a player's team record (seller vs. contender), his role on that team, age,
             and star tier decide whether he'd realistically be moved, so untouchable stars are screened out. Remaining targets are ranked
             by need-fit, value, and gettability. Packages follow real-deal structure: an up-and-coming player (or two) plus pick compensation
-            — not one-for-one swaps — value-matched with the star-premium + diminishing-returns model and tailored to the seller (youth and
+            - not one-for-one swaps - value-matched with the star-premium + diminishing-returns model and tailored to the seller (youth and
             picks for rebuilders, win-now help for contenders). Only Houston's two cornerstones are off-limits. Deals are now <b>cap-legal</b>:
             each package sends enough salary (adding filler contracts when needed) to legally absorb the target under CBA matching rules, and a
-            player's contract nudges his value — bargains are assets, bad contracts are discounts their team will move for cap relief.
+            player's contract nudges his value - bargains are assets, bad contracts are discounts their team will move for cap relief.
           </div>
         </>
       )}

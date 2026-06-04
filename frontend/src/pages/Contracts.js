@@ -143,7 +143,7 @@ export default function Contracts() {
                       <>
                         <h4>Getting under the {d.relief_plan.target_line}</h4>
                         <div className="ov">
-                          ${d.relief_plan.committed_m}M committed — <b>${d.relief_plan.overage_m}M over</b> the {d.relief_plan.target_line}.
+                          ${d.relief_plan.committed_m}M committed - <b>${d.relief_plan.overage_m}M over</b> the {d.relief_plan.target_line}.
                           {d.relief_plan.moves.length > 0 ? " Most likely trades:" : ""}
                         </div>
                         {d.relief_plan.moves.map((m, i) => {
@@ -162,7 +162,7 @@ export default function Contracts() {
                         })}
                         {d.relief_plan.potential_cuts && d.relief_plan.potential_cuts.length > 0 && (
                           <>
-                            <div className="ct-cuts-head">Potential cuts <span>— small deals, waivable for minor relief</span></div>
+                            <div className="ct-cuts-head">Potential cuts <span>- small deals, waivable for minor relief</span></div>
                             <div className="ct-cuts">
                               {d.relief_plan.potential_cuts.map((c, i) => (
                                 <span className="ct-cut" key={i}>{c.name} <b>${c.salary_m}M</b></span>
@@ -173,12 +173,12 @@ export default function Contracts() {
                         <div className="ct-note">{d.relief_plan.note}</div>
                       </>
                     ) : (
-                      <div className="ct-note">This team is within the apron lines — no relief moves needed.</div>
+                      <div className="ct-note">This team is within the apron lines - no relief moves needed.</div>
                     )}
 
                     {d.contracts && d.contracts.length > 0 && (
                       <div className="ct-roster">
-                        <div className="ct-roster-head">Contracts — current cap hit · term · total remaining</div>
+                        <div className="ct-roster-head">Contracts - current cap hit · term · total remaining</div>
                         {d.contracts.map((c, i) => (
                           <Fragment key={i}>
                             <div className="rn">
@@ -206,11 +206,11 @@ export default function Contracts() {
       })}
 
       <div className="legend">
-        <b>Tap any taxpayer/apron team</b> to see the most likely moves it would make to get back under the line —
+        <b>Tap any taxpayer/apron team</b> to see the most likely moves it would make to get back under the line -
         teams shed <b>bad contracts</b> first, then overpaid vets, and never move their best player or stars for cap
         relief (marked <span style={{ color:"var(--gold)" }}>★ keep</span>). The two <b>aprons</b> are
         hard spending limits that restrict how a team can build (trades, exceptions, draft picks), so front offices work
-        hard to duck under them. Salaries are curated approximations — edit <b>backend/contracts.py</b> to refine them.
+        hard to duck under them. Salaries are curated approximations - edit <b>backend/contracts.py</b> to refine them.
       </div>
     </div>
   );

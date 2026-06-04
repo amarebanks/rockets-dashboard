@@ -1,5 +1,5 @@
 """
-lineups.py — Houston's lineup net ratings (which player combinations actually work).
+lineups.py - Houston's lineup net ratings (which player combinations actually work).
 
 Pulls advanced lineup data (off/def/net rating per combo) from nba_api for a given
 group size (2-, 3-, or 5-man). Filters out tiny samples, returns the best and worst

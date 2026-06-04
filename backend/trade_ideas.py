@@ -1,10 +1,10 @@
 """
-trade_ideas.py — suggests realistic trades to push the Rockets toward a title.
+trade_ideas.py - suggests realistic trades to push the Rockets toward a title.
 
 Pipeline:
   1. Pull league-wide player stats (Base + Advanced) and team rankings once.
   2. Diagnose Houston's needs from where they rank poorly.
-  3. Model each non-Rocket's TRADE AVAILABILITY — would his team actually move him?
+  3. Model each non-Rocket's TRADE AVAILABILITY - would his team actually move him?
      (team record → seller vs contender, his role on the team, age vs timeline,
      star tier). Contenders don't sell stars; rebuilders shop veterans.
   4. Score every realistic target on need-fit + value + availability.
@@ -14,7 +14,7 @@ Pipeline:
   6. Rank and return the top ideas with a plain-language rationale that explains
      both Houston's need and why the other team would say yes.
 
-Fit-only for now — no salary/cap matching (that needs contract data). Results are
+Fit-only for now - no salary/cap matching (that needs contract data). Results are
 cached in-process since a completed season's data doesn't change.
 """
 
@@ -26,7 +26,7 @@ import contracts
 ROCKETS_ID = 1610612745
 ROCKETS_ABBR = "HOU"
 
-# Houston's genuine cornerstones per season — kept out of every package. Everyone else,
+# Houston's genuine cornerstones per season - kept out of every package. Everyone else,
 # including up-and-coming players (Jabari Smith Jr., Reed Sheppard, Tari Eason), is a
 # realistic trade chip; landing a proven star means parting with young talent + picks.
 # 2025-26 adds Kevin Durant, acquired that offseason and now the on-court centerpiece.
@@ -37,9 +37,9 @@ UNTOUCHABLE_BY_SEASON = {
 DEFAULT_UNTOUCHABLE = {"Alperen Sengun", "Amen Thompson"}
 
 # Offensive-hub centers. Houston's centerpiece (Şengün) is one, so acquiring another
-# high-usage center is a poor positional fit — two paint-based hubs don't share the
+# high-usage center is a poor positional fit - two paint-based hubs don't share the
 # floor. Such targets are skipped (the only way it works is dealing Şengün, but he's
-# untouchable). Low-usage rim-protector centers are NOT here — they complement Şengün.
+# untouchable). Low-usage rim-protector centers are NOT here - they complement Şengün.
 CENTERS = {
     "Joel Embiid", "Nikola Jokic", "Domantas Sabonis", "Karl-Anthony Towns",
     "Nikola Vucevic", "Bam Adebayo", "Alperen Sengun", "Jonas Valanciunas",
@@ -59,14 +59,14 @@ _CENTER_ANCHORS_NORM = {recognition.norm_name(n) for n in CENTER_ANCHORS}
 
 def _redundant_center(c, season):
     """True if the target is an offensive-hub center while Houston's untouchable
-    centerpiece is also one — a poor positional fit (can't pair two paint hubs)."""
+    centerpiece is also one - a poor positional fit (can't pair two paint hubs)."""
     core_has_center = any(recognition.norm_name(n) in _CENTER_ANCHORS_NORM
                           for n in _untouchable(season))
     return (core_has_center
             and recognition.norm_name(c["name"]) in _CENTERS_NORM
             and c.get("usg_pct", 0) >= 0.23)
 
-# Acquisition model — identical in spirit to the frontend trade analyzer.
+# Acquisition model - identical in spirit to the frontend trade analyzer.
 # Higher DECAY pressure + steeper premiums mean stars cost a genuine haul: their
 # acquisition price far exceeds their flat value, so it takes several pieces + picks.
 DECAY = 0.82
@@ -79,7 +79,7 @@ def premium_mult(value):
     if value >= 60: return 1.07
     return 1.0
 
-# Rockets draft war chest used to close value gaps — multiple firsts/swaps + seconds,
+# Rockets draft war chest used to close value gaps - multiple firsts/swaps + seconds,
 # so a superstar package is realistically pick-heavy, not just a single second-rounder.
 PICKS = [
     ("2027 First-Round Pick", 30),
@@ -156,7 +156,7 @@ def _proxy_value(s, season=None):
     raw = (pts_s * 0.12 + reb_s * 0.05 + ast_s * 0.05 + def_s * 0.11 + pm_s * 0.05 +
            ts_s * 0.08 + usg_s * 0.04 + gp_s * 0.06 + age_s * 0.08 +
            recog * 0.25 + def_recog * 0.06 + 60 * 0.05)
-    # Reputation-tier floor: All-NBA 1st/2nd/3rd, legacy superstar, or All-Star — so
+    # Reputation-tier floor: All-NBA 1st/2nd/3rd, legacy superstar, or All-Star - so
     # name-brand stars (Giannis, Embiid) aren't valued like role players in a down year.
     raw = max(raw, recognition.star_floor(name, season))
     # Quality-starter floor: an efficient, high-usage 18+ ppg full-time starter is worth
@@ -164,7 +164,7 @@ def _proxy_value(s, season=None):
     # by scoring so a 24-ppg lead guard outvalues an 18-ppg one (avoids flattening).
     if s["pts"] >= 18 and s["usg_pct"] >= 0.22 and s["ts_pct"] >= 0.55 and s["gp"] >= 55:
         raw = max(raw, min(72, 52 + (s["pts"] - 18) * 2.0))
-    # Floors for elite defenders who may not be All-Stars (recognition-driven) — so a
+    # Floors for elite defenders who may not be All-Stars (recognition-driven) - so a
     # high-end 3&D wing isn't mis-graded as an "overpaid" contract (e.g. J. McDaniels).
     if def_recog >= 100:
         raw = max(raw, 70)   # All-Defensive 1st team
@@ -196,7 +196,7 @@ def _category_strengths(s):
 
 
 # ---------------------------------------------------------------------------
-# Trade-availability model — the heart of the realism fix.
+# Trade-availability model - the heart of the realism fix.
 # ---------------------------------------------------------------------------
 
 def _team_tier(w_pct):
@@ -217,7 +217,7 @@ def _availability(c, tier, team_rank):
     """
     base = {"seller": 0.82, "middle": 0.60, "contender": 0.36}[tier]
 
-    # Role on their own team — the best player is the hardest to get.
+    # Role on their own team - the best player is the hardest to get.
     if team_rank == 1:   base *= 0.62
     elif team_rank == 2: base *= 0.85
     elif team_rank >= 4: base *= 1.12
@@ -229,7 +229,7 @@ def _availability(c, tier, team_rank):
     # Age vs the selling team's timeline.
     age = c["age"]
     if tier == "seller":
-        if age >= 29:   base *= 1.30   # veteran on a tanking team — prime trade bait
+        if age >= 29:   base *= 1.30   # veteran on a tanking team - prime trade bait
         elif age <= 22: base *= 0.55   # cornerstone-of-the-future, they keep him
     elif tier == "contender":
         if c["value"] >= 80:           # contenders only deal role players
@@ -245,7 +245,7 @@ def _avail_label(a):
 
 
 # ---------------------------------------------------------------------------
-# Package construction — now tailored to what the SELLING team wants back.
+# Package construction - now tailored to what the SELLING team wants back.
 # ---------------------------------------------------------------------------
 
 def _return_pref(tier):
@@ -285,7 +285,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
 
     Mirrors how real deals are shaped: an up-and-coming player (or two) headlines,
     complementary salary/young pieces fill the gap, and pick compensation is almost
-    always attached — not a one-for-one swap. Only Houston's cornerstones are
+    always attached - not a one-for-one swap. Only Houston's cornerstones are
     off-limits; everyone else (Jabari Smith Jr., Reed Sheppard, Tari Eason…) is fair game.
 
     After value-matching, the package is checked for CBA legality: Houston must send
@@ -306,10 +306,10 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
 
     chosen, used = [], set()
 
-    # 1) Headliner — the best chip that sits at/just below the target, so Houston
+    # 1) Headliner - the best chip that sits at/just below the target, so Houston
     #    sends an up-and-coming player for the more proven one (not its very best).
     #    Reserve the single best young chip only when the target is worth *less* than it
-    #    (don't trade your prized prospect for a lesser player) — varies the packages.
+    #    (don't trade your prized prospect for a lesser player) - varies the packages.
     skip_top = (not star and len(players) > 1 and players[0]["value"] > target_value)
     start = 1 if skip_top else 0
     head_idx = next((i for i in range(start, len(players))
@@ -319,10 +319,10 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
         chosen.append(players[head_idx]); used.add(head_idx)
 
     # Cap at two players so a big star cost is covered by draft capital (multiple
-    # first-rounders), the way real superstar trades are structured — not 3-4 prospects.
+    # first-rounders), the way real superstar trades are structured - not 3-4 prospects.
     player_cap = 2
 
-    # 2) Complementary player — only add a second player when the headliner leaves a
+    # 2) Complementary player - only add a second player when the headliner leaves a
     #    real gap (else a single player + picks is the tighter, more realistic package).
     while (sum(1 for c in chosen if c["type"] == "player") < player_cap
            and _adjusted(chosen) < cost * 0.80):
@@ -340,7 +340,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
             break
         chosen.append(players[best_i]); used.add(best_i)
 
-    # 3) Pick compensation — fill the gap largest-first, so a big star shortfall pulls
+    # 3) Pick compensation - fill the gap largest-first, so a big star shortfall pulls
     #    in multiple first-round picks while a minor gap only takes a second-rounder.
     #    Never overshoot the fair band.
     for pk in sorted(picks, key=lambda p: p["value"], reverse=True):
@@ -348,7 +348,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
             break
         if _adjusted(chosen + [pk]) <= cost * 1.08:
             chosen.append(pk)
-    # Almost every real deal carries pick compensation — attach the smallest pick when
+    # Almost every real deal carries pick compensation - attach the smallest pick when
     # there isn't one yet, but only if it doesn't tip an already-fair package into overpay.
     if not any(c["type"] == "pick" for c in chosen) and picks:
         sweetener = picks[-1]   # smallest
@@ -383,7 +383,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
     # ── Cap-legal salary matching ────────────────────────────────────────────
     # Houston must send enough salary to legally take the target back. If the
     # value-matched package is short on salary, add filler contracts (bad/dumpable
-    # deals first, then largest) until it's legal — exactly how real deals attach
+    # deals first, then largest) until it's legal - exactly how real deals attach
     # a matching salary to a young-talent + picks core.
     status = contracts.team_apron_status(ROCKETS_ABBR, season)
 
@@ -394,7 +394,7 @@ def _build_package(target_value, rockets, prefer="balanced", star=False, season=
     legal, allowed, shortfall = contracts.trade_legal(out_salary, target_salary, status)
     if not legal:
         filler = [i for i, p in enumerate(players) if i not in used]
-        # Worst contracts first (cap relief for Houston too), then biggest salary —
+        # Worst contracts first (cap relief for Houston too), then biggest salary -
         # but prefer ones that add the least extra VALUE so we don't lard the deal.
         filler.sort(key=lambda i: (not players[i]["dumpable"], players[i]["value"], -players[i]["salary"]))
         for i in filler:
@@ -475,8 +475,8 @@ def _fetch_players(season):
 
 def _fetch_team_data(season):
     """Returns (needs, team_ctx).
-      needs    — Rockets' weakness weight (0–1) per category from team rankings.
-      team_ctx — team_id → {w, l, w_pct, tier, team} for the availability model.
+      needs    - Rockets' weakness weight (0–1) per category from team rankings.
+      team_ctx - team_id → {w, l, w_pct, tier, team} for the availability model.
     """
     base = leaguedashteamstats.LeagueDashTeamStats(
         season=season, season_type_all_star="Regular Season",
@@ -539,7 +539,7 @@ def _build(season):
     for s in sorted(rotation, key=lambda p: p["base_value"], reverse=True):
         team_order.setdefault(s["team_id"], []).append(s["player_id"])
 
-    # Contract pass: a player's TRADE value reflects his deal — a bargain is a
+    # Contract pass: a player's TRADE value reflects his deal - a bargain is a
     # bonus asset, a bad contract a drag teams pay to escape. Salary is attached
     # for the cap-legal matching done when building packages.
     for s in players:
@@ -562,12 +562,12 @@ def _build(season):
         if c["gp"] < 30 or c["min"] < 20 or c["is_cornerstone"] or c["value"] < 48:
             continue
         if _redundant_center(c, season):
-            continue   # positional redundancy — Houston already has its center hub (Şengün)
+            continue   # positional redundancy - Houston already has its center hub (Şengün)
         ctx = team_ctx.get(c["team_id"], {"tier": "middle", "w": 41, "l": 41, "w_pct": 0.5, "team": c["team"]})
         order = team_order.get(c["team_id"], [])
         team_rank = (order.index(c["player_id"]) + 1) if c["player_id"] in order else 5
         avail = _availability(c, ctx["tier"], team_rank)
-        # A bad contract on a tax/apron team is shopped for cap relief — more gettable.
+        # A bad contract on a tax/apron team is shopped for cap relief - more gettable.
         if c["contract"]["dumpable"]:
             house = contracts.team_apron_status(ctx["team"], season)
             if house in ("taxpayer", "first_apron", "second_apron"):
@@ -575,7 +575,7 @@ def _build(season):
             else:
                 avail = _clamp(avail * 1.12)
         if avail < AVAIL_FLOOR:
-            continue   # untouchable — drop it so we stop suggesting unrealistic stars
+            continue   # untouchable - drop it so we stop suggesting unrealistic stars
 
         fit = sum(c["strengths"][cat] * needs[cat]["weight"] for cat in needs) / total_w
         addresses = [cat for cat in needs
@@ -748,7 +748,7 @@ def _why_they_deal(c, ctx, prefer):
     rec = f"{ctx['w']}–{ctx['l']}"
     if ctx["tier"] == "seller":
         if c["age"] >= 29:
-            return (f"{c['team']} ({rec}) is rebuilding and has little use for a {int(c['age'])}-year-old vet — "
+            return (f"{c['team']} ({rec}) is rebuilding and has little use for a {int(c['age'])}-year-old vet - "
                     f"Houston's young pieces and picks fit their timeline.")
         return (f"{c['team']} ({rec}) is out of the race and can flip rotation talent "
                 f"for youth and draft capital.")

@@ -1,5 +1,5 @@
 """
-shot_scraper.py — v2
+shot_scraper.py - v2
 Pulls Regular Season AND Playoff shot data for all Rockets players.
 Skips players already loaded. Retries on timeout.
 """

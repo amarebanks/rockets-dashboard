@@ -154,7 +154,7 @@ export default function Dashboard() {
           )}
 
           <div className="section-header">
-            <div className="section-title">Points Per Game — Last 20 Games</div>
+            <div className="section-title">Points Per Game - Last 20 Games</div>
             <div className="section-line" />
           </div>
           <div className="chart-card">
@@ -210,17 +210,17 @@ export default function Dashboard() {
               <tbody>
                 {players.map(p => (
                   <tr key={p.player_id} onClick={() => navigate(`/player/${p.player_id}`)}>
-                    <td><span className="jersey">{p.jersey_num || "—"}</span></td>
+                    <td><span className="jersey">{p.jersey_num || "-"}</span></td>
                     <td><span className="player-name">{p.full_name}</span>{p.position && <span className="player-pos">{p.position}</span>}</td>
-                    <td className="num">{p.games_played ?? "—"}</td>
-                    <td className="num highlight">{p.avg_pts ?? "—"}</td>
-                    <td className="num">{p.avg_reb ?? "—"}</td>
-                    <td className="num">{p.avg_ast ?? "—"}</td>
-                    <td className="num">{p.avg_stl ?? "—"}</td>
-                    <td className="num">{p.avg_blk ?? "—"}</td>
-                    <td className="num highlight-gold">{p.avg_fg_pct ? (p.avg_fg_pct * 100).toFixed(1) + "%" : "—"}</td>
+                    <td className="num">{p.games_played ?? "-"}</td>
+                    <td className="num highlight">{p.avg_pts ?? "-"}</td>
+                    <td className="num">{p.avg_reb ?? "-"}</td>
+                    <td className="num">{p.avg_ast ?? "-"}</td>
+                    <td className="num">{p.avg_stl ?? "-"}</td>
+                    <td className="num">{p.avg_blk ?? "-"}</td>
+                    <td className="num highlight-gold">{p.avg_fg_pct ? (p.avg_fg_pct * 100).toFixed(1) + "%" : "-"}</td>
                     <td className="num" style={{ color: p.avg_plus_minus > 0 ? "var(--green)" : p.avg_plus_minus < 0 ? "var(--red)" : "var(--muted)" }}>
-                      {p.avg_plus_minus != null ? (p.avg_plus_minus > 0 ? "+" : "") + p.avg_plus_minus : "—"}
+                      {p.avg_plus_minus != null ? (p.avg_plus_minus > 0 ? "+" : "") + p.avg_plus_minus : "-"}
                     </td>
                   </tr>
                 ))}

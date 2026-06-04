@@ -101,7 +101,7 @@ export default function DraftCapital() {
       </div>
 
       {loading ? <div className="loading">Loading draft capital…</div> : !data ? (
-        <div className="loading">No pick data — run draft_scraper.py</div>
+        <div className="loading">No pick data - run draft_scraper.py</div>
       ) : (
         <>
           <div className="dc-summary">
@@ -146,7 +146,7 @@ export default function DraftCapital() {
 
           <div className="note">
             Real future-pick ownership scraped from Fanspo (incoming, outgoing, protections & swap rights).
-            <b>Exact pick numbers</b> are shown for the {CONFIRMED_DRAFT_YEAR} draft, computed from final standings —
+            <b>Exact pick numbers</b> are shown for the {CONFIRMED_DRAFT_YEAR} draft, computed from final standings -
             round-2 (31–60) and round-1 non-lottery slots are exact; round-1 lottery slots (1–14) are pre-lottery order.
             Later drafts have no order yet. A <b>swap</b> names its counterparty (e.g. a 2027 BKN swap), distinct from an
             outright pick acquired from another team. Re-run <b>draft_scraper.py</b> to refresh.

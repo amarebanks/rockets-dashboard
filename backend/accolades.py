@@ -1,5 +1,5 @@
 """
-accolades.py — official end-of-season honors per player, for the Accolades display
+accolades.py - official end-of-season honors per player, for the Accolades display
 on Player Profile and Compare.
 
 Sourced from the 2025-26 NBA awards voting (MVP, ROY, DPOY, 6MOY, MIP, Clutch POY,

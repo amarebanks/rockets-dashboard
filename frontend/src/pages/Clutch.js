@@ -3,7 +3,7 @@ import axios from "axios";
 import { seasonLabel } from "../season";
 
 const API = "http://127.0.0.1:8000";
-const headshot = (id) => `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`;
+const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .cl-head { margin-bottom: 28px; }
@@ -64,7 +64,7 @@ export default function Clutch() {
       </div>
 
       {loading ? <div className="loading">Loading clutch data…</div> : !data ? (
-        <div className="loading">Could not load clutch data — is the backend running?</div>
+        <div className="loading">Could not load clutch data - is the backend running?</div>
       ) : (
         <>
           {t && (
@@ -121,7 +121,7 @@ export default function Clutch() {
           <div className="note">
             <b>Clutch</b> = the NBA's official definition: the last 5 minutes of a game with the score within 5 points.
             Shooting percentages are computed from clutch box-score totals, and <b>TS%</b> (true shooting) folds in 3-pointers and free throws.
-            <b> +/−</b> is the team's net points with that player on the floor in clutch time — a small sample, so read it alongside minutes.
+            <b> +/−</b> is the team's net points with that player on the floor in clutch time - a small sample, so read it alongside minutes.
           </div>
         </>
       )}

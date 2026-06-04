@@ -138,7 +138,7 @@ export default function LiveScores() {
           {games.length === 0 && (
             <div className="no-games">
               <div className="no-games-title">No Games Today</div>
-              <div className="no-games-sub">Check back on a game day — scores update automatically when games are live.</div>
+              <div className="no-games-sub">Check back on a game day - scores update automatically when games are live.</div>
             </div>
           )}
         </>
