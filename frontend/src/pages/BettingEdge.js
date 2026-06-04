@@ -6,44 +6,44 @@ const API = "http://127.0.0.1:8000";
 
 const css = `
   .be-head { margin-bottom: 28px; }
-  .be-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+  .be-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; }
   .be-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
   .section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
-  .be-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:28px; }
+  .be-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:28px; }
   .be-form { display:grid; grid-template-columns:1fr 1fr auto; gap:14px; align-items:end; }
   .be-field label { display:block; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-  .be-select, .be-odds { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; color:var(--text);
-    font-family:'Barlow',sans-serif; font-size:14px; padding:10px 12px; outline:none; }
+  .be-select, .be-odds { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text);
+    font-family:var(--body); font-size:14px; padding:10px 12px; outline:none; }
   .be-select:focus, .be-odds:focus { border-color:var(--red); }
   .be-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .be-btn { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; font-weight:700;
-    padding:11px 22px; border-radius:2px; border:none; background:var(--red); color:#fff; cursor:pointer; white-space:nowrap; }
+  .be-btn { font-family:var(--display); font-size:13px; letter-spacing:2px; text-transform:uppercase; font-weight:700;
+    padding:11px 22px; border-radius:8px; border:none; background:var(--red); color:#fff; cursor:pointer; white-space:nowrap; }
   .be-btn:hover { background:var(--dark-red); }
   .result-grid { display:grid; grid-template-columns:1fr auto 1fr; gap:16px; align-items:stretch; margin-top:8px; }
-  .team-panel { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:18px; text-align:center; position:relative; }
+  .team-panel { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:18px; text-align:center; position:relative; }
   .team-panel.value { border-color:var(--green); box-shadow:0 0 0 1px var(--green) inset; }
-  .tp-abbr { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; }
+  .tp-abbr { font-family:var(--display); font-size:30px; font-weight:600; }
   .tp-elo { font-size:10px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; margin-top:2px; }
   .tp-line { display:flex; justify-content:space-between; font-size:12px; padding:5px 0; border-bottom:1px solid var(--border); }
   .tp-line:last-child { border-bottom:none; }
   .tp-line .k { color:var(--muted); }
-  .tp-line .v { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; }
-  .edge-big { font-family:'Barlow Condensed',sans-serif; font-size:34px; font-weight:900; line-height:1; margin:10px 0 2px; }
+  .tp-line .v { font-family:var(--display); font-size:15px; font-weight:700; }
+  .edge-big { font-family:var(--display); font-size:34px; font-weight:600; line-height:1; margin:10px 0 2px; }
   .value-badge { position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--green); color:#000;
-    font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:700; padding:3px 10px; border-radius:2px; white-space:nowrap; }
+    font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:700; padding:3px 10px; border-radius:8px; white-space:nowrap; }
   .vs-mid { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
-  .vs-mid .vs { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; color:var(--border); }
+  .vs-mid .vs { font-family:var(--display); font-size:22px; font-weight:700; color:var(--border); }
   .vig { font-size:10px; color:var(--muted); letter-spacing:1px; text-align:center; }
   .pos { color:var(--green); } .neg { color:var(--muted); }
-  .game-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:16px 18px; margin-bottom:10px; }
+  .game-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:10px; }
   .game-card.value { border-left:3px solid var(--green); }
   .game-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-  .game-match { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; }
+  .game-match { font-family:var(--display); font-size:18px; font-weight:700; }
   .game-time { font-size:11px; color:var(--muted); }
-  .edge-tag { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; padding:4px 10px; border-radius:2px; font-weight:700; }
-  .setup-card { background:var(--surface); border:1px dashed var(--border); border-radius:4px; padding:24px; }
+  .edge-tag { font-family:var(--display); font-size:13px; letter-spacing:1px; text-transform:uppercase; padding:4px 10px; border-radius:8px; font-weight:700; }
+  .setup-card { background:var(--surface); border:1px dashed var(--border); border-radius:10px; padding:24px; }
   .setup-card code { background:var(--surface2); padding:2px 7px; border-radius:3px; color:var(--gold); font-size:12px; }
   .setup-step { font-size:13px; color:var(--muted); margin:8px 0; line-height:1.5; }
   .loading { display:flex; align-items:center; justify-content:center; height:120px; color:var(--muted); font-size:12px; letter-spacing:2px; text-transform:uppercase; }

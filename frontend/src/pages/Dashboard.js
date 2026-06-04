@@ -7,65 +7,71 @@ import { seasonLabel } from "../season";
 const API = "http://127.0.0.1:8000";
 
 const css = `
-  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 36px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; position: relative; overflow: hidden; }
-  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red); }
-  .stat-card.gold::before { background: var(--gold); }
-  .stat-card.green::before { background: var(--green); }
-  .stat-card-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .stat-card-value { font-family: 'Barlow Condensed', sans-serif; font-size: 42px; font-weight: 700; line-height: 1; }
-  .stat-card-value.red { color: var(--red); }
-  .stat-card-value.gold { color: var(--gold); }
-  .stat-card-value.green { color: var(--green); }
-  .stat-card-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+  .dash-head { margin-bottom: 44px; }
+  .dash-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+  .dash-title { font-family: var(--display); font-size: 40px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.05; }
+  .dash-title span { color: var(--accent); }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 56px; }
+  .stat-card { background: var(--surface); padding: 22px 20px; }
+  .stat-card-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .stat-card-value { font-family: var(--display); font-size: 38px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+  .stat-card-value.red { color: var(--accent); }
+  .stat-card-value.green { color: var(--pos); }
+  .stat-card-value.gold { color: var(--text); }
+  .stat-card-sub { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+  .section-title { font-family: var(--display); font-size: 16px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; }
   .section-line { flex: 1; height: 1px; background: var(--border); }
-  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 24px; margin-bottom: 36px; }
-  .leaders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 36px; }
-  .leader-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 16px; }
-  .leader-card-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-  .leader-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 56px; }
+  .leaders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 56px; }
+  .leader-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .leader-card-title { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  .leader-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .leader-row:last-child { border-bottom: none; }
-  .leader-rank { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--border); width: 20px; flex-shrink: 0; }
-  .leader-rank.top { color: var(--red); }
-  .leader-name { font-size: 13px; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-  .leader-name:hover { color: var(--red); }
-  .leader-avg { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--gold); }
-  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 36px; }
+  .leader-rank { font-family: var(--display); font-size: 15px; font-weight: 500; color: var(--faint); width: 18px; flex-shrink: 0; }
+  .leader-rank.top { color: var(--accent); }
+  .leader-name { font-size: 13px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .leader-name:hover { color: var(--accent); }
+  .leader-avg { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--text); }
+
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 56px; }
   .players-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .players-table th { background: var(--surface2); padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+  .players-table th { padding: 13px 16px; text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
   .players-table th.num { text-align: right; }
-  .players-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); }
-  .players-table td.num { text-align: right; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; }
+  .players-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); }
+  .players-table td.num { text-align: right; font-family: var(--display); font-size: 15px; font-weight: 500; }
   .players-table tr:last-child td { border-bottom: none; }
-  .players-table tr:hover td { background: var(--surface2); cursor: pointer; }
+  .players-table tbody tr { transition: background 0.12s; }
+  .players-table tbody tr:hover td { background: var(--surface2); cursor: pointer; }
   .player-name { font-weight: 500; }
-  .player-pos { display: inline-block; font-size: 10px; letter-spacing: 1px; color: var(--muted); background: var(--surface2); padding: 2px 6px; border-radius: 2px; margin-left: 6px; }
-  .jersey { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--muted); }
-  .highlight { color: var(--red); }
-  .highlight-gold { color: var(--gold); }
-  .games-list { margin-bottom: 36px; }
-  .game-row { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 6px; font-size: 13px; }
-  .game-outcome { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; width: 24px; flex-shrink: 0; }
-  .game-outcome.W { color: var(--green); }
-  .game-outcome.L { color: var(--red); }
+  .player-pos { display: inline-block; font-size: 10px; letter-spacing: 0.05em; color: var(--muted); background: var(--surface2); padding: 2px 7px; border-radius: 10px; margin-left: 8px; }
+  .jersey { font-family: var(--display); font-size: 15px; font-weight: 500; color: var(--faint); }
+  .highlight { color: var(--accent); }
+  .highlight-gold { color: var(--text); }
+
+  .games-list { margin-bottom: 24px; }
+  .game-row { display: flex; align-items: center; gap: 16px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; font-size: 13px; transition: border-color 0.15s; }
+  .game-row:hover { border-color: var(--border-strong); }
+  .game-outcome { font-family: var(--display); font-size: 17px; font-weight: 600; width: 22px; flex-shrink: 0; }
+  .game-outcome.W { color: var(--pos); }
+  .game-outcome.L { color: var(--neg); }
   .game-matchup { flex: 1; font-weight: 500; }
   .game-date { color: var(--muted); font-size: 12px; }
-  .game-score { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; }
-  .game-ha { font-size: 10px; letter-spacing: 1px; color: var(--muted); width: 20px; text-align: center; }
-  .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
-  .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 4px 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 1px; }
-  .streak-badge.W { border-color: var(--green); color: var(--green); }
-  .streak-badge.L { border-color: var(--red); color: var(--red); }
+  .game-score { font-family: var(--display); font-size: 16px; font-weight: 500; }
+  .game-ha { font-size: 11px; letter-spacing: 0.05em; color: var(--faint); width: 22px; text-align: center; }
+  .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 13px; letter-spacing: 0.04em; }
 `;
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div style={{ background: "#1a1a1a", border: "1px solid #222", padding: "10px 14px", borderRadius: 4, fontSize: 13 }}>
-        <div style={{ color: "#666", fontSize: 11, marginBottom: 4 }}>Game {label}</div>
-        <div style={{ color: "#CE1141", fontFamily: "'Barlow Condensed',sans-serif", fontSize: 22, fontWeight: 700 }}>{payload[0].value} PTS</div>
+      <div style={{ background: "var(--surface)", border: "1px solid var(--border)", padding: "10px 14px", borderRadius: 8, fontSize: 13 }}>
+        <div style={{ color: "var(--muted)", fontSize: 11, marginBottom: 4 }}>Game {label}</div>
+        <div style={{ color: "var(--accent)", fontFamily: "var(--display)", fontSize: 22, fontWeight: 600 }}>{payload[0].value} PTS</div>
       </div>
     );
   }
@@ -104,21 +110,16 @@ export default function Dashboard() {
     <div className="page">
       <style>{css}</style>
 
-      {/* Page header */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: 36, fontWeight: 900, letterSpacing: 2, textTransform: "uppercase" }}>
-          {seasonLabel()} Season <span style={{ color: "var(--red)" }}>Overview</span>
-        </div>
-        <div style={{ color: "var(--muted)", fontSize: 12, letterSpacing: 3, textTransform: "uppercase", marginTop: 4 }}>
-          Regular Season · Houston Rockets
-        </div>
+      <div className="dash-head">
+        <div className="dash-eyebrow">Houston Rockets · Regular Season</div>
+        <div className="dash-title">{seasonLabel()} Season <span>Overview</span></div>
       </div>
 
       {loading ? <div className="loading">Loading Rockets data...</div> : (
         <>
           {summary && (
             <div className="summary-grid">
-              <div className="stat-card green">
+              <div className="stat-card">
                 <div className="stat-card-label">Wins</div>
                 <div className="stat-card-value green">{summary.wins}</div>
                 <div className="stat-card-sub">Home: {summary.home_wins} · Away: {summary.away_wins}</div>
@@ -128,7 +129,7 @@ export default function Dashboard() {
                 <div className="stat-card-value red">{summary.losses}</div>
                 <div className="stat-card-sub">Home: {summary.home_losses} · Away: {summary.away_losses}</div>
               </div>
-              <div className="stat-card gold">
+              <div className="stat-card">
                 <div className="stat-card-label">Win %</div>
                 <div className="stat-card-value gold">{winPct}%</div>
                 <div className="stat-card-sub">{summary.games_played} games played</div>
@@ -144,7 +145,7 @@ export default function Dashboard() {
                 <div className="stat-card-sub">Opponent avg</div>
               </div>
               {streak && (
-                <div className={`stat-card ${streak.type === "W" ? "green" : ""}`}>
+                <div className="stat-card">
                   <div className="stat-card-label">Current Streak</div>
                   <div className={`stat-card-value ${streak.type === "W" ? "green" : "red"}`}>{streak.type}{streak.count}</div>
                   <div className="stat-card-sub">{streak.type === "W" ? "Win" : "Loss"} streak</div>
@@ -154,17 +155,17 @@ export default function Dashboard() {
           )}
 
           <div className="section-header">
-            <div className="section-title">Points Per Game - Last 20 Games</div>
+            <div className="section-title">Points Per Game, Last 20 Games</div>
             <div className="section-line" />
           </div>
           <div className="chart-card">
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f1f1f" />
-                <XAxis dataKey="game" tick={{ fill: "#555", fontSize: 11 }} axisLine={{ stroke: "#222" }} tickLine={false} />
-                <YAxis tick={{ fill: "#555", fontSize: 11 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f2024" />
+                <XAxis dataKey="game" tick={{ fill: "#8b8c92", fontSize: 11 }} axisLine={{ stroke: "#26272b" }} tickLine={false} />
+                <YAxis tick={{ fill: "#8b8c92", fontSize: 11 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
                 <Tooltip content={<CustomTooltip />} />
-                <Line type="monotone" dataKey="pts" stroke="#CE1141" strokeWidth={2} dot={{ fill: "#CE1141", r: 3, strokeWidth: 0 }} activeDot={{ r: 5 }} />
+                <Line type="monotone" dataKey="pts" stroke="#de3a45" strokeWidth={2} dot={{ fill: "#de3a45", r: 3, strokeWidth: 0 }} activeDot={{ r: 5 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -219,7 +220,7 @@ export default function Dashboard() {
                     <td className="num">{p.avg_stl ?? "-"}</td>
                     <td className="num">{p.avg_blk ?? "-"}</td>
                     <td className="num highlight-gold">{p.avg_fg_pct ? (p.avg_fg_pct * 100).toFixed(1) + "%" : "-"}</td>
-                    <td className="num" style={{ color: p.avg_plus_minus > 0 ? "var(--green)" : p.avg_plus_minus < 0 ? "var(--red)" : "var(--muted)" }}>
+                    <td className="num" style={{ color: p.avg_plus_minus > 0 ? "var(--pos)" : p.avg_plus_minus < 0 ? "var(--neg)" : "var(--muted)" }}>
                       {p.avg_plus_minus != null ? (p.avg_plus_minus > 0 ? "+" : "") + p.avg_plus_minus : "-"}
                     </td>
                   </tr>
@@ -239,7 +240,7 @@ export default function Dashboard() {
                 <div className="game-ha">{g.home_away === "H" ? "vs" : "@"}</div>
                 <div className="game-matchup">{g.matchup}</div>
                 <div className="game-date">{new Date(g.game_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
-                <div className="game-score">{g.pts}{g.opp_pts ? <span style={{ color: "#444" }}> – {g.opp_pts}</span> : ""}</div>
+                <div className="game-score">{g.pts}{g.opp_pts ? <span style={{ color: "var(--faint)" }}> - {g.opp_pts}</span> : ""}</div>
               </div>
             ))}
           </div>

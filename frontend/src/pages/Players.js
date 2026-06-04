@@ -8,49 +8,49 @@ const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .rp-header { margin-bottom: 32px; }
-  .rp-title { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+  .rp-title { font-family: var(--display); font-size: 36px; font-weight: 600; letter-spacing: -0.01em; }
   .rp-sub { color: var(--muted); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
   .rp-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
-  .rp-search { background: var(--surface); border: 1px solid var(--border); border-radius: 2px;
-    padding: 8px 14px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 13px;
+  .rp-search { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px; color: var(--text); font-family: var(--body); font-size: 13px;
     width: 200px; outline: none; }
   .rp-search:focus { border-color: var(--red); }
   .rp-search::placeholder { color: var(--muted); }
   .rp-pos-filters { display: flex; gap: 4px; flex-wrap: wrap; }
-  .rp-pos-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1.5px;
+  .rp-pos-btn { font-family: var(--display); font-size: 11px; letter-spacing: 1.5px;
     text-transform: uppercase; padding: 6px 12px; border: 1px solid var(--border);
-    background: transparent; color: var(--muted); cursor: pointer; border-radius: 2px; transition: all 0.15s; }
+    background: transparent; color: var(--muted); cursor: pointer; border-radius: 8px; transition: all 0.15s; }
   .rp-pos-btn:hover { border-color: var(--text); color: var(--text); }
   .rp-pos-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
-  .rp-sort { background: var(--surface); border: 1px solid var(--border); border-radius: 2px;
-    padding: 6px 12px; color: var(--text); font-family: 'Barlow Condensed', sans-serif;
+  .rp-sort { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 12px; color: var(--text); font-family: var(--display);
     font-size: 12px; letter-spacing: 1px; outline: none; cursor: pointer; margin-left: auto; }
   .rp-count { font-size: 11px; color: var(--muted); letter-spacing: 1px;
-    font-family: 'Barlow Condensed', sans-serif; border: 1px solid var(--border);
-    padding: 4px 10px; border-radius: 2px; }
+    font-family: var(--display); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 8px; }
   .rp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
-  .pc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+  .pc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
     overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; position: relative; }
   .pc-card:hover { border-color: var(--red); transform: translateY(-3px); }
   .pc-img-wrap { background: linear-gradient(180deg, #1a1a1a 0%, #111 100%);
     height: 120px; display: flex; align-items: flex-end; justify-content: center;
     overflow: hidden; position: relative; }
   .pc-headshot { width: 100%; height: 120px; object-fit: cover; object-position: top center; }
-  .pc-no-img { font-family: 'Barlow Condensed', sans-serif; font-size: 56px; font-weight: 900;
+  .pc-no-img { font-family: var(--display); font-size: 56px; font-weight: 600;
     color: var(--border); padding-bottom: 4px; line-height: 1; }
-  .pc-jersey-badge { position: absolute; top: 8px; left: 8px; font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px; font-weight: 900; background: var(--red); color: #fff;
-    padding: 1px 7px; border-radius: 2px; letter-spacing: 1px; }
+  .pc-jersey-badge { position: absolute; top: 8px; left: 8px; font-family: var(--display);
+    font-size: 13px; font-weight: 600; background: var(--red); color: #fff;
+    padding: 1px 7px; border-radius: 8px; letter-spacing: 1px; }
   .pc-body { padding: 12px 14px 14px; }
-  .pc-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700;
+  .pc-name { font-family: var(--display); font-size: 18px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
     overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
   .pc-pos { display: inline-block; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
     color: var(--muted); border: 1px solid var(--border); padding: 2px 7px;
-    border-radius: 2px; margin: 5px 0 10px; }
+    border-radius: 8px; margin: 5px 0 10px; }
   .pc-stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); padding-top: 10px; }
   .pc-stat { text-align: center; }
-  .pc-stat-val { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; line-height: 1; }
+  .pc-stat-val { font-family: var(--display); font-size: 20px; font-weight: 700; line-height: 1; }
   .pc-stat-val.red { color: var(--red); }
   .pc-stat-val.gold { color: var(--gold); }
   .pc-stat-val.green { color: var(--green); }
@@ -108,7 +108,7 @@ function PlayerCard({ player: p, ovr, onClick }) {
             background:"rgba(0,0,0,0.75)", border:"1px solid rgba(255,255,255,0.1)",
             borderRadius:3, padding:"2px 7px", textAlign:"center", lineHeight:1,
           }}>
-            <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:900,color:getOvrColor(ovr)}}>{ovr}</div>
+            <div style={{fontFamily:"var(--display)",fontSize:22,fontWeight:600,color:getOvrColor(ovr)}}>{ovr}</div>
             <div style={{fontSize:7,letterSpacing:1.5,textTransform:"uppercase",color:"var(--muted)",marginTop:1}}>OVR</div>
           </div>
         )}

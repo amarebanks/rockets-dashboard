@@ -7,36 +7,33 @@ const API = "http://127.0.0.1:8000";
 
 const css = `
   .ts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:36px; }
-  .ts-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:18px; position:relative; overflow:hidden; }
-  .ts-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--red); }
-  .ts-card.gold::before { background:var(--gold); }
-  .ts-card.green::before { background:var(--green); }
+  .ts-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; position:relative; overflow:hidden; }
   .ts-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-  .ts-value { font-family:'Barlow Condensed',sans-serif; font-size:38px; font-weight:700; line-height:1; }
+  .ts-value { font-family:var(--display); font-size:38px; font-weight:700; line-height:1; }
   .ts-value.red { color:var(--red); }
   .ts-value.gold { color:var(--gold); }
   .ts-value.green { color:var(--green); }
   .ts-sub { font-size:11px; color:var(--muted); margin-top:3px; }
   .section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
-  .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:24px; }
+  .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:24px; }
   .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:36px; }
   .zone-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
   .zone-row:last-child { border-bottom:none; }
   .zone-name { font-size:12px; flex:1; }
   .zone-bar-wrap { width:100px; height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
   .zone-bar { height:100%; border-radius:3px; }
-  .zone-pct { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; width:44px; text-align:right; }
+  .zone-pct { font-family:var(--display); font-size:18px; font-weight:700; width:44px; text-align:right; }
   .zone-att { font-size:11px; color:var(--muted); width:40px; text-align:right; }
   .splits-rings { display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:12px; padding:8px 0 4px; }
   .ring-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; }
   .ring-svg { transform:rotate(-90deg); }
-  .ring-center { font-family:'Barlow Condensed',sans-serif; font-weight:700; }
+  .ring-center { font-family:var(--display); font-weight:700; }
   .ring-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
   .splits-foot { display:flex; justify-content:space-around; border-top:1px solid var(--border); margin-top:14px; padding-top:14px; }
   .splits-foot-item { text-align:center; }
-  .splits-foot-val { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:700; line-height:1; }
+  .splits-foot-val { font-family:var(--display); font-size:26px; font-weight:700; line-height:1; }
   .splits-foot-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:4px; }
   .sc-table { width:100%; border-collapse:collapse; font-size:13px; }
   .sc-table th { padding:9px 12px; text-align:left; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:500; border-bottom:1px solid var(--border); }
@@ -44,17 +41,17 @@ const css = `
   .sc-table td { padding:11px 12px; border-bottom:1px solid var(--border); }
   .sc-table tr:last-child td { border-bottom:none; }
   .sc-cat { font-weight:600; }
-  .sc-num { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; }
+  .sc-num { font-family:var(--display); font-size:18px; font-weight:700; }
   .sc-freq { font-size:11px; color:var(--muted); }
-  .sc-delta { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; }
+  .sc-delta { font-family:var(--display); font-size:16px; font-weight:700; }
   .sc-legend { display:flex; gap:16px; justify-content:flex-end; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
-  .sc-legend-dot { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+  .sc-legend-dot { display:inline-block; width:9px; height:9px; border-radius:8px; margin-right:5px; vertical-align:middle; }
   .toggle-wrap { display:flex; gap:8px; margin-bottom:28px; }
-  .toggle-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase;
-    padding:7px 18px; border-radius:2px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; }
+  .toggle-btn { font-family:var(--display); font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    padding:7px 18px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; }
   .toggle-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
   .loading { display:flex; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; letter-spacing:2px; text-transform:uppercase; }
-  .page-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+  .page-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; margin-bottom:4px; }
   .page-title span { color:var(--red); }
   .page-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-bottom:24px; }
 `;
@@ -293,7 +290,7 @@ export default function TeamStats() {
             <div className="ts-card">
               <div className="ts-label">Avg PTS For</div>
               <div className="ts-value red">{data.game_stats.avg_pts}</div>
-              {rankings.pts && <div style={{marginTop:4,fontFamily:"'Barlow Condensed',sans-serif",fontSize:16,fontWeight:700,color:rankColor(rankings.pts)}}>#{rankings.pts} <span style={{fontSize:9,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",fontFamily:"'Barlow',sans-serif",fontWeight:400}}>in NBA</span></div>}
+              {rankings.pts && <div style={{marginTop:4,fontFamily:"var(--display)",fontSize:16,fontWeight:700,color:rankColor(rankings.pts)}}>#{rankings.pts} <span style={{fontSize:9,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",fontFamily:"var(--body)",fontWeight:400}}>in NBA</span></div>}
             </div>
             <div className="ts-card">
               <div className="ts-label">Avg PTS Against</div>
@@ -339,7 +336,7 @@ export default function TeamStats() {
                 <div className={`ts-value ${cls}`}>{value ?? "-"}</div>
                 {rk && (
                   <div style={{marginTop:6,display:"flex",alignItems:"center",gap:6}}>
-                    <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:700,color:rankColor(rk)}}>#{rk}</span>
+                    <span style={{fontFamily:"var(--display)",fontSize:18,fontWeight:700,color:rankColor(rk)}}>#{rk}</span>
                     <span style={{fontSize:9,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase"}}>in NBA</span>
                   </div>
                 )}
@@ -371,7 +368,7 @@ export default function TeamStats() {
                   <div className="section-header">
                     <div className="section-title">Shot Zones</div>
                     <div className="section-line" />
-                    <button onClick={exportCSV} style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:10, letterSpacing:2, textTransform:"uppercase", background:"transparent", border:"1px solid var(--border)", color:"var(--muted)", padding:"4px 10px", borderRadius:2, cursor:"pointer", whiteSpace:"nowrap" }}>
+                    <button onClick={exportCSV} style={{ fontFamily:"var(--display)", fontSize:10, letterSpacing:2, textTransform:"uppercase", background:"transparent", border:"1px solid var(--border)", color:"var(--muted)", padding:"4px 10px", borderRadius:2, cursor:"pointer", whiteSpace:"nowrap" }}>
                       ↓ CSV
                     </button>
                   </div>

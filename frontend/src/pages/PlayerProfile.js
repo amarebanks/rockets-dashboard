@@ -12,56 +12,56 @@ const headshot = (id) => `${API}/headshot/${id}`;
 
 const css = `
   .profile-header { display:flex; align-items:flex-start; gap:28px; margin-bottom:36px; padding-bottom:32px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
-  .profile-headshot { width:120px; height:90px; object-fit:cover; object-position:top; border-radius:4px; background:var(--surface2); border:1px solid var(--border); flex-shrink:0; }
-  .profile-number { font-family:'Barlow Condensed',sans-serif; font-size:100px; font-weight:900; line-height:1; color:var(--surface2); letter-spacing:-4px; flex-shrink:0; }
+  .profile-headshot { width:120px; height:90px; object-fit:cover; object-position:top; border-radius:10px; background:var(--surface2); border:1px solid var(--border); flex-shrink:0; }
+  .profile-number { font-family:var(--display); font-size:100px; font-weight:600; line-height:1; color:var(--surface2); letter-spacing:-4px; flex-shrink:0; }
   .profile-info { flex:1; }
-  .profile-name { font-family:'Barlow Condensed',sans-serif; font-size:44px; font-weight:900; letter-spacing:1px; text-transform:uppercase; line-height:1; }
+  .profile-name { font-family:var(--display); font-size:44px; font-weight:600; letter-spacing: -0.01em; line-height:1; }
   .profile-meta { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-  .profile-tag { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border:1px solid var(--border); padding:4px 10px; border-radius:2px; }
+  .profile-tag { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border:1px solid var(--border); padding:4px 10px; border-radius:8px; }
   .profile-tag.red { border-color:var(--red); color:var(--red); }
   .profile-accolades { display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; }
   ${accoladeCSS}
   .toggle-wrap { display:flex; gap:8px; margin-bottom:24px; }
-  .toggle-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase;
-    padding:7px 18px; border-radius:2px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; }
+  .toggle-btn { font-family:var(--display); font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    padding:7px 18px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; }
   .toggle-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
   .avgs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-bottom:36px; }
-  .avg-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:14px; text-align:center; }
+  .avg-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; text-align:center; }
   .avg-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-  .avg-value { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:700; }
+  .avg-value { font-family:var(--display); font-size:32px; font-weight:700; }
   .avg-value.red { color:var(--red); }
   .avg-value.gold { color:var(--gold); }
   .avg-value.green { color:var(--green); }
   .avg-career { font-size:10px; color:var(--muted); margin-top:2px; }
-  .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:36px; }
+  .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:36px; }
   .section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
-  .gl-table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:36px; max-height:400px; overflow-y:auto; }
+  .gl-table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:36px; max-height:400px; overflow-y:auto; }
   .gl-table { width:100%; border-collapse:collapse; font-size:13px; }
   .gl-table th { background:var(--surface2); padding:9px 14px; text-align:right; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:1; }
   .gl-table th:first-child,.gl-table th:nth-child(2) { text-align:left; }
-  .gl-table td { padding:9px 14px; border-bottom:1px solid var(--border); text-align:right; font-family:'Barlow Condensed',sans-serif; font-size:15px; }
-  .gl-table td:first-child,.gl-table td:nth-child(2) { text-align:left; font-family:'Barlow',sans-serif; font-size:12px; }
+  .gl-table td { padding:9px 14px; border-bottom:1px solid var(--border); text-align:right; font-family:var(--display); font-size:15px; }
+  .gl-table td:first-child,.gl-table td:nth-child(2) { text-align:left; font-family:var(--body); font-size:12px; }
   .gl-table tr:last-child td { border-bottom:none; }
   .gl-table tr:hover td { background:var(--surface2); }
-  .back-btn { display:inline-flex; align-items:center; gap:8px; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); background:none; border:1px solid var(--border); padding:7px 14px; border-radius:2px; cursor:pointer; margin-bottom:28px; }
+  .back-btn { display:inline-flex; align-items:center; gap:8px; font-family:var(--display); font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); background:none; border:1px solid var(--border); padding:7px 14px; border-radius:8px; cursor:pointer; margin-bottom:28px; }
   .back-btn:hover { border-color:var(--text); color:var(--text); }
   .loading { display:flex; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; letter-spacing:2px; text-transform:uppercase; }
   .last5-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:36px; }
-  .last5-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:12px; text-align:center; }
-  .last5-outcome { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; }
+  .last5-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center; }
+  .last5-outcome { font-family:var(--display); font-size:22px; font-weight:600; }
   .last5-outcome.W { color:var(--green); }
   .last5-outcome.L { color:var(--red); }
-  .last5-pts { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:700; color:var(--red); }
+  .last5-pts { font-family:var(--display); font-size:28px; font-weight:700; color:var(--red); }
   .last5-sub { font-size:11px; color:var(--muted); margin-top:4px; }
-  .export-btn { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; background:transparent; border:1px solid var(--border); color:var(--muted); padding:4px 10px; border-radius:2px; cursor:pointer; margin-left:auto; }
+  .export-btn { font-family:var(--display); font-size:10px; letter-spacing:2px; text-transform:uppercase; background:transparent; border:1px solid var(--border); color:var(--muted); padding:4px 10px; border-radius:8px; cursor:pointer; margin-left:auto; }
   .export-btn:hover { border-color:var(--text); color:var(--text); }
   .cmp-table { width:100%; border-collapse:collapse; font-size:13px; }
   .cmp-table th { background:var(--surface2); padding:8px 14px; text-align:center; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); font-weight:500; }
   .cmp-table th:first-child { text-align:left; }
-  .cmp-table td { padding:9px 14px; border-bottom:1px solid var(--border); text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:600; }
-  .cmp-table td:first-child { text-align:left; font-family:'Barlow',sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:400; }
+  .cmp-table td { padding:9px 14px; border-bottom:1px solid var(--border); text-align:center; font-family:var(--display); font-size:18px; font-weight:600; }
+  .cmp-table td:first-child { text-align:left; font-family:var(--body); font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:400; }
   .cmp-table tr:last-child td { border-bottom:none; }
   .cmp-table tr:hover td { background:var(--surface2); }
 `;
@@ -72,7 +72,7 @@ const ChartTooltip = ({ active, payload, label }) => {
       <div style={{ background:"#1a1a1a", border:"1px solid #222", padding:"10px 14px", borderRadius:4, fontSize:12 }}>
         <div style={{ color:"#666", marginBottom:4 }}>Game {label}</div>
         {payload.map((p, i) => (
-          <div key={i} style={{ color:p.color, fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>
+          <div key={i} style={{ color:p.color, fontFamily:"var(--display)", fontSize:18, fontWeight:700 }}>
             {p.value} {p.name.toUpperCase()}
           </div>
         ))}
@@ -237,7 +237,7 @@ export default function PlayerProfile() {
               <div className={`avg-value ${cls}`}>{value??"|-"}</div>
               {sub && <div className="avg-career">{sub}</div>}
               {rank && (
-                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",marginTop:3,fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,color:rankColor}}>
+                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",marginTop:3,fontFamily:"var(--display)",fontWeight:700,color:rankColor}}>
                   #{rank} league
                 </div>
               )}
@@ -379,7 +379,7 @@ export default function PlayerProfile() {
           <div className="section-header">
             <div className="section-title">Regular Season vs Playoffs</div>
             <div className="section-line" />
-            <span style={{fontSize:10,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",flexShrink:0,fontFamily:"'Barlow Condensed',sans-serif"}}>
+            <span style={{fontSize:10,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase",flexShrink:0,fontFamily:"var(--display)"}}>
               {comparison.rs?.games_played ?? 0} RS GP &middot; {hasPoData ? comparison.po.games_played : "0"} PO GP
             </span>
           </div>
@@ -437,7 +437,7 @@ export default function PlayerProfile() {
             {[{label:"Points",value:averages.max_pts},{label:"Rebounds",value:averages.max_reb},{label:"Assists",value:averages.max_ast}].map(({label,value}) => (
               <div key={label} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 0",borderBottom:"1px solid var(--border)"}}>
                 <span style={{fontSize:11,color:"var(--muted)",letterSpacing:1,textTransform:"uppercase"}}>{label}</span>
-                <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:36,fontWeight:700,color:"var(--red)"}}>{value}</span>
+                <span style={{fontFamily:"var(--display)",fontSize:36,fontWeight:700,color:"var(--red)"}}>{value}</span>
               </div>
             ))}
           </div>
@@ -464,7 +464,7 @@ export default function PlayerProfile() {
               <tr key={i}>
                 <td>{g.game_date?new Date(g.game_date).toLocaleDateString("en-US",{month:"short",day:"numeric"}):"-"}</td>
                 <td>{g.matchup||"-"}</td>
-                <td style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:18,fontWeight:900,color:g.outcome==="W"?"var(--green)":"var(--red)",textAlign:"right"}}>{g.outcome}</td>
+                <td style={{fontFamily:"var(--display)",fontSize:18,fontWeight:600,color:g.outcome==="W"?"var(--green)":"var(--red)",textAlign:"right"}}>{g.outcome}</td>
                 <td>{g.min}</td>
                 <td style={{color:"var(--red)"}}>{g.pts}</td>
                 <td>{g.reb}</td><td>{g.ast}</td><td>{g.stl}</td><td>{g.blk}</td>

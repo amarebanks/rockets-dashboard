@@ -5,9 +5,8 @@ const API = "http://127.0.0.1:8000";
 
 const css = `
   .live-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-bottom:36px; }
-  .live-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:20px; position:relative; overflow:hidden; }
+  .live-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; position:relative; overflow:hidden; }
   .live-card.rockets { border-color:var(--red); }
-  .live-card.rockets::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--red); }
   .live-status { font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
   .live-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.5s infinite; flex-shrink:0; }
   .live-dot.final { background:var(--muted); animation:none; }
@@ -15,20 +14,20 @@ const css = `
   .live-team { flex:1; }
   .live-team.away { text-align:left; }
   .live-team.home { text-align:right; }
-  .team-code { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:900; letter-spacing:1px; }
+  .team-code { font-family:var(--display); font-size:32px; font-weight:600; letter-spacing: -0.01em; }
   .team-code.rockets-team { color:var(--red); }
-  .team-score { font-family:'Barlow Condensed',sans-serif; font-size:48px; font-weight:900; line-height:1; }
+  .team-score { font-family:var(--display); font-size:48px; font-weight:600; line-height:1; }
   .team-score.winning { color:var(--green); }
   .vs-divider { color:var(--muted); font-size:12px; letter-spacing:1px; text-align:center; }
   .score-group { display:flex; gap:16px; align-items:center; justify-content:center; }
-  .no-games { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:60px; text-align:center; color:var(--muted); }
-  .no-games-title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+  .no-games { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:60px; text-align:center; color:var(--muted); }
+  .no-games-title { font-family:var(--display); font-size:24px; font-weight:700; letter-spacing: -0.01em; margin-bottom:8px; }
   .no-games-sub { font-size:13px; }
-  .refresh-btn { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase;
-    padding:8px 20px; background:transparent; border:1px solid var(--border); border-radius:2px; color:var(--muted); cursor:pointer; margin-bottom:24px; }
+  .refresh-btn { font-family:var(--display); font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    padding:8px 20px; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--muted); cursor:pointer; margin-bottom:24px; }
   .refresh-btn:hover { border-color:var(--text); color:var(--text); }
   .last-refresh { font-size:11px; color:var(--muted); margin-left:12px; letter-spacing:1px; }
-  .page-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+  .page-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; margin-bottom:4px; }
   .page-title span { color:var(--red); }
   .page-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-bottom:32px; }
   .loading { display:flex; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; letter-spacing:2px; text-transform:uppercase; }
@@ -110,7 +109,7 @@ export default function LiveScores() {
           {rocketsGames.length > 0 && (
             <>
               <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, letterSpacing:2, textTransform:"uppercase" }}>
+                <div style={{ fontFamily:"var(--display)", fontSize:20, fontWeight:700, letterSpacing:2, textTransform:"uppercase" }}>
                   <span style={{ color:"var(--red)" }}>Rockets</span> Game
                 </div>
                 <div style={{ flex:1, height:1, background:"var(--border)" }} />
@@ -124,7 +123,7 @@ export default function LiveScores() {
           {otherGames.length > 0 && (
             <>
               <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-                <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700, letterSpacing:2, textTransform:"uppercase" }}>
+                <div style={{ fontFamily:"var(--display)", fontSize:20, fontWeight:700, letterSpacing:2, textTransform:"uppercase" }}>
                   Around the League
                 </div>
                 <div style={{ flex:1, height:1, background:"var(--border)" }} />

@@ -11,7 +11,7 @@ export function accTier(a) {
 
 // Shared CSS for accolade badges (injected by pages that render them).
 export const accoladeCSS = `
-  .acc-badge { font-size:9px; letter-spacing:0.5px; text-transform:uppercase; padding:3px 8px; border-radius:2px; font-weight:700; white-space:nowrap; }
+  .acc-badge { font-size:9px; letter-spacing:0.5px; text-transform:uppercase; padding:3px 8px; border-radius:8px; font-weight:700; white-space:nowrap; }
   .acc-badge.tier-award  { background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; }
   .acc-badge.tier-first  { background:var(--gold); color:#000; }
   .acc-badge.tier-second { background:#c0c5ce; color:#000; }

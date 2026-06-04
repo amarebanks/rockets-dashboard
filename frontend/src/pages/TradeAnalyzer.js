@@ -67,54 +67,54 @@ const HISTORICAL_TRADES = [
 
 const css = `
   .ta-layout { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
-  .ta-side { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:20px; }
+  .ta-side { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; }
   .ta-side.A { border-top:3px solid var(--red); }
   .ta-side.B { border-top:3px solid #4a9eff; }
-  .ta-side-title { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+  .ta-side-title { font-family:var(--display); font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
   .ta-side-title.A { color:var(--red); }
   .ta-side-title.B { color:#4a9eff; }
-  .search-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:9px 12px; color:var(--text); font-family:'Barlow',sans-serif; font-size:13px; outline:none; margin-bottom:6px; }
+  .search-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:9px 12px; color:var(--text); font-family:var(--body); font-size:13px; outline:none; margin-bottom:6px; }
   .search-input:focus { border-color:var(--red); }
-  .search-results { background:var(--surface2); border:1px solid var(--border); border-radius:2px; overflow:hidden; margin-bottom:10px; }
+  .search-results { background:var(--surface2); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:10px; }
   .search-item { padding:9px 12px; cursor:pointer; font-size:13px; border-bottom:1px solid var(--border); }
   .search-item:last-child { border-bottom:none; }
   .search-item:hover { background:var(--surface); color:var(--red); }
-  .pick-select { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:8px 12px; color:var(--text); font-family:'Barlow',sans-serif; font-size:12px; outline:none; margin-bottom:8px; cursor:pointer; }
-  .add-pick-btn { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:6px 14px; border-radius:2px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; width:100%; margin-bottom:16px; }
+  .pick-select { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:8px 12px; color:var(--text); font-family:var(--body); font-size:12px; outline:none; margin-bottom:8px; cursor:pointer; }
+  .add-pick-btn { font-family:var(--display); font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:6px 14px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; width:100%; margin-bottom:16px; }
   .add-pick-btn:hover { border-color:var(--text); color:var(--text); }
-  .player-card { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:14px; margin-bottom:8px; position:relative; }
+  .player-card { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:8px; position:relative; }
   .player-card-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; }
   .player-card-name { font-weight:600; font-size:14px; }
   .player-card-team { font-size:11px; color:var(--muted); margin-top:2px; }
-  .player-score { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; line-height:1; }
+  .player-score { font-family:var(--display); font-size:36px; font-weight:600; line-height:1; }
   .player-tier { font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
-  .remove-btn { background:none; border:1px solid var(--border); color:var(--muted); width:24px; height:24px; border-radius:2px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .remove-btn { background:none; border:1px solid var(--border); color:var(--muted); width:24px; height:24px; border-radius:8px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .remove-btn:hover { border-color:var(--red); color:var(--red); }
   .breakdown-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:10px; }
-  .breakdown-item { text-align:center; background:var(--surface); border-radius:2px; padding:5px 3px; }
-  .breakdown-val { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; }
+  .breakdown-item { text-align:center; background:var(--surface); border-radius:8px; padding:5px 3px; }
+  .breakdown-val { font-family:var(--display); font-size:15px; font-weight:700; }
   .breakdown-lbl { font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:1px; }
   .score-bar-wrap { height:5px; background:var(--surface); border-radius:3px; overflow:hidden; margin-top:8px; }
   .score-bar { height:100%; border-radius:3px; transition:width 0.3s; }
-  .pick-card { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+  .pick-card { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
   .pick-name { font-size:13px; font-weight:500; }
-  .pick-score { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:700; color:var(--gold); }
+  .pick-score { font-family:var(--display); font-size:26px; font-weight:700; color:var(--gold); }
   .total-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-top:1px solid var(--border); margin-top:8px; }
   .total-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
-  .total-value { font-family:'Barlow Condensed',sans-serif; font-size:32px; font-weight:900; }
-  .fairness-wrap { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:20px 24px; margin-bottom:24px; }
+  .total-value { font-family:var(--display); font-size:32px; font-weight:600; }
+  .fairness-wrap { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px 24px; margin-bottom:24px; }
   .fairness-bar-wrap { height:14px; background:var(--surface2); border-radius:7px; overflow:hidden; margin:12px 0 8px; display:flex; }
   .fairness-bar-a { height:100%; background:var(--red); transition:width 0.4s; }
   .fairness-bar-b { height:100%; background:#4a9eff; transition:width 0.4s; }
   .fairness-labels { display:flex; justify-content:space-between; font-size:12px; }
-  .allstar-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:#000; padding:2px 6px; border-radius:2px; margin-left:6px; vertical-align:middle; }
-  .cornerstone-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; padding:2px 6px; border-radius:2px; margin-left:6px; vertical-align:middle; font-weight:700; }
+  .allstar-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:var(--gold); color:#000; padding:2px 6px; border-radius:8px; margin-left:6px; vertical-align:middle; }
+  .cornerstone-badge { display:inline-block; font-size:9px; letter-spacing:1px; text-transform:uppercase; background:linear-gradient(135deg,#f97316,#fbbf24); color:#000; padding:2px 6px; border-radius:8px; margin-left:6px; vertical-align:middle; font-weight:700; }
   .section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
   .loading-inline { font-size:12px; color:var(--muted); letter-spacing:1px; padding:8px 0; }
-  .empty-side { text-align:center; padding:28px; color:var(--muted); font-size:12px; letter-spacing:1px; border:1px dashed var(--border); border-radius:4px; margin-bottom:8px; }
-  .page-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+  .empty-side { text-align:center; padding:28px; color:var(--muted); font-size:12px; letter-spacing:1px; border:1px dashed var(--border); border-radius:10px; margin-bottom:8px; }
+  .page-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; margin-bottom:4px; }
   .page-title span { color:var(--red); }
   .page-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-bottom:32px; }
   @media (max-width:700px) { .ta-layout { grid-template-columns:1fr; } .breakdown-grid { grid-template-columns:repeat(3,1fr); } }
@@ -255,7 +255,7 @@ function PlayerCard({ item, onRemove }) {
           </div>
           <div className="player-card-team">{playerData.team} · {playerData.position}</div>
           <div style={{ display:"flex", gap:10, marginTop:6, fontSize:12 }}>
-            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:15, fontWeight:700 }}>{playerData.averages?.avg_pts} PTS</span>
+            <span style={{ color:"var(--red)", fontFamily:"var(--display)", fontSize:15, fontWeight:700 }}>{playerData.averages?.avg_pts} PTS</span>
             <span style={{ color:"var(--muted)" }}>{playerData.averages?.avg_reb} REB</span>
             <span style={{ color:"var(--muted)" }}>{playerData.averages?.avg_ast} AST</span>
             <span style={{ color:"var(--muted)" }}>{playerData.averages?.avg_fg_pct ? (playerData.averages.avg_fg_pct*100).toFixed(1)+"% FG" : ""}</span>
@@ -264,11 +264,11 @@ function PlayerCard({ item, onRemove }) {
         <div style={{ textAlign:"right", marginLeft:16, display:"flex", flexDirection:"column", alignItems:"flex-end" }}>
           {/* 2K-style OVR */}
           <div style={{ lineHeight:1, marginBottom:2 }}>
-            <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:52, fontWeight:900, color:getOvrColor(ovr) }}>{ovr}</span>
+            <span style={{ fontFamily:"var(--display)", fontSize:52, fontWeight:600, color:getOvrColor(ovr) }}>{ovr}</span>
           </div>
           <div style={{ fontSize:9, letterSpacing:2, textTransform:"uppercase", color:"var(--muted)", marginBottom:6 }}>OVR</div>
           {/* Trade value underneath */}
-          <div style={{ fontSize:11, color:getScoreColor(tradeValue.score), letterSpacing:1, fontFamily:"'Barlow Condensed',sans-serif", fontWeight:700 }}>
+          <div style={{ fontSize:11, color:getScoreColor(tradeValue.score), letterSpacing:1, fontFamily:"var(--display)", fontWeight:700 }}>
             TV {tradeValue.score} · {tradeValue.tier}
           </div>
           <button className="remove-btn" style={{ marginTop:8 }} onClick={onRemove}>✕</button>
@@ -360,9 +360,9 @@ export default function TradeAnalyzer() {
       {(sideA.length > 0 || sideB.length > 0) && (
         <div className="fairness-wrap">
           <div className="fairness-labels">
-            <span style={{ color:"var(--red)", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team A - {effA.toFixed(1)}</span>
-            {verdict && <span style={{ color:verdict.color, fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:700 }}>{verdict.text}</span>}
-            <span style={{ color:"#4a9eff", fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700 }}>Team B - {effB.toFixed(1)}</span>
+            <span style={{ color:"var(--red)", fontFamily:"var(--display)", fontSize:18, fontWeight:700 }}>Team A - {effA.toFixed(1)}</span>
+            {verdict && <span style={{ color:verdict.color, fontFamily:"var(--display)", fontSize:20, fontWeight:700 }}>{verdict.text}</span>}
+            <span style={{ color:"#4a9eff", fontFamily:"var(--display)", fontSize:18, fontWeight:700 }}>Team B - {effB.toFixed(1)}</span>
           </div>
           <div className="fairness-bar-wrap">
             <div className="fairness-bar-a" style={{ width:`${barA}%` }} />
@@ -413,7 +413,7 @@ export default function TradeAnalyzer() {
         ].map(([tv,ovr,label,color])=>(
           <div key={tv} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"12px 14px" }}>
             <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:4 }}>
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900, color }}>OVR {ovr}</span>
+              <span style={{ fontFamily:"var(--display)", fontSize:22, fontWeight:600, color }}>OVR {ovr}</span>
             </div>
             <div style={{ fontSize:10, color:"var(--muted)", letterSpacing:1.5, textTransform:"uppercase", marginBottom:2 }}>{label}</div>
             <div style={{ fontSize:10, color:"#333", letterSpacing:1 }}>TV {tv}</div>
@@ -429,7 +429,7 @@ export default function TradeAnalyzer() {
         {DRAFT_PICKS.map(p=>(
           <div key={p} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"10px 14px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <span style={{fontSize:12}}>{p}</span>
-            <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:22,fontWeight:700,color:"var(--gold)"}}>{PICK_VALUES[p]}</span>
+            <span style={{fontFamily:"var(--display)",fontSize:22,fontWeight:700,color:"var(--gold)"}}>{PICK_VALUES[p]}</span>
           </div>
         ))}
       </div>
@@ -442,7 +442,7 @@ export default function TradeAnalyzer() {
         {HISTORICAL_TRADES.map((t, i) => (
           <div key={i} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:4, padding:"16px 20px" }}>
             <div style={{ display:"flex", alignItems:"baseline", gap:12, marginBottom:10 }}>
-              <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, fontWeight:700, color:"var(--text)" }}>{t.headline}</span>
+              <span style={{ fontFamily:"var(--display)", fontSize:16, fontWeight:700, color:"var(--text)" }}>{t.headline}</span>
               <span style={{ fontSize:11, color:"var(--muted)", letterSpacing:1 }}>{t.year}</span>
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"1fr auto 1fr", gap:12, alignItems:"start", marginBottom:10 }}>

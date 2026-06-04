@@ -11,30 +11,29 @@ const TEAMS = ["ATL", "BOS", "BKN", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "G
 
 const css = `
   .dc-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
-  .dc-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+  .dc-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; }
   .dc-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
   .dc-teamsel { background:var(--surface2); border:1px solid var(--border); border-radius:3px; padding:9px 14px; color:var(--text);
-    font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:1px; outline:none; cursor:pointer; }
+    font-family:var(--display); font-size:18px; font-weight:700; letter-spacing:1px; outline:none; cursor:pointer; }
   .dc-teamsel:focus { border-color:var(--red); }
   .section-header { display:flex; align-items:center; gap:12px; margin:24px 0 14px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
   .dc-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; }
-  .dc-stat { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:16px 18px; position:relative; overflow:hidden; }
-  .dc-stat::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--red); }
+  .dc-stat { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 18px; position:relative; overflow:hidden; }
   .dc-stat.out::before { background:var(--muted); }
-  .dc-stat-val { font-family:'Barlow Condensed',sans-serif; font-size:38px; font-weight:700; line-height:1; }
+  .dc-stat-val { font-family:var(--display); font-size:38px; font-weight:700; line-height:1; }
   .dc-stat-lbl { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:6px; }
   .year-block { margin-bottom:12px; }
-  .year-num { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; margin-bottom:6px; }
-  .pick-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:12px 16px; margin-bottom:7px; }
+  .year-num { font-family:var(--display); font-size:22px; font-weight:600; margin-bottom:6px; }
+  .pick-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:7px; }
   .pick-card.out { opacity:0.78; }
   .pick-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .pick-label { font-weight:600; font-size:14px; }
-  .pick-num { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:15px; color:var(--gold); letter-spacing:0.5px; }
+  .pick-num { font-family:var(--display); font-weight:800; font-size:15px; color:var(--gold); letter-spacing:0.5px; }
   .pick-to { font-size:11px; color:var(--muted); }
   .pick-details { font-size:11px; color:var(--muted); line-height:1.5; margin-top:5px; }
-  .badge { display:inline-block; font-size:8px; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:2px; font-weight:700; }
+  .badge { display:inline-block; font-size:8px; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:8px; font-weight:700; }
   .badge.first { background:rgba(249,115,22,0.15); color:#f97316; border:1px solid rgba(249,115,22,0.3); }
   .badge.second { background:rgba(102,102,102,0.15); color:var(--muted); border:1px solid rgba(102,102,102,0.3); }
   .badge.swap { background:rgba(96,165,250,0.15); color:#60a5fa; border:1px solid rgba(96,165,250,0.35); }

@@ -14,10 +14,10 @@ const toX = x  => (x + 250) * SCALE;
 const toY = y  => (420 - y)  * SCALE;  // flip y axis
 
 const css = `
-  .shotchart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; margin-bottom: 36px; }
+  .shotchart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 36px; }
   .shotchart-controls { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
-  .sc-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    padding: 6px 14px; border-radius: 2px; border: 1px solid var(--border); background: transparent;
+  .sc-btn { font-family: var(--display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); background: transparent;
     color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .sc-btn:hover { border-color: var(--text); color: var(--text); }
   .sc-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
@@ -27,7 +27,7 @@ const css = `
   .sc-btn.missed.active { background: var(--red); color: #fff; }
   .sc-stats { display: flex; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
   .sc-stat { text-align: center; }
-  .sc-stat-val { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; }
+  .sc-stat-val { font-family: var(--display); font-size: 28px; font-weight: 700; }
   .sc-stat-val.red { color: var(--red); }
   .sc-stat-val.gold { color: var(--gold); }
   .sc-stat-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
@@ -38,7 +38,7 @@ const css = `
   .sc-zone-name { font-size: 12px; flex: 1; }
   .sc-zone-bar-wrap { width: 80px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .sc-zone-bar { height: 100%; border-radius: 3px; }
-  .sc-zone-pct { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; width: 44px; text-align: right; }
+  .sc-zone-pct { font-family: var(--display); font-size: 16px; font-weight: 700; width: 44px; text-align: right; }
   .sc-zone-att { font-size: 11px; color: var(--muted); width: 36px; text-align: right; }
   .loading-sc { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
   .sc-legend { display: flex; gap: 16px; margin-top: 8px; }
@@ -148,7 +148,7 @@ export default function ShotChart({ playerId, playerName, seasonType = "Regular 
       <style>{css}</style>
       <div className="shotchart-wrap">
         {live && playerName && (
-          <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:18, fontWeight:700, letterSpacing:1, textTransform:"uppercase", marginBottom:12 }}>
+          <div style={{ fontFamily:"var(--display)", fontSize:18, fontWeight:700, letterSpacing:1, textTransform:"uppercase", marginBottom:12 }}>
             {playerName}
           </div>
         )}

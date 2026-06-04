@@ -6,26 +6,26 @@ const API = "http://127.0.0.1:8000";
 
 const css = `
   .lu-head { margin-bottom: 28px; }
-  .lu-title { font-family:'Barlow Condensed',sans-serif; font-size:36px; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+  .lu-title { font-family:var(--display); font-size:36px; font-weight:600; letter-spacing: -0.01em; }
   .lu-sub { color:var(--muted); font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
   .section-header { display:flex; align-items:center; gap:12px; margin:8px 0 16px; }
-  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .section-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
   .section-line { flex:1; height:1px; background:var(--border); }
   .lu-toggle { display:flex; gap:8px; margin-bottom:24px; }
-  .lu-tab { font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px; text-transform:uppercase;
+  .lu-tab { font-family:var(--display); font-size:13px; letter-spacing:1px; text-transform:uppercase;
     padding:8px 18px; border:1px solid var(--border); border-radius:3px; background:var(--surface); color:var(--muted);
     cursor:pointer; transition:all 0.15s; font-weight:700; }
   .lu-tab:hover { color:var(--text); border-color:var(--muted); }
   .lu-tab.active { background:var(--red); color:#fff; border-color:var(--red); }
-  .lu-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:14px 18px; margin-bottom:10px;
+  .lu-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:10px;
     display:grid; grid-template-columns:1fr 110px 64px 70px; gap:16px; align-items:center; }
   .lu-names { font-weight:600; font-size:14px; line-height:1.35; }
   .lu-meta { font-size:11px; color:var(--muted); margin-top:3px; }
-  .lu-bar-wrap { position:relative; height:8px; background:var(--surface2); border-radius:4px; overflow:hidden; }
-  .lu-bar { position:absolute; top:0; bottom:0; border-radius:4px; }
+  .lu-bar-wrap { position:relative; height:8px; background:var(--surface2); border-radius:10px; overflow:hidden; }
+  .lu-bar { position:absolute; top:0; bottom:0; border-radius:10px; }
   .lu-ortg { font-size:11px; color:var(--muted); text-align:right; white-space:nowrap; }
-  .lu-ortg b { color:var(--text); font-family:'Barlow Condensed',sans-serif; font-size:14px; }
-  .lu-net { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:800; text-align:right; }
+  .lu-ortg b { color:var(--text); font-family:var(--display); font-size:14px; }
+  .lu-net { font-family:var(--display); font-size:26px; font-weight:800; text-align:right; }
   .loading { display:flex; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; letter-spacing:2px; text-transform:uppercase; }
   .note { font-size:11px; color:var(--muted); letter-spacing:0.5px; line-height:1.6; margin-top:16px; }
   .note b { color:var(--text); }
